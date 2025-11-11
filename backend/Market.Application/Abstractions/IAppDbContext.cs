@@ -1,4 +1,6 @@
-﻿namespace CineMart.Application.Abstractions;
+﻿using CineMart.Domain.Entities.Sales;
+
+namespace CineMart.Application.Abstractions;
 
 // Application layer
 public interface IAppDbContext
@@ -7,6 +9,9 @@ public interface IAppDbContext
     DbSet<ProductCategoryEntity> ProductCategories { get; }
     DbSet<CineMartUserEntity> Users { get; }
     DbSet<RefreshTokenEntity> RefreshTokens { get; }
+    DbSet<OrderEntity> Orders {  get; }
+    DbSet<OrderStatusEntity> OrderStatus { get; }
+    DbSet<PromoCodeEntity> PromoCodes { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct);
 }
