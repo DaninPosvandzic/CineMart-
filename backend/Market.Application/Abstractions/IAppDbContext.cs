@@ -7,7 +7,7 @@ public interface IAppDbContext
 {
     DbSet<ProductEntity> Products { get; }
     DbSet<ProductCategoryEntity> ProductCategories { get; }
-    DbSet<CineMartUserEntity> Users { get; }
+    DbSet<UserEntity> Users { get; }
     DbSet<RefreshTokenEntity> RefreshTokens { get; }
     DbSet<OrderEntity> Orders {  get; }
     DbSet<OrderStatusEntity> OrderStatus { get; }

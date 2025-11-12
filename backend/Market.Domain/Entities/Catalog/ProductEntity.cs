@@ -7,49 +7,26 @@ namespace CineMart.Domain.Entities.Catalog;
 /// </summary>
 public class ProductEntity : BaseEntity
 {
-    /// <summary>
-    /// Name of the product.
-    /// </summary>
+    public int Id { get; set; }
+
     public string Name { get; set; }
 
-    /// <summary>
-    /// Product description. (optional)
-    /// </summary>
     public string? Description { get; set; }
 
-    /// <summary>
-    /// Price of the product.
-    /// </summary>
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
 
-    /// <summary>
-    /// Quantity of the product available in stock.
-    /// </summary>
-    public int StockQuantity { get; set; }
+    public string? ImageUrl { get; set; }
 
-    /// <summary>
-    /// Identifier of the category to which the product belongs.
-    /// </summary>
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 
-    /// <summary>
-    /// Navigation reference to the product's category.
-    /// </summary>
-    public ProductCategoryEntity? Category { get; set; }
+    public int StockQuantity { get; set; } = 0;
 
-    /// <summary>
-    /// IsEnabled
-    /// </summary>
-    public bool IsEnabled { get; set; }
+    public DateTime DateAdded { get; set; } = DateTime.Now;
 
-    /// <summary>
-    /// Single source of truth for technical/business constraints.
-    /// Used in validators and EF configuration.
-    /// </summary>
-    public static class Constraints
-    {
-        public const int NameMaxLength = 150;
+    public decimal AverageRating { get; set; } = 0;
 
-        public const int DescriptionMaxLength = 1000;
-    }
+    public bool OnSale { get; set; } = false;
+
+    public virtual CategoryEntity? Category { get; set; }
 }
+
