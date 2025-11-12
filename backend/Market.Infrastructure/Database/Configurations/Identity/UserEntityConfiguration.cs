@@ -1,8 +1,8 @@
 ﻿namespace CineMart.Infrastructure.Database.Configurations.Identity;
 
-public sealed class UserEntityConfiguration : IEntityTypeConfiguration<CineMartUserEntity>
+public sealed class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(EntityTypeBuilder<CineMartUserEntity> b)
+    public void Configure(EntityTypeBuilder<UserEntity> b)
     {
         b.ToTable("Users");
 

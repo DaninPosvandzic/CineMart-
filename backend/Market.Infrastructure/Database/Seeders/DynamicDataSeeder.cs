@@ -48,9 +48,9 @@ public static class DynamicDataSeeder
         if (await context.Users.AnyAsync())
             return;
 
-        var hasher = new PasswordHasher<CineMartUserEntity>();
+        var hasher = new PasswordHasher<UserEntity>();
 
-        var admin = new CineMartUserEntity
+        var admin = new UserEntity
         {
             Email = "admin@market.local",
             PasswordHash = hasher.HashPassword(null!, "Admin123!"),
@@ -58,7 +58,7 @@ public static class DynamicDataSeeder
             IsEnabled = true,
         };
 
-        var user = new CineMartUserEntity
+        var user = new UserEntity
         {
             Email = "manager@market.local",
             PasswordHash = hasher.HashPassword(null!, "User123!"),
@@ -66,14 +66,14 @@ public static class DynamicDataSeeder
             IsEnabled = true,
         };
 
-        var dummyForSwagger = new CineMartUserEntity
+        var dummyForSwagger = new UserEntity
         {
             Email = "string",
             PasswordHash = hasher.HashPassword(null!, "string"),
             IsEmployee = true,
             IsEnabled = true,
         };
-        var dummyForTests = new CineMartUserEntity
+        var dummyForTests = new UserEntity
         {
             Email = "test",
             PasswordHash = hasher.HashPassword(null!, "test123"),
