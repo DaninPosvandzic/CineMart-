@@ -8,21 +8,13 @@ namespace CineMart.Domain.Entities.Identity
 {
     public class ChatMessageEntity:BaseEntity
     {
-        public int Id { get; set; }
-
-        public required int  SenderId { get; set; }
-
-        public required int ReceiverId { get; set; }
-
+        public int  SenderId { get; set; }
+        public UserEntity? Sender {  get; set; }
+        public int ReceiverId { get; set; }
+        public UserEntity? Receiver { get; set; }
         public string? MessageText { get; set; }
-
-        public DateTime SentAt { get; set; } = DateTime.Now;
-
         public bool IsRead { get; set; } = false;
-
         public string? MessageType { get; set; }
 
-        public virtual UserEntity? Sender { get; set; }
-        public virtual UserEntity? Receiver { get; set; }
     }
 }

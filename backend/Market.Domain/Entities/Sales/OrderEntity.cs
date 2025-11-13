@@ -3,13 +3,10 @@ using CineMart.Domain.Entities.Identity;
 
 namespace CineMart.Domain.Entities.Sales;
 
-/// <summary>
-/// Represents a product in the system.
-/// </summary>
 public class OrderEntity : BaseEntity
 {
     public int UserId { get; set; }
-    public CineMartUserEntity? User { get; set; }
+    public UserEntity? User { get; set; }
 
     public DateTime OrderDate { get; set; }
 
@@ -27,10 +24,6 @@ public class OrderEntity : BaseEntity
 
     public DateTime? DeliveryDate { get; set; }
 
-    /// <summary>
-    /// Single source of truth for technical/business constraints.
-    /// Used in validators and EF configuration.
-    /// </summary>
     public static class Constraints
     {
         public const int NameMaxLength = 150;

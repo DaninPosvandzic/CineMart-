@@ -13,6 +13,7 @@ public static class DynamicDataSeeder
         await context.Database.EnsureCreatedAsync();
 
         await SeedProductCategoriesAsync(context);
+        await SeedRolesAsync(context);
         await SeedUsersAsync(context);
     }
 
@@ -40,6 +41,20 @@ public static class DynamicDataSeeder
         }
     }
 
+    private static async Task SeedRolesAsync(DatabaseContext context)
+    {
+        if (await context.Roles.AnyAsync())
+            return;
+
+        var roles = new List<RollEntity>
+            {
+                new RollEntity { Name = "Admin", Description = "Administrator role with full permissions" },
+                new RollEntity { Name = "User", Description = "User role for regular user management" },
+            };
+
+        context.Roles.AddRange(roles);
+        await context.SaveChangesAsync();
+    }
     /// <summary>
     /// Kreira demo korisnike ako ih još nema u bazi.
     /// </summary>
@@ -54,31 +69,39 @@ public static class DynamicDataSeeder
         {
             Email = "admin@market.local",
             PasswordHash = hasher.HashPassword(null!, "Admin123!"),
-            IsAdmin = true,
             IsEnabled = true,
+            LastName = "User",
+            FirstName = "Admin",
+            RollId = 1,
         };
 
         var user = new UserEntity
         {
             Email = "manager@market.local",
             PasswordHash = hasher.HashPassword(null!, "User123!"),
-            IsManager = true,
             IsEnabled = true,
+            LastName = "User",
+            FirstName = "User",
+            RollId = 2,
         };
 
         var dummyForSwagger = new UserEntity
         {
             Email = "string",
             PasswordHash = hasher.HashPassword(null!, "string"),
-            IsEmployee = true,
             IsEnabled = true,
+            LastName = "User",
+            FirstName = "dummy",
+            RollId = 2,
         };
         var dummyForTests = new UserEntity
         {
             Email = "test",
             PasswordHash = hasher.HashPassword(null!, "test123"),
-            IsEmployee = true,
             IsEnabled = true,
+            LastName = "User",
+            FirstName = "dummy",
+            RollId = 2,
         };
         context.Users.AddRange(admin, user, dummyForSwagger, dummyForTests);
         await context.SaveChangesAsync();

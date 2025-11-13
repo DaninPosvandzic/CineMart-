@@ -7,7 +7,6 @@ namespace CineMart.Domain.Entities.Catalog;
 /// </summary>
 public class ProductEntity : BaseEntity
 {
-    public int Id { get; set; }
 
     public string Name { get; set; }
 
@@ -18,15 +17,20 @@ public class ProductEntity : BaseEntity
     public string? ImageUrl { get; set; }
 
     public int? CategoryId { get; set; }
+    public ProductCategoryEntity? Category { get; set; }
 
     public int StockQuantity { get; set; } = 0;
-
-    public DateTime DateAdded { get; set; } = DateTime.Now;
 
     public decimal AverageRating { get; set; } = 0;
 
     public bool OnSale { get; set; } = false;
 
-    public virtual CategoryEntity? Category { get; set; }
+
+    public static class Constraints
+    {
+        public const int NameMaxLength = 150;
+
+        public const int DescriptionMaxLength = 1000;
+    }
 }
 
