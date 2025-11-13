@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Market.Shared\CineMart.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\Catalog\" />
+  </ItemGroup>
+
 </Project>
