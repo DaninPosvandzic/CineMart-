@@ -1,0 +1,90 @@
+/* HOME KONTAINER */
+.home-container {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #000000, #1c1c1c);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+
+  h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+  }
+
+  h3 {
+    color: #ccc;
+    margin-bottom: 40px;
+  }
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/* HERO SEKCIJA */
+.hero {
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  padding: 50px 20px;
+  border-radius: 20px;
+  margin-bottom: 50px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  button {
+    background-color: #ffffff;
+    color: #dd2476;
+    font-weight: bold;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #dd2476;
+      color: #fff;
+      transform: scale(1.05);
+    }
+  }
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+.featured-wrapper {
+  display: flex;
+  gap: 30px;
+  align-items: start; // ili start
+
+
+  app-featured-slider-section {
+    flex: 2;
+  }
+
+  app-top-rated-section {
+    flex: 2;
+    margin: 0; // resetuj marginu kontejnera
+    padding: 0; // resetuj padding kontejnera
+
+    // opcionalno: resetuj marginu unutar elemenata
+    * {
+      margin-top: 0;
+    }
+  }
+}

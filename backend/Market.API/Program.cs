@@ -17,7 +17,7 @@ public partial class Program
 
         try
         {
-            Log.Information("Starting Market API...");
+            Log.Information("Starting CineMart API...");
 
             //
             // 1) Standard builder (includes appsettings.json, appsettings.{ENV}.json,
@@ -41,6 +41,28 @@ public partial class Program
             // Optional: remove default providers to have only Serilog
             builder.Logging.ClearProviders();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular",
+                    policy =>
+                    {
+                        policy.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowCredentials()
+                              .WithOrigins("http://localhost:4200");
+                    });
+            });
+
+            // Program.cs
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy => policy.WithOrigins("https://localhost:4200")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
+
+
             // ---------------------------------------------------------
             // 3. Layer registrations
             // ---------------------------------------------------------
@@ -61,9 +83,9 @@ public partial class Program
             }
 
             // Global exception handler (IExceptionHandler)
+            app.UseCors("AllowAngular");
             app.UseExceptionHandler();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
