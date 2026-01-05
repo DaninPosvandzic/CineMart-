@@ -1,4 +1,9 @@
+@use "sass:color";
 // src/app/modules/shared/components/fit-confirm-dialog/fit-fit-confirm-dialog.component.scss
+
+@function darken($col, $amount) {
+  @return color.adjust($col, $lightness: -$amount);
+}
 
 // Glavne boje - teget paleta #4976b5
 $primary-color: #4976b5;

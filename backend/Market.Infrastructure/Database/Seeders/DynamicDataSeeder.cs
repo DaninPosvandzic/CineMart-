@@ -24,13 +24,13 @@ public static class DynamicDataSeeder
             context.ProductCategories.AddRange(
                 new ProductCategoryEntity
                 {
-                    Name = "Računari (demo)",
+                    Name = "Duks - Fallout (demo)",
                     IsEnabled = true,
                     CreatedAtUtc = DateTime.UtcNow
                 },
                 new ProductCategoryEntity
                 {
-                    Name = "Mobilni uređaji (demo)",
+                    Name = "Čaša - Stranger Things (demo)",
                     IsEnabled = true,
                     CreatedAtUtc = DateTime.UtcNow
                 }
@@ -67,20 +67,20 @@ public static class DynamicDataSeeder
 
         var admin = new UserEntity
         {
-            Email = "admin@market.local",
+            Email = "admin@cinemart.local",
             PasswordHash = hasher.HashPassword(null!, "Admin123!"),
             IsEnabled = true,
-            LastName = "User",
+            LastName = "Cinemart",
             FirstName = "Admin",
             RollId = 1,
         };
 
         var user = new UserEntity
         {
-            Email = "manager@market.local",
+            Email = "user@cinemart.local",
             PasswordHash = hasher.HashPassword(null!, "User123!"),
             IsEnabled = true,
-            LastName = "User",
+            LastName = "Cinemart",
             FirstName = "User",
             RollId = 2,
         };
