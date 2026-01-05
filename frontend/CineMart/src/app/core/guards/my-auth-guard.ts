@@ -1,49 +1,39 @@
 // src/app/core/guards/auth.guard.ts
 import { inject } from '@angular/core';
 import { CanActivateFn, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { CurrentUserService } from '../services/auth/current-user.service';
+import { AuthFacadeService } from '../services/auth/auth-facade.service';
 
 export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
-  const currentUser = inject(CurrentUserService);
+  const auth = inject(AuthFacadeService);
   const router = inject(Router);
 
-  const requireAuth = route.data['requireAuth'] === true;
-  const requireAdmin = route.data['requireAdmin'] === true;
-  const requireManager = route.data['requireManager'] === true;
-  const requireEmployee = route.data['requireEmployee'] === true;
+  const authData = route.data['auth'] as MyAuthRouteData | undefined;
 
-  const isAuth = currentUser.isAuthenticated();
+  const requireAuth = authData?.requireAuth === true;
+  const requireAdmin = authData?.requireAdmin === true;
 
-  // 1) ako ruta traži auth, a user nije logiran → login
+  const isAuth = auth.isAuthenticated();
+
+  // 1) Ruta traži auth, a user nije logiran
   if (requireAuth && !isAuth) {
     router.navigate(['/auth/login']);
     return false;
   }
 
-  // Ako ne traži auth → pusti (javne rute)
+  // Javne rute
   if (!requireAuth) {
     return true;
   }
 
-  // 2) role check – admin > manager > employee
-  const user = currentUser.snapshot;
+  const user = auth.currentUser();
   if (!user) {
     router.navigate(['/auth/login']);
     return false;
   }
 
-  if (requireAdmin && user.role != "Admin") {
-    router.navigate([currentUser.getDefaultRoute()]);
-    return false;
-  }
-
-  if (requireManager && user.role != "Manager") {
-    router.navigate([currentUser.getDefaultRoute()]);
-    return false;
-  }
-
-  if (requireEmployee && user.role != "Employee") {
-    router.navigate([currentUser.getDefaultRoute()]);
+  // 2) Admin-only
+  if (requireAdmin && user.role !== 'Admin') {
+    router.navigate(['/']);
     return false;
   }
 
@@ -53,10 +43,8 @@ export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
 export interface MyAuthRouteData {
   requireAuth?: boolean;
   requireAdmin?: boolean;
-  requireManager?: boolean;
-  requireEmployee?: boolean;
 }
 
-export function myAuthData(data: MyAuthRouteData): { auth: MyAuthRouteData } {
+export function myAuthData(data: MyAuthRouteData) {
   return { auth: data };
 }
