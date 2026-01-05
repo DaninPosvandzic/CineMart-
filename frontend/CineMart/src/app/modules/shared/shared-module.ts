@@ -9,6 +9,7 @@ import {DialogHelperService} from './services/dialog-helper.service';
 import { FitLoadingBarComponent } from './components/fit-loading-bar/fit-loading-bar.component';
 import { FitTableSkeletonComponent } from './components/fit-table-skeleton/fit-table-skeleton.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
+import {FooterComponent} from './components/footer/footer.component';
 
 
 
@@ -18,7 +19,8 @@ import {NavbarComponent} from './components/navbar/navbar.component';
     FitConfirmDialogComponent,
     FitLoadingBarComponent,
     FitTableSkeletonComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import {NavbarComponent} from './components/navbar/navbar.component';
     FitLoadingBarComponent,
     FitTableSkeletonComponent,
     NavbarComponent,
+    FooterComponent,
     materialModules
   ]
 })
