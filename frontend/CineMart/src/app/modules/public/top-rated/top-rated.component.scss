@@ -1,0 +1,76 @@
+.top-rated-section {
+
+  background: #111;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 60px auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .movie-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+
+    .movie-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #1c1c1c;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(255,255,255,0.05);
+      }
+
+      .left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .rank {
+          color: #777;
+          width: 22px;
+          text-align: right;
+          font-size: 14px;
+        }
+
+        .title {
+          font-size: 15px;
+          font-weight: 500;
+          color: #eaeaea;
+        }
+      }
+
+      .rating {
+        font-size: 15px;
+        color: #f7c948;
+        font-weight: 600;
+      }
+    }
+  }
+
+  /* custom scrollbar */
+  .movie-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .movie-list::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+  }
+}

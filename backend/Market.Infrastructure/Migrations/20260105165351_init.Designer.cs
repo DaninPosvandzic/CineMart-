@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMart.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20260105153544_init")]
+    [Migration("20260105165351_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -352,9 +352,13 @@ namespace CineMart.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedAtUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PictureUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<decimal>("PurchasePrice")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int");
@@ -365,10 +369,14 @@ namespace CineMart.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("TrailerUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
@@ -379,7 +387,9 @@ namespace CineMart.Infrastructure.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Films");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Films", (string)null);
                 });
 
             modelBuilder.Entity("CineMart.Domain.Entities.FilmManagement.GenreEntity", b =>
@@ -1115,9 +1125,17 @@ namespace CineMart.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("GenreId");
 
+                    b.HasOne("CineMart.Domain.Entities.Identity.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Director");
 
                     b.Navigation("Genre");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CineMart.Domain.Entities.Identity.ChatMessageEntity", b =>

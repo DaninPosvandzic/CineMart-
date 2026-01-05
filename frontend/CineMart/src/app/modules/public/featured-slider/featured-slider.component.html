@@ -1,0 +1,20 @@
+<div class="featured-slider" *ngIf="films.length > 0">
+
+  <div class="slider-card">
+
+    <div class="image-wrapper">
+      <img [src]="currentFilm?.pictureUrl || 'assets/default.jpg'"
+           alt="{{ currentFilm?.title }}">
+    </div>
+
+    <div class="film-info">
+      <h2>{{ currentFilm?.title }}</h2>
+      <p>Genre: {{ currentFilm?.genreName }}</p>
+      <p>Rating: {{ currentFilm?.averageRating | number:'1.1-2' }}</p>
+      <p class="price">Price: {{ currentFilm?.purchasePrice }} EUR</p>
+    </div>
+
+    <button class="nav prev" (click)="prevFilm()">❮</button>
+    <button class="nav next" (click)="nextFilm()">❯</button>
+  </div>
+</div>

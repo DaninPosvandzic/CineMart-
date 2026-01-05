@@ -1,0 +1,124 @@
+/* FILM SEKCIJA */
+
+.recommended-section {
+  background: #1a1a1a;
+  padding: 30px 20px;
+  border-radius: 20px;          // zakrivljeni rubovi
+  margin-top: 50px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-align: center;
+
+  h2 {
+    color: #ff512f;
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+  }
+
+  .films {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;     // centriranje kartica
+    padding-bottom: 10px;
+  }
+}
+
+.film-card {
+  position: relative;
+  width: 250px;
+  flex: 0 0 250px;       // fiksna širina kartice
+  max-width: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  background: #222;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    &:hover img {
+      filter: brightness(50%);
+      transform: scale(1.05);
+    }
+
+    /* Overlay pokriva cijelu karticu */
+    .overlay-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;   // centriraj vertikalno
+      align-items: center;       // centriraj horizontalno
+      padding: 15px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      text-align: center;
+
+      h3 {
+        margin: 0 0 5px 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+      }
+
+      p {
+        margin: 2px 0;
+        font-size: 14px;
+        color: #ccc;
+      }
+
+      .price {
+        font-weight: bold;
+        color: #ff512f;
+        margin-top: 5px;
+        font-size: 16px;
+      }
+
+      .details-btn {
+        margin-top: 10px;
+        padding: 8px 20px;
+        border-radius: 20px;
+        background: #ff512f;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #dd2476;
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    &:hover .overlay-hover {
+      opacity: 1;
+    }
+  }
+}
