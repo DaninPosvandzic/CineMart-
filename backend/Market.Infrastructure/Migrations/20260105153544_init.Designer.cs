@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMart.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20251113122343_init")]
+    [Migration("20260105153544_init")]
     partial class init
     {
         /// <inheritdoc />
