@@ -1,0 +1,39 @@
+<nav class="navbar" [class.mobile-active]="mobileMenuActive">
+  <div class="navbar-container">
+  <div class="logo" routerLink="/">CineMart</div>
+
+  <ul class="nav-links">
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/movies">Movies</a></li>
+    <li><a routerLink="/kontakt">Contact</a></li>
+  </ul>
+
+  <div class="cta">
+    <!-- NOT AUTHENTICATED -->
+    <button *ngIf="!isAuthenticated()" routerLink="/login">
+      Login
+    </button>
+
+    <!-- AUTHENTICATED USER -->
+    <button *ngIf="isAuthenticated() && isUser()" routerLink="/my-movies">
+      My movies
+    </button>
+
+    <!-- ADMIN ONLY -->
+    <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/add-movie">
+      Add a movie
+    </button>
+
+    <button *ngIf="isAuthenticated()" (click)="logout()">
+      Logout
+    </button>
+  </div>
+
+  <div class="hamburger" (click)="toggleMobileMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  </div>
+
+</nav>
