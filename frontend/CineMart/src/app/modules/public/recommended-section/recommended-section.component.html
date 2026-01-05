@@ -1,0 +1,16 @@
+<div class="recommended-section">
+  <h2>Recommended Movies</h2>
+  <div class="films">
+    <div *ngFor="let film of films" class="film-card"  (click)="openMovie(film.id)">
+      <div class="image-wrapper">
+        <img [src]="film.pictureUrl || 'assets/default.jpg'" alt="{{ film.title }}">
+        <div class="overlay-hover">
+          <h3>{{ film.title }}</h3>
+          <p>Genre: {{ film.genreName }}</p>
+          <p>Rating: {{ film.averageRating | number:'1.1-2' }}</p>
+          <span class="price">Price: {{ film.purchasePrice }} EUR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

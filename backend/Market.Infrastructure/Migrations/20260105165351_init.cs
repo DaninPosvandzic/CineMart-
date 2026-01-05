@@ -161,42 +161,6 @@ namespace CineMart.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Films",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReleaseYear = table.Column<int>(type: "int", nullable: false),
-                    TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    RentPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: true),
-                    DirectorId = table.Column<int>(type: "int", nullable: true),
-                    AverageRating = table.Column<double>(type: "float", nullable: true),
-                    ViewCount = table.Column<int>(type: "int", nullable: false),
-                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Films", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Films_Directors_DirectorId",
-                        column: x => x.DirectorId,
-                        principalTable: "Directors",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Films_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -258,73 +222,6 @@ namespace CineMart.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FilmActors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FilmId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FilmActors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FilmActors_Actors_ActorId",
-                        column: x => x.ActorId,
-                        principalTable: "Actors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FilmActors_Films_FilmId",
-                        column: x => x.FilmId,
-                        principalTable: "Films",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CartItems",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FilmId = table.Column<int>(type: "int", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CartItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CartItems_Films_FilmId",
-                        column: x => x.FilmId,
-                        principalTable: "Films",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CartItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CartItems_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ChatMessages",
                 columns: table => new
                 {
@@ -355,39 +252,47 @@ namespace CineMart.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Favorites",
+                name: "Films",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReleaseYear = table.Column<int>(type: "int", nullable: false),
+                    TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    PurchasePrice = table.Column<decimal>(type: "decimal(10,2)", precision: 18, scale: 2, nullable: false),
+                    RentPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: true),
+                    DirectorId = table.Column<int>(type: "int", nullable: true),
+                    AverageRating = table.Column<double>(type: "float", nullable: true),
+                    ViewCount = table.Column<int>(type: "int", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    FilmId = table.Column<int>(type: "int", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true),
-                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.PrimaryKey("PK_Films", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favorites_Films_FilmId",
-                        column: x => x.FilmId,
-                        principalTable: "Films",
+                        name: "FK_Films_Directors_DirectorId",
+                        column: x => x.DirectorId,
+                        principalTable: "Directors",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Favorites_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_Films_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Favorites_Users_UserId",
+                        name: "FK_Films_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -457,6 +362,136 @@ namespace CineMart.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TokenHash = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ExpiresAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Fingerprint = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    RevokedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    FilmId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Films_FilmId",
+                        column: x => x.FilmId,
+                        principalTable: "Films",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CartItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CartItems_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    FilmId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Films_FilmId",
+                        column: x => x.FilmId,
+                        principalTable: "Films",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Favorites_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Favorites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FilmActors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FilmId = table.Column<int>(type: "int", nullable: false),
+                    ActorId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FilmActors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FilmActors_Actors_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "Actors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FilmActors_Films_FilmId",
+                        column: x => x.FilmId,
+                        principalTable: "Films",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ratings",
                 columns: table => new
                 {
@@ -483,33 +518,6 @@ namespace CineMart.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ratings_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RefreshTokens",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TokenHash = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ExpiresAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsRevoked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Fingerprint = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    RevokedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RefreshTokens_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -700,6 +708,11 @@ namespace CineMart.Infrastructure.Migrations
                 name: "IX_Films_GenreId",
                 table: "Films",
                 column: "GenreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Films_UserId",
+                table: "Films",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_UserId",
