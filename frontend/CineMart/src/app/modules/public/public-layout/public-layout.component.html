@@ -1,12 +1,19 @@
 <div class="home-container">
+
+  <!-- HERO -->
   <div class="hero">
     <h1>Welcome to CineMart</h1>
     <p>Access newest movies, merchandise and exclusive content!</p>
     <button routerLink="/registration">Sign up</button>
   </div>
-    <app-recommended-section></app-recommended-section>
-  <div class="featured-wrapper">
 
+  <!-- RECOMMENDED -->
+  <app-recommended-section></app-recommended-section>
+
+  <!-- FEATURED + TOP RATED -->
+  <div class="featured-wrapper">
+    <featured-slider></featured-slider>
+    <top-rated></top-rated>
   </div>
 
 </div>
