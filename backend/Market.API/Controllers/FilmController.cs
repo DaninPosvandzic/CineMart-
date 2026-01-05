@@ -1,51 +1,41 @@
-﻿
-using CineMart.Application.Modules.Auth.Commands.Film.Update;
-using CineMart.Application.Modules.Auth.Commands.Movie.DeleteMovie;
-
-namespace CineMart.API.Controllers;
+﻿using CineMart.Application.Modules.FilmManagement.Movies.Command.Create;
+using CineMart.Application.Modules.FilmManagement.Movies.Command.Delete;
+using CineMart.Application.Modules.FilmManagement.Queries.GetById;
+using CineMart.Application.Modules.FilmManagement.Queries.List;
 
 [ApiController]
-[Route("api/film")]
-[Authorize] // samo autorizovani korisnici
-public sealed class MovieController(IMediator mediator) : ControllerBase
+[Route("[controller]")]
+public class FilmController(ISender sender) : ControllerBase
 {
-    [HttpPost]
-    public async Task<ActionResult<FilmDto>> Create(
-    [FromBody] CreateFilmDto dto,
-    CancellationToken ct)
+    // GET /film
+    [AllowAnonymous]
+    [HttpGet("GetAll")]
+    public async Task<PageResult<ListFilmQueryDto>> List(
+        [FromQuery] ListFilmQuery query,
+        CancellationToken ct)
     {
-        return Ok(await mediator.Send(dto, ct));
+        return await sender.Send(query, ct); // koristi sender iz primary constructor
     }
 
-    [HttpPut("{id:int}")]
-    public async Task<ActionResult<FilmDto>> Update(
-    int id,
-    [FromBody] UpdateFilmDto dto,
-    CancellationToken ct)
+    [AllowAnonymous]
+    [HttpGet("{id:int}")]
+    public async Task<GetFilmByIdQueryDto> GetFilm(int id, CancellationToken ct)
     {
-        var command = new UpdateFilmCommand(
-            id,
-            dto.Title,
-            dto.ReleaseYear,
-            dto.PurchasePrice,
-            dto.RentPrice
-        );
-
-        return Ok(await mediator.Send(command, ct));
+        return await sender.Send(new GetFilmByIdQuery { Id = id }, ct);
     }
 
+    [Authorize]
+    [HttpPost("Create")]
+    public async Task<ActionResult<int>> Create([FromBody] CreateFilmCommand command, CancellationToken ct)
+    {
+        var filmId = await sender.Send(command, ct);
+        return Ok(filmId);
+    }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id, CancellationToken ct)
+    public async Task Delete(int id, CancellationToken ct)
     {
-        await mediator.Send(new DeleteFilmCommand(id), ct);
-        return NoContent();
-    }
-    [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<FilmDto>>> GetAll(
-    CancellationToken ct)
-    {
-        var films = await mediator.Send(new GetFilmsQuery(), ct);
-        return Ok(films);
+        await sender.Send(new DeleteFilmCommand { Id = id }, ct); // koristi sender
     }
 }

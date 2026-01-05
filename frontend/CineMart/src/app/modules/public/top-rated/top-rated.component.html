@@ -1,0 +1,16 @@
+<section class="top-rated-section">
+  <h2>Top Rated Movies</h2>
+
+  <ul class="movie-list">
+    <li *ngFor="let film of topRatedMovies; let i = index" class="movie-item">
+      <div class="left">
+        <span class="rank">{{ i + 1 }}.</span>
+        <span class="title">{{ film.title }}</span>
+      </div>
+
+      <div class="rating">
+        ★ {{ film.averageRating | number:'1.2-2' }}
+      </div>
+    </li>
+  </ul>
+</section>

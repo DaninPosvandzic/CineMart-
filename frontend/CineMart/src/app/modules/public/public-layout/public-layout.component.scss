@@ -1,31 +1,30 @@
-/* HOME KONTAINER */
+/* ======================================================
+   GLOBAL SECTION SPACING
+   ====================================================== */
+:root {
+  --section-gap: 70px;
+}
+
+/* ======================================================
+   HOME CONTAINER
+   ====================================================== */
 .home-container {
-  text-align: center;
   padding: 40px;
   background: linear-gradient(135deg, #000000, #1c1c1c);
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
-
-  h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
-    color: #fff;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-  }
-
-  h3 {
-    color: #ccc;
-    margin-bottom: 40px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap); // 🔥 SVI RAZMACI JEDNAKI
 }
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/* HERO SEKCIJA */
+
+/* ======================================================
+   HERO SECTION
+   ====================================================== */
 .hero {
   background: linear-gradient(90deg, #ff512f, #dd2476);
   padding: 50px 20px;
   border-radius: 20px;
-  margin-bottom: 50px;
   color: white;
   text-align: center;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
@@ -44,6 +43,7 @@
   p {
     font-size: 18px;
     margin-bottom: 30px;
+    color: #f2f2f2;
   }
 
   button {
@@ -51,7 +51,7 @@
     color: #dd2476;
     font-weight: bold;
     border: none;
-    padding: 12px 30px;
+    padding: 14px 36px;
     border-radius: 30px;
     font-size: 16px;
     cursor: pointer;
@@ -65,26 +65,192 @@
   }
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/* ======================================================
+   RECOMMENDED SECTION
+   (RESETUJEMO NJENE UNUTRAŠNJE MARGINE)
+   ====================================================== */
+app-recommended-section {
+  display: block;
+  margin: 0;   // ❗ razmak dolazi iz home-container gap-a
+}
 
+/* ======================================================
+   FEATURED + TOP RATED WRAPPER
+   ====================================================== */
 .featured-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;   // 50% / 50%
   gap: 30px;
-  align-items: start; // ili start
+  align-items: stretch;
 
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
 
-  app-featured-slider-section {
-    flex: 2;
+/* ======================================================
+   FEATURED SLIDER
+   ====================================================== */
+featured-slider {
+  display: block;
+  height: 420px;
+}
+
+.featured-slider {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #111;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+  position: relative;
+
+  .slider-card {
+    display: flex;
+    width: 100%;
+    height: 100%;
   }
 
-  app-top-rated-section {
+  .image-wrapper {
     flex: 2;
-    margin: 0; // resetuj marginu kontejnera
-    padding: 0; // resetuj padding kontejnera
+    overflow: hidden;
 
-    // opcionalno: resetuj marginu unutar elemenata
-    * {
-      margin-top: 0;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease, filter 0.3s ease;
     }
+
+    &:hover img {
+      transform: scale(1.08);
+      filter: brightness(70%);
+    }
+  }
+
+  .film-info {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(20, 20, 20, 0.45);
+    backdrop-filter: blur(10px);
+    color: #fff;
+
+    h2 {
+      font-size: 26px;
+      color: #ff512f;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #ccc;
+      margin: 0;
+    }
+
+    .price {
+      margin-top: 10px;
+      color: #ffe082;
+      font-weight: 600;
+    }
+  }
+
+  .nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    z-index: 10;
+
+    &:hover {
+      transform: translateY(-50%) scale(1.15);
+      background: rgba(255,255,255,0.25);
+    }
+  }
+
+  .prev { left: 15px; }
+  .next { right: 15px; }
+}
+
+/* ======================================================
+   TOP RATED
+   ====================================================== */
+top-rated {
+  display: block;
+  height: 420px;
+}
+
+.top-rated-section {
+  height: 100%;
+  background: #111;
+  padding: 20px;
+  border-radius: 22px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .movie-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+
+    .movie-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #1c1c1c;
+
+      .left {
+        display: flex;
+        gap: 8px;
+
+        .rank {
+          width: 22px;
+          text-align: right;
+          color: #777;
+        }
+
+        .title {
+          color: #eaeaea;
+        }
+      }
+
+      .rating {
+        color: #f7c948;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .movie-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .movie-list::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
   }
 }
