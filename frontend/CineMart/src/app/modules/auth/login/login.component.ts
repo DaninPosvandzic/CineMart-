@@ -5,18 +5,22 @@ import { BaseComponent } from '../../../core/components/base-classes/base-compon
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 import { LoginCommand } from '../../../api-services/auth/auth-api.model';
 import { CurrentUserService } from '../../../core/services/auth/current-user.service';
+import { DialogHelperService } from '../../../modules/shared/services/dialog-helper.service';
+import { DialogButton } from '../../../modules/shared/models/dialog-config.model';
 
 @Component({
   selector: 'app-login',
-  standalone: false,
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  standalone:false,
 })
 export class LoginComponent extends BaseComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthFacadeService);
   private router = inject(Router);
   private currentUser = inject(CurrentUserService);
+  private dialog = inject(DialogHelperService);
+
   hidePassword = true;
 
   form = this.fb.group({
@@ -39,13 +43,24 @@ export class LoginComponent extends BaseComponent {
     this.auth.login(payload).subscribe({
       next: () => {
         this.stopLoading();
-        const target = this.currentUser.getDefaultRoute();
-        this.router.navigate([target]);
+
+        this.dialog
+          .showSuccess(
+            'Login successful!',
+            'Welcome back!'
+          )
+          .subscribe(() => {
+            this.router.navigate(['/']);
+          });
       },
-      error: (err) => {
-        this.stopLoading('Invalid credentials. Please try again.');
-        console.error('Login error:', err);
-      },
+
+      error: () => {
+        this.stopLoading();
+        this.dialog.showError(
+          'AUTH.LOGIN.ERROR_TITLE',
+          'AUTH.LOGIN.ERROR_INVALID_CREDENTIALS'
+        ).subscribe();
+      }
     });
   }
 }

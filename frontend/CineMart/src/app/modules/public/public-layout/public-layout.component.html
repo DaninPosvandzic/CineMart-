@@ -1,7 +1,7 @@
 <div class="home-container">
 
   <!-- HERO -->
-  <div class="hero">
+  <div class="hero" *ngIf="!isAuthenticated()">
     <h1>Welcome to CineMart</h1>
     <p>Access newest movies, merchandise and exclusive content!</p>
     <button routerLink="/registration">Sign up</button>
