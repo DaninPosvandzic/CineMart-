@@ -59,7 +59,7 @@ export class DialogHelperService {
       messageParams: params,
       icon,
       buttons: [
-        { type: DialogButton.OK, color: 'primary', translationKey: 'DIALOGS.BUTTONS.OK'  }
+        { type: DialogButton.OK, color: 'primary', }
       ]
     });
   }

@@ -57,8 +57,8 @@ export class LoginComponent extends BaseComponent {
       error: () => {
         this.stopLoading();
         this.dialog.showError(
-          'AUTH.LOGIN.ERROR_TITLE',
-          'AUTH.LOGIN.ERROR_INVALID_CREDENTIALS'
+          'Login failed!',
+          'Wrong username or password'
         ).subscribe();
       }
     });

@@ -20,14 +20,14 @@
       "ERROR_TITLE": "Greška pri prijavi",
       "ERROR_INVALID_CREDENTIALS": "Pogrešan email ili lozinka."
     }
-  }
-  ,
+  },
+
     "LOGOUT": {
       "TITLE": "Odjava",
       "MESSAGE": "Odjavljivanje sa sistema...",
       "REDIRECT_IN": "Preusmjeravanje za {{seconds}}s"
     }
-  },
+  ,
   "ADMIN_PANEL": {
     "TITLE": "Admin Panel",
     "ROLES": {
