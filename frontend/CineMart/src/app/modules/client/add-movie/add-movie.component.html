@@ -1,0 +1,64 @@
+<div class="add-movie-container" *ngIf="!showSuccess">
+  <div class="form-card">
+    <div class="header-section">
+      <h2>New Release</h2>
+      <p>Movie Management System</p>
+    </div>
+
+    <form (ngSubmit)="submitMovie()" #movieForm="ngForm" class="movie-form" autocomplete="off">
+
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" [(ngModel)]="movie.title" required placeholder="Enter movie title...">
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" [(ngModel)]="movie.description" rows="3" placeholder="Tell the story..."></textarea>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Release Year</label>
+          <input type="number" name="releaseYear" [(ngModel)]="movie.releaseYear" required>
+        </div>
+        <div class="form-group">
+          <label>Buy Price ($)</label>
+          <input type="number" name="purchasePrice" [(ngModel)]="movie.purchasePrice" required>
+        </div>
+        <div class="form-group">
+          <label>Rent Price ($)</label>
+          <input type="number" name="rentPrice" [(ngModel)]="movie.rentPrice" required>
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Genre</label>
+          <select name="genreId" [(ngModel)]="movie.genreId" required>
+            <option [ngValue]="undefined" disabled selected>Select Genre</option>
+            <option *ngFor="let g of genres" [value]="g.id">{{ g.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Director ID</label>
+          <input type="number" name="directorId" [(ngModel)]="movie.directorId" placeholder="Director ID">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Trailer Link</label>
+        <input type="url" name="trailerUrl" [(ngModel)]="movie.trailerUrl" placeholder="https://youtube.com/...">
+      </div>
+
+      <div class="form-group">
+        <label>Cover Image URL</label>
+        <input type="url" name="pictureUrl" [(ngModel)]="movie.pictureUrl" placeholder="https://image-host.com/...">
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="!movieForm.form.valid">
+        Create Movie
+      </button>
+    </form>
+  </div>
+</div>
