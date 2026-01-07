@@ -1,0 +1,89 @@
+<div class="movies-container">
+
+  <h1 class="title">All Movies</h1>
+
+  <!-- FILTERS -->
+  <div class="filters">
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      placeholder="Search movies..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+
+    <!-- SORT -->
+    <div class="sort-wrapper">
+      <select [(ngModel)]="selectedFilter" (change)="loadMovies()">
+        <option value="rating">Rating</option>
+        <option value="price">Price</option>
+        <option value="title">Title</option>
+        <option value="year">Year</option>
+      </select>
+
+      <button (click)="toggleSort()">
+        <i class="material-icons">
+          {{ sortAscending ? 'arrow_upward' : 'arrow_downward' }}
+        </i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- GRID WITH MOVIES -->
+  <div class="movies-grid">
+    <div class="movie-card" *ngFor="let film of films">
+
+      <!-- WISHLIST ICON -->
+      <div class="wishlist">
+        <i class="material-icons">favorite_border</i>
+      </div>
+
+      <!-- RATING CIRCLE -->
+      <div class="rating-circle">
+        {{ film.averageRating ?? 0 | number:'1.1-1' }}
+      </div>
+
+      <!-- IMAGE -->
+      <a [routerLink]="['/client/movie', film.id]" class="image-wrapper">
+        <img [src]="film.pictureUrl || 'assets/default.jpg'" alt="{{ film.title }}" />
+      </a>
+
+      <!-- INFO -->
+      <div class="movie-info">
+        <a [routerLink]="['/client/movie', film.id]" class="movie-title">
+          {{ film.title }}
+        </a>
+        <p class="genre">{{ film.genreName }}</p>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="card-footer">
+        <div class="price-info">
+          <span class="price">{{ film.purchasePrice }} KM</span>
+          <span class="rent-price">{{ film.rentPrice }} KM / Rent</span>
+        </div>
+        <div class="buttons">
+          <button class="add-btn">Buy</button>
+          <button class="rent-btn">Rent</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <button (click)="changePage(pageNumber - 1)" [disabled]="pageNumber === 1">
+      Prev
+    </button>
+
+    <span>Page {{ pageNumber }} of {{ totalPages }}</span>
+
+    <button (click)="changePage(pageNumber + 1)" [disabled]="pageNumber === totalPages">
+      Next
+    </button>
+  </div>
+
+</div>
