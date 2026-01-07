@@ -24,6 +24,18 @@ public class FilmController(ISender sender) : ControllerBase
         return await sender.Send(new GetFilmByIdQuery { Id = id }, ct);
     }
 
+    [AllowAnonymous] // kasnije pravi user
+    [HttpGet("User/{userId:int}")]
+    public async Task<List<ListFilmsByUserQueryDto>> GetByUser(
+    int userId,
+    CancellationToken ct)
+    {
+        return await sender.Send(
+            new ListFilmsByUserQuery { UserId = userId },
+            ct
+        );
+    }
+
     [Authorize]
     [HttpPost("Create")]
     public async Task<ActionResult<int>> Create([FromBody] CreateFilmCommand command, CancellationToken ct)
@@ -32,7 +44,7 @@ public class FilmController(ISender sender) : ControllerBase
         return Ok(filmId);
     }
 
-    [Authorize]
+    [AllowAnonymous]
     [HttpDelete("{id:int}")]
     public async Task Delete(int id, CancellationToken ct)
     {
