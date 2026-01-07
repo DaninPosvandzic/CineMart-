@@ -6,7 +6,7 @@ import {AuthFacadeService} from '../../../../core/services/auth/auth-facade.serv
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   standalone: false,
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
   private auth = inject(AuthFacadeService);

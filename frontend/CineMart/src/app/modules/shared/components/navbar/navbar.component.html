@@ -10,7 +10,7 @@
 
   <div class="cta">
     <!-- NOT AUTHENTICATED -->
-    <button *ngIf="!isAuthenticated()" routerLink="/login">
+    <button *ngIf="!isAuthenticated()" routerLink="/auth/login">
       Login
     </button>
 
@@ -20,7 +20,7 @@
     </button>
 
     <!-- ADMIN ONLY -->
-    <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/add-movie">
+    <button *ngIf="isAuthenticated()" routerLink="/add-movie">
       Add a movie
     </button>
 

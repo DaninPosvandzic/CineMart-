@@ -12,7 +12,12 @@
       "PASSWORD_PLACEHOLDER": "Enter password",
       "REMEMBER_ME": "Remember me",
       "BUTTON": "Login",
-      "LOADING": "Logging in..."
+      "LOADING": "Logging in...",
+      "SUCCESS_TITLE": "Login successful!",
+      "SUCCESS_MESSAGE": "Welcome back! 👋",
+
+      "ERROR_TITLE": "Greška pri prijavi",
+      "ERROR_INVALID_CREDENTIALS": "Pogrešan email ili lozinka."
     },
     "LOGOUT": {
       "TITLE": "Logout",
