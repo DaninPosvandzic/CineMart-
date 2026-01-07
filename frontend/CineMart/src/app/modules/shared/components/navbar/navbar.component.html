@@ -26,9 +26,10 @@
       Add a movie
     </button>
 
-    <button *ngIf="isAuthenticated()" (click)="logout()">
-      Logout
-    </button>
+    <button *ngIf="isAuthenticated()" (click)="openLogoutModal()">
+  Logout
+</button>
+
   </div>
 
   <div class="hamburger" (click)="toggleMobileMenu()">
@@ -39,3 +40,24 @@
   </div>
 
 </nav>
+<!-- LOGOUT MODAL -->
+<div
+  class="modal-backdrop"
+  *ngIf="showLogoutModal"
+  (click)="onBackdropClick($event)"
+>
+  <div class="modal">
+    <h3>Logout</h3>
+    <p>Da li ste sigurni da se želite odjaviti?</p>
+
+    <div class="modal-actions">
+      <button class="cancel" (click)="closeLogoutModal()">Cancel</button>
+      <button class="confirm" (click)="confirmLogout()">Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" *ngIf="showToast">
+  {{ toastMessage }}
+</div>

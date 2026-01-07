@@ -150,3 +150,94 @@
     }
   }
 }
+/* MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: #111;
+  color: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  transform: scale(0.9);
+  animation: scaleIn 0.2s forwards;
+}
+
+.modal h3 {
+  margin-bottom: 10px;
+}
+
+.modal p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-actions .cancel {
+  background: #444;
+  color: #fff;
+}
+
+.modal-actions .confirm {
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: #fff;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  opacity: 0.95;
+  z-index: 9999;
+  animation: toastIn 0.3s ease;
+}
+
+/* ANIMACIJE */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 0.95; transform: translateX(-50%) translateY(0); }
+}
+
