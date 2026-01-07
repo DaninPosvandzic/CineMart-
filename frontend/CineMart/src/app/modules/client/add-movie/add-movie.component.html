@@ -1,4 +1,4 @@
-<div class="add-movie-container" *ngIf="!showSuccess">
+<div class="add-movie-container">
   <div class="form-card">
     <div class="header-section">
       <h2>New Release</h2>
@@ -8,56 +8,147 @@
     <form (ngSubmit)="submitMovie()" #movieForm="ngForm" class="movie-form" autocomplete="off">
 
       <div class="form-group">
-        <label>Title</label>
-        <input type="text" name="title" [(ngModel)]="movie.title" required placeholder="Enter movie title...">
+        <label>Title <span class="required">*</span></label>
+        <input
+          type="text"
+          name="title"
+          [(ngModel)]="movie.title"
+          required
+          minlength="1"
+          placeholder="Enter movie title..."
+          #titleInput="ngModel">
+        <div class="error-message" *ngIf="titleInput.invalid && titleInput.touched">
+          Title is required
+        </div>
       </div>
 
       <div class="form-group">
         <label>Description</label>
-        <textarea name="description" [(ngModel)]="movie.description" rows="3" placeholder="Tell the story..."></textarea>
+        <textarea
+          name="description"
+          [(ngModel)]="movie.description"
+          rows="3"
+          placeholder="Tell the story...">
+        </textarea>
+        <small class="hint">Optional field</small>
       </div>
 
       <div class="form-grid">
         <div class="form-group">
-          <label>Release Year</label>
-          <input type="number" name="releaseYear" [(ngModel)]="movie.releaseYear" required>
+          <label>Release Year <span class="required">*</span></label>
+          <input
+            type="number"
+            name="releaseYear"
+            [(ngModel)]="movie.releaseYear"
+            required
+            [min]="1800"
+            [max]="currentYear + 5"
+            #yearInput="ngModel">
+          <div class="error-message" *ngIf="yearInput.invalid && yearInput.touched">
+            Valid year required (1800-{{currentYear + 5}})
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Buy Price ($)</label>
-          <input type="number" name="purchasePrice" [(ngModel)]="movie.purchasePrice" required>
+          <label>Buy Price ($) <span class="required">*</span></label>
+          <input
+            type="number"
+            name="purchasePrice"
+            [(ngModel)]="movie.purchasePrice"
+            required
+            min="0"
+            step="0.01"
+            #buyPriceInput="ngModel">
+          <div class="error-message" *ngIf="buyPriceInput.invalid && buyPriceInput.touched">
+            Price must be 0 or greater
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Rent Price ($)</label>
-          <input type="number" name="rentPrice" [(ngModel)]="movie.rentPrice" required>
+          <label>Rent Price ($) <span class="required">*</span></label>
+          <input
+            type="number"
+            name="rentPrice"
+            [(ngModel)]="movie.rentPrice"
+            required
+            min="0"
+            step="0.01"
+            #rentPriceInput="ngModel">
+          <div class="error-message" *ngIf="rentPriceInput.invalid && rentPriceInput.touched">
+            Price must be 0 or greater
+          </div>
         </div>
       </div>
 
       <div class="form-grid-two">
         <div class="form-group">
-          <label>Genre</label>
-          <select name="genreId" [(ngModel)]="movie.genreId" required>
+          <label>Genre <span class="required">*</span></label>
+          <select
+            name="genreId"
+            [(ngModel)]="movie.genreId"
+            required
+            #genreInput="ngModel">
             <option [ngValue]="undefined" disabled selected>Select Genre</option>
             <option *ngFor="let g of genres" [value]="g.id">{{ g.name }}</option>
           </select>
+          <div class="error-message" *ngIf="genreInput.invalid && genreInput.touched">
+            Genre is required
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Director ID</label>
-          <input type="number" name="directorId" [(ngModel)]="movie.directorId" placeholder="Director ID">
+          <label>Director</label>
+          <select
+            name="directorId"
+            [(ngModel)]="movie.directorId"
+            #directorInput="ngModel">
+            <option [ngValue]="undefined" selected>Select Director (Optional)</option>
+            <option *ngFor="let d of directors" [value]="d.id">
+              {{ d.fullName }} ({{ d.countryOfOrigin }})
+            </option>
+          </select>
+          <small class="hint">Optional field</small>
         </div>
       </div>
 
       <div class="form-group">
         <label>Trailer Link</label>
-        <input type="url" name="trailerUrl" [(ngModel)]="movie.trailerUrl" placeholder="https://youtube.com/...">
+        <input
+          type="url"
+          name="trailerUrl"
+          [(ngModel)]="movie.trailerUrl"
+          placeholder="https://youtube.com/..."
+          #trailerInput="ngModel">
+        <div class="error-message" *ngIf="trailerInput.invalid && trailerInput.touched">
+          Please enter a valid URL
+        </div>
+        <small class="hint">Optional field</small>
       </div>
 
       <div class="form-group">
         <label>Cover Image URL</label>
-        <input type="url" name="pictureUrl" [(ngModel)]="movie.pictureUrl" placeholder="https://image-host.com/...">
+        <input
+          type="url"
+          name="pictureUrl"
+          [(ngModel)]="movie.pictureUrl"
+          placeholder="https://image-host.com/..."
+          #pictureInput="ngModel">
+        <div class="error-message" *ngIf="pictureInput.invalid && pictureInput.touched">
+          Please enter a valid URL
+        </div>
+        <small class="hint">Optional field</small>
       </div>
 
-      <button type="submit" class="submit-btn" [disabled]="!movieForm.form.valid">
-        Create Movie
+      <div class="required-fields-note">
+        <span class="required">*</span> Required fields
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="!movieForm.form.valid || isSubmitting">
+        <span *ngIf="!isSubmitting">Create Movie</span>
+        <span *ngIf="isSubmitting">Creating...</span>
       </button>
     </form>
   </div>

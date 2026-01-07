@@ -46,6 +46,15 @@
       "LOGOUT": "Odjava"
     }
   },
+  "MOVIES": {
+    "DIALOGS": {
+      "SUCCESS_CREATE": "Film '{{title}}' je kreiran uspjesno!",
+      "ERROR_CREATE": "Nismo uspjeli kreirati film. Pokusajte ponovo.",
+      "ERROR_LOAD_GENRES": "Failed to load genres. Please refresh the page.",
+      "NOT_AUTHENTICATED": "You must be logged in to add a movie.",
+      "INCOMPLETE_FORM": "Please fill in all required fields before submitting."
+    }
+  },
   "PRODUCT_CATEGORIES": {
     "TITLE": "Kategorije Proizvoda",
     "SUBTITLE": "Upravljanje kategorijama proizvoda",

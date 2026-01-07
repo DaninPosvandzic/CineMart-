@@ -1,6 +1,4 @@
-﻿
-
-using CineMart.Application.Modules.FilmManagement.Genres.Queries.List;
+﻿using CineMart.Application.Modules.FilmManagement.Genres.Queries.List;
 using CineMart.Application.Modules.FilmMenagement.Genres.Queries.List;
 
 [ApiController]

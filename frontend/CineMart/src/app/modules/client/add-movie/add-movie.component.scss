@@ -175,3 +175,39 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 }
+
+.error-message {
+  color: #e53935;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.hint {
+  color: #757575;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.required {
+  color: #e53935;
+  font-weight: bold;
+}
+
+.required-fields-note {
+  font-size: 0.875rem;
+  color: #757575;
+  margin-bottom: 1rem;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border-color: #e53935;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
