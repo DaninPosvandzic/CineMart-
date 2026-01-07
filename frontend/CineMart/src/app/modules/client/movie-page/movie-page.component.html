@@ -16,7 +16,7 @@
       <div class="stats-row">
         <div class="stat-item rating">
           <span class="star">★</span>
-          <strong>{{ film.averageRating | number:'1.1-1' }}</strong>
+          <strong>{{ film.averageRating?? 0 }}</strong>
         </div>
         <div class="stat-item views">
           <span class="label">Views:</span>
