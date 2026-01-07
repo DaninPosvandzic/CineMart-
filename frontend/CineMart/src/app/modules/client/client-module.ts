@@ -4,12 +4,14 @@ import {ClientRoutingModule} from './client-routing-module';
 import {SharedModule} from '../shared/shared-module';
 import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
 import { MoviePageComponent } from './movie-page/movie-page.component';
+import { AddMovieComponent } from './add-movie/add-movie.component';
 
 
 @NgModule({
   declarations: [
     MyMoviesComponent,
-    MoviePageComponent
+    MoviePageComponent,
+    AddMovieComponent
   ],
   imports: [
     SharedModule,

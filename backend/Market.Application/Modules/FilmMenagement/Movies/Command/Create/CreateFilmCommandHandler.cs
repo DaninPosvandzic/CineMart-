@@ -15,7 +15,6 @@ namespace CineMart.Application.Modules.FilmManagement.Movies.Command.Create
 
         public async Task<int> Handle(CreateFilmCommand request, CancellationToken ct)
         {
-            #region Create FilmEntity
             var film = new FilmEntity
             {
                 Title = request.Title,
@@ -33,7 +32,7 @@ namespace CineMart.Application.Modules.FilmManagement.Movies.Command.Create
             };
 
             _ctx.Films.Add(film);
-            #endregion
+
 
             await _ctx.SaveChangesAsync(ct);
 

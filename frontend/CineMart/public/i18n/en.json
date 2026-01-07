@@ -73,6 +73,15 @@
       "SAVE": "Save",
       "UPDATE": "Update"
     },
+    "MOVIES": {
+      "DIALOGS": {
+        "SUCCESS_CREATE": "Movie '{{title}}' has been created successfully!",
+        "ERROR_CREATE": "Failed to create movie. Please try again.",
+        "ERROR_LOAD_GENRES": "Failed to load genres. Please refresh the page.",
+        "NOT_AUTHENTICATED": "You must be logged in to add a movie.",
+        "INCOMPLETE_FORM": "Please fill in all required fields before submitting."
+      }
+    },
     "DIALOGS": {
       "DELETE_TITLE": "Delete Category",
       "DELETE_MESSAGE": "Are you sure you want to delete category \"{{name}}\"? This will also delete all products in this category.",

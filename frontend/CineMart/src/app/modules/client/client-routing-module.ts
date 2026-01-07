@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {MoviePageComponent} from './movie-page/movie-page.component';
 import {myAuthData, myAuthGuard} from '../../core/guards/my-auth-guard';
 import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
+import {AddMovieComponent} from './add-movie/add-movie.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
   {
     path: 'my-movies',
     component: MyMoviesComponent
+  },
+
+  {
+    path: 'add-movie',
+    component: AddMovieComponent,
   }
 ];
 

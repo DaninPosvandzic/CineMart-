@@ -16,3 +16,15 @@ export interface Film {
   viewCount: number;
   dateAdded: string;
 }
+
+export interface CreateFilmDto {
+  title: string;
+  description?: string;
+  releaseYear: number;
+  trailerUrl?: string;
+  pictureUrl?: string;
+  purchasePrice: number;
+  rentPrice: number;
+  genreId?: number;
+  directorId?: number;
+}

@@ -6,7 +6,7 @@
     <li><a routerLink="/">Home</a></li>
     <li><a routerLink="/movies">Movies</a></li>
     <li><a routerLink="/kontakt">Contact</a></li>
-    
+
 
   </ul>
 
@@ -22,7 +22,7 @@
     </button>
 
     <!-- ADMIN ONLY -->
-    <button *ngIf="isAuthenticated()" routerLink="/add-movie">
+    <button *ngIf="isAuthenticated()" routerLink="/client/add-movie">
       Add a movie
     </button>
 
