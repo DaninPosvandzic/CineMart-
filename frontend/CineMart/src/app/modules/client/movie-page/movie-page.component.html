@@ -1,0 +1,67 @@
+<div class="movie-page-wrapper" *ngIf="film">
+  <div class="movie-card">
+    <div class="poster-section">
+      <img [src]="film.pictureUrl" [alt]="film.title">
+      <div class="play-overlay" *ngIf="film.trailerUrl">
+        <i class="play-icon">▶</i>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="header">
+        <h1>{{ film.title }}</h1>
+        <p class="meta">{{ film.releaseYear }} • {{ film.directorName }} • {{ film.genreName }}</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item rating">
+          <span class="star">★</span>
+          <strong>{{ film.averageRating | number:'1.1-1' }}</strong>
+        </div>
+        <div class="stat-item views">
+          <span class="label">Views:</span>
+          <strong>{{ film.viewCount }}</strong>
+        </div>
+      </div>
+
+      <p class="description">
+        {{ film.description || 'No description available for this movie.' }}
+      </p>
+
+      <div class="price-cards">
+        <div class="price-option">
+          <span class="type">Rent</span>
+          <span class="amount">${{ film.rentPrice }}</span>
+        </div>
+        <div class="price-option highlight">
+          <span class="type">Buy</span>
+          <span class="amount">${{ film.purchasePrice }}</span>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary">Purchase Now</button>
+        <button class="btn btn-outline">Watch Trailer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-section">
+    <h3>Community Reviews</h3>
+
+    <div class="add-review">
+      <textarea placeholder="Write your review..."></textarea>
+      <div class="review-footer">
+        <div class="star-rating-input">Rating: ★★★☆☆</div>
+        <button class="btn btn-small">Post Review</button>
+      </div>
+    </div>
+
+    <div class="review-list">
+      <div class="review-item">
+        <div class="user-info"><strong>User123</strong> • <small>2 days ago</small></div>
+        <p>Amazing cinematography! A must watch for every fan of the genre.</p>
+      </div>
+    </div>
+  </div>
+</div>

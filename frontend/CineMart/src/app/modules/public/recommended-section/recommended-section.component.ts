@@ -27,6 +27,6 @@ export class RecommendedSectionComponent implements OnInit {
   }
 
   openMovie(id: number) {
-    this.router.navigate(['/movie', id]);
+    this.router.navigate(['/client/movie', id]);
   }
 }

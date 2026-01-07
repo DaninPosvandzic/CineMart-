@@ -46,13 +46,13 @@
       </div>
 
       <!-- IMAGE -->
-      <a [routerLink]="['/movie', film.id]" class="image-wrapper">
+      <a [routerLink]="['/client/movie', film.id]" class="image-wrapper">
         <img [src]="film.pictureUrl || 'assets/default.jpg'" alt="{{ film.title }}" />
       </a>
 
       <!-- INFO -->
       <div class="movie-info">
-        <a [routerLink]="['/movie', film.id]" class="movie-title">
+        <a [routerLink]="['/client/movie', film.id]" class="movie-title">
           {{ film.title }}
         </a>
         <p class="genre">{{ film.genreName }}</p>
