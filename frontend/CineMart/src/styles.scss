@@ -11,10 +11,9 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
 
-  /* Blagi gradient */
   background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
-  background-attachment: fixed; /* gradient ostaje na mjestu prilikom scrollanja */
-  transition: background 0.3s ease; /* lagana animacija ako promijeniš boje dinamički */
+  background-attachment: fixed;
+  transition: background 0.3s ease;
 }
 
 app-root {
