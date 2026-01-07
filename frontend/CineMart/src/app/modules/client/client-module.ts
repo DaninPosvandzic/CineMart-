@@ -3,22 +3,17 @@ import {NgModule} from '@angular/core';
 import {ClientRoutingModule} from './client-routing-module';
 import {SharedModule} from '../shared/shared-module';
 import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
-
 import { MoviePageComponent } from './movie-page/movie-page.component';
 
 
 @NgModule({
   declarations: [
-    MyMoviesComponent
-  ],
-  imports: [
-    SharedModule,
-    ClientRoutingModule,
+    MyMoviesComponent,
     MoviePageComponent
   ],
   imports: [
     SharedModule,
-    ClientRoutingModule
+    ClientRoutingModule,
   ],
   exports: [
     MoviePageComponent
