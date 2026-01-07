@@ -17,7 +17,7 @@ export class MoviesComponent implements OnInit {
   totalCount: number = 0;
   totalPages: number = 1;
 
-  searchTerm: string = '';
+  searchTerm: string = ''; 
   selectedFilter = 'rating'; // sortBy
   sortAscending = true;
 
