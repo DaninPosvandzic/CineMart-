@@ -42,7 +42,7 @@
 
       <!-- RATING CIRCLE -->
       <div class="rating-circle">
-        {{ film.averageRating | number:'1.1-1' }}
+        {{ film.averageRating ?? 0 | number:'1.1-1' }}
       </div>
 
       <!-- IMAGE -->

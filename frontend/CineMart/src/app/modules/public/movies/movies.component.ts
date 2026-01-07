@@ -13,11 +13,11 @@ export class MoviesComponent implements OnInit {
   films: any[] = [];
 
   pageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 5;
   totalCount: number = 0;
   totalPages: number = 1;
 
-  searchTerm: string = ''; 
+  searchTerm: string = '';
   selectedFilter = 'rating'; // sortBy
   sortAscending = true;
 
