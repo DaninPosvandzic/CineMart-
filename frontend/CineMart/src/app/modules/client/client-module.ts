@@ -4,6 +4,7 @@ import {ClientRoutingModule} from './client-routing-module';
 import {SharedModule} from '../shared/shared-module';
 import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
 
+import { MoviePageComponent } from './movie-page/movie-page.component';
 
 
 @NgModule({
@@ -13,6 +14,14 @@ import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
   imports: [
     SharedModule,
     ClientRoutingModule,
+    MoviePageComponent
+  ],
+  imports: [
+    SharedModule,
+    ClientRoutingModule
+  ],
+  exports: [
+    MoviePageComponent
   ]
 })
 export class ClientModule { }
