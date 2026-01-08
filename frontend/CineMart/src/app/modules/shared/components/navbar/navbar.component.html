@@ -21,11 +21,6 @@
       My movies
     </button>
 
-    <!-- ADMIN ONLY -->
-    <button *ngIf="isAuthenticated()" routerLink="/client/add-movie">
-      Add a movie
-    </button>
-
     <button *ngIf="isAuthenticated()" (click)="openLogoutModal()">
   Logout
 </button>

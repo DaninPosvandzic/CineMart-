@@ -15,11 +15,11 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
-  gap: var(--section-gap); // 🔥 SVI RAZMACI JEDNAKI
+  gap: var(--section-gap);
 }
 
 /* ======================================================
-   HERO SECTION
+   HERO SECTION (neprijavljeni korisnici)
    ====================================================== */
 .hero {
   background: linear-gradient(90deg, #ff512f, #dd2476);
@@ -66,12 +66,105 @@
 }
 
 /* ======================================================
+   WELCOME BACK HERO (prijavljeni korisnici)
+   ====================================================== */
+.welcome-back-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
+  .welcome-content {
+    flex: 1;
+    color: white;
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+    }
+
+    p {
+      font-size: 18px;
+      color: #f2f2f2;
+      opacity: 0.95;
+    }
+  }
+
+  .quick-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+
+    .action-btn {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+      padding: 12px 24px;
+      border-radius: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+
+      .icon {
+        font-size: 18px;
+      }
+
+      &:hover {
+        background: rgba(255,255,255,0.35);
+        border-color: rgba(255,255,255,0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+
+    .welcome-content h1 {
+      font-size: 32px;
+    }
+
+    .quick-actions {
+      justify-content: center;
+      width: 100%;
+
+      .action-btn {
+        flex: 1;
+        min-width: 130px;
+      }
+    }
+  }
+}
+
+/* ======================================================
    RECOMMENDED SECTION
-   (RESETUJEMO NJENE UNUTRAŠNJE MARGINE)
    ====================================================== */
 app-recommended-section {
   display: block;
-  margin: 0;   // ❗ razmak dolazi iz home-container gap-a
+  margin: 0;
 }
 
 /* ======================================================
@@ -79,7 +172,7 @@ app-recommended-section {
    ====================================================== */
 .featured-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;   // 50% / 50%
+  grid-template-columns: 1fr 1fr;
   gap: 30px;
   align-items: stretch;
 

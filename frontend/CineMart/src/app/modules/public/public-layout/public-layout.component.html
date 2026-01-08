@@ -1,10 +1,32 @@
 <div class="home-container">
 
-  <!-- HERO -->
+  <!-- HERO - za neprijavljene korisnike -->
   <div class="hero" *ngIf="!isAuthenticated()">
     <h1>Welcome to CineMart</h1>
     <p>Access newest movies, merchandise and exclusive content!</p>
     <button routerLink="/registration">Sign up</button>
+  </div>
+
+  <!-- WELCOME BACK BANNER - za prijavljene korisnike -->
+  <div class="welcome-back-hero" *ngIf="isAuthenticated()">
+    <div class="welcome-content">
+      <h1>Welcome Back! 🎬</h1>
+      <p>Continue exploring our latest collection</p>
+    </div>
+    <div class="quick-actions">
+      <button routerLink="/client/add-movie" class="action-btn">
+        <span class="icon">➕</span>
+        Add Movie
+      </button>
+      <button routerLink="/movies" class="action-btn">
+        <span class="icon">🎥</span>
+        Browse All
+      </button>
+      <button routerLink="/profile" class="action-btn">
+        <span class="icon">👤</span>
+        My Profile
+      </button>
+    </div>
   </div>
 
   <!-- RECOMMENDED -->
