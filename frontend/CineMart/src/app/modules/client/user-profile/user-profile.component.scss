@@ -1,0 +1,93 @@
+.user-profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  background: #111;
+  border-radius: 14px;
+  padding: 24px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4d4d, #ff8c4d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+}
+
+.user-info {
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .email {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #aaa;
+  }
+}
+
+.profile-details {
+  border-top: 1px solid #222;
+  padding-top: 16px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+
+  .label {
+    font-size: 13px;
+    color: #aaa;
+  }
+
+  .value {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.logout-btn {
+  margin-top: 24px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #ff4d4d;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #ff6b6b;
+  }
+}
+
+.error {
+  text-align: center;
+  color: #aaa;
+  padding: 40px;
+}

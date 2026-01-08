@@ -4,6 +4,7 @@ import {MoviePageComponent} from './movie-page/movie-page.component';
 import {myAuthData, myAuthGuard} from '../../core/guards/my-auth-guard';
 import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
 import {AddMovieComponent} from './add-movie/add-movie.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'add-movie',
     component: AddMovieComponent,
+  },
+  {
+    path: 'profile',
+    component: UserProfileComponent,
   }
 ];
 
