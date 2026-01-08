@@ -1,59 +1,77 @@
-<!-- src/app/pages/auth/login/login.component.html -->
+<!-- login.component.html -->
 <div class="auth-page">
-  <!-- Background -->
+  <!-- Background Effects -->
   <div class="auth-bg">
-    <div class="glow glow-red"></div>
-    <div class="glow glow-gold"></div>
+    <div class="glow glow-primary"></div>
+    <div class="glow glow-secondary"></div>
+    <div class="grid-overlay"></div>
   </div>
 
-  <!-- Card -->
-  <mat-card class="auth-card mat-elevation-z12">
+  <!-- Login Card -->
+  <div class="auth-card">
     <!-- Header -->
     <div class="auth-header">
-      <div class="logo">
-        🎬
+      <div class="logo-container">
+        <div class="logo">🎬</div>
+        <h1 class="brand">CineMart</h1>
       </div>
-      <h1 class="title">CineMart</h1>
-      <p class="subtitle">Prijavite se na svoj nalog</p>
+      <p class="welcome">Welcome back</p>
+      <p class="subtitle">Sign in to your account to continue</p>
     </div>
 
-    <mat-card-content>
-      <!-- Error -->
-      <div *ngIf="errorMessage" class="error-box">
-        <mat-icon>error_outline</mat-icon>
-        <span>{{ errorMessage }}</span>
+    <!-- Error Alert -->
+    <div *ngIf="errorMessage" class="error-alert">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <div class="error-content">
+        <span class="error-title">Authentication Failed</span>
+        <span class="error-message">{{ errorMessage }}</span>
       </div>
+    </div>
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <!-- Email -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" />
-          <mat-icon matPrefix>mail</mat-icon>
+    <!-- Login Form -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <mat-form-field appearance="outline" class="form-field">
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+          />
+          <mat-icon matPrefix class="field-icon">mail_outline</mat-icon>
 
           <mat-error *ngIf="form.get('email')?.hasError('required')">
-            Email je obavezan
+            Email is required
           </mat-error>
           <mat-error *ngIf="form.get('email')?.hasError('email')">
-            Unesite validan email
+            Please enter a valid email
           </mat-error>
         </mat-form-field>
+      </div>
 
-        <!-- Password -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Lozinka</mat-label>
+      <!-- Password Field -->
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <mat-form-field appearance="outline" class="form-field">
           <input
             matInput
             formControlName="password"
             [type]="hidePassword ? 'password' : 'text'"
+            placeholder="Enter your password"
+            autocomplete="current-password"
           />
-          <mat-icon matPrefix>lock</mat-icon>
+          <mat-icon matPrefix class="field-icon">lock_outline</mat-icon>
 
           <button
             mat-icon-button
             matSuffix
             type="button"
             (click)="hidePassword = !hidePassword"
+            class="toggle-password"
           >
             <mat-icon>
               {{ hidePassword ? 'visibility_off' : 'visibility' }}
@@ -61,64 +79,64 @@
           </button>
 
           <mat-error *ngIf="form.get('password')?.hasError('required')">
-            Lozinka je obavezna
+            Password is required
           </mat-error>
         </mat-form-field>
+      </div>
 
-        <!-- Remember / Forgot -->
-        <div class="form-row">
-          <mat-checkbox formControlName="rememberMe">
-            Zapamti me
-          </mat-checkbox>
+      <!-- Remember & Forgot -->
+      <div class="form-options">
+        <mat-checkbox formControlName="rememberMe" class="remember-checkbox">
+          Remember me
+        </mat-checkbox>
 
-          <a routerLink="/auth/forgot-password" class="link">
-            Zaboravili ste lozinku?
-          </a>
-        </div>
+        <a routerLink="/auth/forgot-password" class="forgot-link">
+          Forgot password?
+        </a>
+      </div>
 
-        <!-- Submit -->
-        <button
-          mat-raised-button
-          color="primary"
-          class="login-btn"
-          type="submit"
-          [disabled]="form.invalid || isLoading"
-        >
-          <ng-container *ngIf="!isLoading; else loading">
-            <mat-icon>login</mat-icon>
-            Prijava
-          </ng-container>
+      <!-- Submit Button -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="submit-btn"
+        type="submit"
+        [disabled]="form.invalid || isLoading"
+      >
+        <ng-container *ngIf="!isLoading; else loading">
+          <span>Sign In</span>
+        </ng-container>
 
-          <ng-template #loading>
-            <mat-progress-spinner
-              diameter="20"
-              mode="indeterminate"
-            ></mat-progress-spinner>
-            <span>Prijava...</span>
-          </ng-template>
-        </button>
+        <ng-template #loading>
+          <mat-progress-spinner
+            diameter="20"
+            mode="indeterminate"
+            class="spinner"
+          ></mat-progress-spinner>
+          <span>Signing in...</span>
+        </ng-template>
+      </button>
 
-        <!-- Divider -->
-        <div class="divider">
-          <span>ili</span>
-        </div>
+      <!-- Divider -->
+      <div class="divider">
+        <span>or</span>
+      </div>
 
-        <!-- Register -->
-        <div class="register">
-          <span>Nemate nalog?</span>
-          <a routerLink="/auth/register" class="link">
-            Registrujte se
-          </a>
-        </div>
-      </form>
-    </mat-card-content>
+      <!-- Register Link -->
+      <div class="register-section">
+        <span class="register-text">Don't have an account?</span>
+        <a routerLink="/auth/register" class="register-link">
+          Create account
+        </a>
+      </div>
+    </form>
 
     <!-- Footer -->
     <div class="auth-footer">
       <a routerLink="/" class="back-link">
         <mat-icon>arrow_back</mat-icon>
-        Nazad na početnu
+        <span>Back to home</span>
       </a>
     </div>
-  </mat-card>
+  </div>
 </div>

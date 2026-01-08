@@ -1,46 +1,154 @@
 <div class="user-profile-container" *ngIf="isAuthenticated(); else notLoggedIn">
 
-  <div class="profile-card">
+  <!-- Loading State -->
+  <div class="profile-card loading-card" *ngIf="isLoading()">
+    <div class="loading-spinner"></div>
+    <p>Loading profile...</p>
+  </div>
 
+  <!-- Error State -->
+  <div class="profile-card error-card" *ngIf="error() && !isLoading()">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error() }}</p>
+    <button class="retry-btn" (click)="refreshProfile()">Try Again</button>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="profile-card" *ngIf="userProfile() && !isLoading()">
+
+    <!-- Header with Avatar -->
     <div class="profile-header">
-      <div class="avatar">
-        {{ user()!.email[0] | uppercase }}
+      <div class="avatar-wrapper">
+        <div class="avatar" *ngIf="!userProfile()?.profileImageUrl">
+          {{ initials() }}
+        </div>
+        <img
+          *ngIf="userProfile()?.profileImageUrl"
+          [src]="userProfile()!.profileImageUrl!"
+          alt="Profile"
+          class="avatar-image"
+        />
+        <div class="status-badge" [class]="statusClass()">
+          <span class="status-dot"></span>
+          {{ userProfile()?.status }}
+        </div>
       </div>
 
       <div class="user-info">
         <h2>{{ fullName() }}</h2>
-        <p class="email">{{ user()?.email }}</p>
+        <p class="email">{{ userProfile()?.email }}</p>
+        <span class="role-badge" [class]="'role-' + userProfile()?.role?.toLowerCase()">
+          {{ userProfile()?.role }}
+        </span>
       </div>
     </div>
 
+    <!-- Profile Stats -->
+    <div class="profile-stats">
+      <div class="stat-item">
+        <div class="stat-icon">👤</div>
+        <div class="stat-info">
+          <span class="stat-label">User ID</span>
+          <span class="stat-value">#{{ userProfile()?.id }}</span>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+          <span class="stat-label">Member Since</span>
+          <span class="stat-value">{{ userProfile()?.memberSince }}</span>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-icon">🕐</div>
+        <div class="stat-info">
+          <span class="stat-label">Last Login</span>
+          <span class="stat-value">
+            {{ userProfile()?.lastLoginFormatted || 'Never' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Details -->
     <div class="profile-details">
+      <h3>Account Details</h3>
 
       <div class="detail-row">
-        <span class="label">Role</span>
-        <span class="value">{{ user()?.role }}</span>
+        <span class="label">
+          <span class="icon">✉️</span>
+          Email Address
+        </span>
+        <span class="value">{{ userProfile()?.email }}</span>
       </div>
 
       <div class="detail-row">
-        <span class="label">User ID</span>
-        <span class="value">#{{ user()?.userId }}</span>
+        <span class="label">
+          <span class="icon">🔑</span>
+          Account Status
+        </span>
+        <span class="value status-value" [class]="statusClass()">
+          {{ userProfile()?.isEnabled ? 'Enabled' : 'Disabled' }}
+        </span>
       </div>
 
       <div class="detail-row">
-        <span class="label">Token version</span>
-        <span class="value">{{ user()?.tokenVersion }}</span>
+        <span class="label">
+          <span class="icon">🛡️</span>
+          Access Level
+        </span>
+        <span class="value">{{ userProfile()?.role }}</span>
       </div>
-
     </div>
 
-    <button class="logout-btn" (click)="logout()">
-      Logout
-    </button>
+    <!-- Upcoming Features -->
+    <div class="upcoming-features">
+      <h3>Coming Soon</h3>
+      <div class="feature-list">
+        <div class="feature-item disabled">
+          <span class="feature-icon">📧</span>
+          <span>Email Preferences</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <div class="feature-item disabled">
+          <span class="feature-icon">🔔</span>
+          <span>Notifications</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <div class="feature-item disabled">
+          <span class="feature-icon">🔒</span>
+          <span>Privacy Settings</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+        <div class="feature-item disabled">
+          <span class="feature-icon">💳</span>
+          <span>Payment Methods</span>
+          <span class="soon-badge">Soon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="profile-actions">
+      <button class="action-btn secondary" (click)="refreshProfile()">
+        <span class="btn-icon">🔄</span>
+        Refresh
+      </button>
+      <button class="action-btn danger" (click)="logout()">
+        <span class="btn-icon">🚪</span>
+        Logout
+      </button>
+    </div>
 
   </div>
 </div>
 
 <ng-template #notLoggedIn>
-  <div class="error">
-    You are not logged in.
+  <div class="error-page">
+    <div class="error-icon">🔒</div>
+    <h2>Not Authenticated</h2>
+    <p>You need to log in to view your profile.</p>
   </div>
 </ng-template>
