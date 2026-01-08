@@ -1,20 +1,47 @@
 <div class="featured-slider" *ngIf="films.length > 0">
-
   <div class="slider-card">
 
     <div class="image-wrapper">
       <img [src]="currentFilm?.pictureUrl || 'assets/default.jpg'"
            alt="{{ currentFilm?.title }}">
+      <div class="image-overlay"></div>
     </div>
 
     <div class="film-info">
+      <div class="badge">Featured</div>
       <h2>{{ currentFilm?.title }}</h2>
-      <p>Genre: {{ currentFilm?.genreName }}</p>
-      <p>Rating: {{ currentFilm?.averageRating | number:'1.1-2' }}</p>
-      <p class="price">Price: {{ currentFilm?.purchasePrice }} EUR</p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="icon">🎬</span>
+          <span class="label">{{ currentFilm?.genreName }}</span>
+        </div>
+
+        <div class="info-item rating-item">
+          <span class="icon">⭐</span>
+          <span class="label">{{ currentFilm?.averageRating | number:'1.1-2' }}</span>
+        </div>
+      </div>
+
+      <div class="price-tag">
+        <span class="price-label">Price</span>
+        <span class="price-value">{{ currentFilm?.purchasePrice }} EUR</span>
+      </div>
+
+      <div class="slider-indicators">
+        <span *ngFor="let film of films; let i = index"
+              class="indicator"
+              [class.active]="i === currentIndex"
+              (click)="goToSlide(i)">
+        </span>
+      </div>
     </div>
 
-    <button class="nav prev" (click)="prevFilm()">❮</button>
-    <button class="nav next" (click)="nextFilm()">❯</button>
+    <button class="nav prev" (click)="prevFilm()" aria-label="Previous">
+      <span>‹</span>
+    </button>
+    <button class="nav next" (click)="nextFilm()" aria-label="Next">
+      <span>›</span>
+    </button>
   </div>
 </div>

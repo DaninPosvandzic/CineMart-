@@ -5,13 +5,15 @@ import {SharedModule} from '../shared/shared-module';
 import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
 import { MoviePageComponent } from './movie-page/movie-page.component';
 import { AddMovieComponent } from './add-movie/add-movie.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
   declarations: [
     MyMoviesComponent,
     MoviePageComponent,
-    AddMovieComponent
+    AddMovieComponent,
+    UserProfileComponent
   ],
   imports: [
     SharedModule,
