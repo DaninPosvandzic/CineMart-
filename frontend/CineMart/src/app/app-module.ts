@@ -1,7 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations} from '@angular/platform-browser/animations';
-import {HttpClient, provideHttpClient, withInterceptors} from '@angular/common/http';
+import {HttpClient,HttpClientModule, provideHttpClient, withInterceptors} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app.component';
@@ -12,14 +12,20 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {CustomTranslateLoader} from './core/services/custom-translate-loader';
 import {materialModules} from './modules/shared/material-modules';
 import {SharedModule} from './modules/shared/shared-module';
+import { MyMoviesComponent } from './pages/my-movies/my-movies.component';
+import { CommonModule } from '@angular/common';
+import { ClientModule } from './modules/client/client-module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
   ],
   imports: [
     BrowserModule,
+    ClientModule,
     AppRoutingModule,
+    CommonModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

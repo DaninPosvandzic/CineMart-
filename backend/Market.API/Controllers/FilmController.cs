@@ -2,6 +2,9 @@
 using CineMart.Application.Modules.FilmManagement.Movies.Command.Delete;
 using CineMart.Application.Modules.FilmManagement.Queries.GetById;
 using CineMart.Application.Modules.FilmManagement.Queries.List;
+using CineMart.Application.Modules.FilmMenagement.Movies.Command.RateMovie;
+using CineMart.Application.Modules.FilmMenagement.Movies.Queries.GetMovieRating;
+using System.Security.Claims;
 
 [ApiController]
 [Route("[controller]")]
@@ -24,6 +27,18 @@ public class FilmController(ISender sender) : ControllerBase
         return await sender.Send(new GetFilmByIdQuery { Id = id }, ct);
     }
 
+    [AllowAnonymous] // kasnije pravi user
+    [HttpGet("User/{userId:int}")]
+    public async Task<List<ListFilmsByUserQueryDto>> GetByUser(
+    int userId,
+    CancellationToken ct)
+    {
+        return await sender.Send(
+            new ListFilmsByUserQuery { UserId = userId },
+            ct
+        );
+    }
+
     [Authorize]
     [HttpPost("Create")]
     public async Task<ActionResult<int>> Create([FromBody] CreateFilmCommand command, CancellationToken ct)
@@ -32,10 +47,39 @@ public class FilmController(ISender sender) : ControllerBase
         return Ok(filmId);
     }
 
-    [Authorize]
+    [AllowAnonymous]
     [HttpDelete("{id:int}")]
     public async Task Delete(int id, CancellationToken ct)
     {
         await sender.Send(new DeleteFilmCommand { Id = id }, ct); // koristi sender
     }
+
+    [HttpPost("{id}/rate")]
+    public async Task<IActionResult> RateMovie(int id, [FromBody] RateMovieDto dto)
+    {
+        var userId = 1; // 🔴 kasnije iz JWT-a
+
+        await sender.Send(new RateMovieCommand(id, userId, dto.Value));
+
+        var result = await sender.Send(
+            new GetMovieRatingQuery(id, userId)
+        );
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("{id}/rating")]
+    public async Task<IActionResult> GetRating(int id, CancellationToken ct)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await sender.Send(
+            new GetMovieRatingQuery(id, userId),
+            ct
+        );
+
+        return Ok(result);
+    }
+
 }

@@ -10,6 +10,8 @@ import { FitLoadingBarComponent } from './components/fit-loading-bar/fit-loading
 import { FitTableSkeletonComponent } from './components/fit-table-skeleton/fit-table-skeleton.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {FooterComponent} from './components/footer/footer.component';
+import {RouterModule} from '@angular/router';
+
 
 
 
@@ -20,13 +22,14 @@ import {FooterComponent} from './components/footer/footer.component';
     FitLoadingBarComponent,
     FitTableSkeletonComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     TranslatePipe,
+    RouterModule,
     ...materialModules
   ],
   providers: [
@@ -38,6 +41,7 @@ import {FooterComponent} from './components/footer/footer.component';
     ReactiveFormsModule,
     TranslatePipe,
     FormsModule,
+    RouterModule,
     FitLoadingBarComponent,
     FitTableSkeletonComponent,
     NavbarComponent,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {myAuthData, myAuthGuard} from './core/guards/my-auth-guard';
+import { MyMoviesComponent } from './pages/my-movies/my-movies.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/public/public-module').then(m => m.PublicModule)
   },
+
+
   // fallback 404
   { path: '**', redirectTo: '' }
 ];

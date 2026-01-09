@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { Film } from './film-api.model';
+import {CreateFilmDto, Film} from './film-api.model';
 import { AuthFacadeService } from '../../core/services/auth/auth-facade.service';
 
 @Injectable({
@@ -17,7 +17,8 @@ export class FilmService {
     const token = this.auth.getAccessToken();
     return {
       headers: new HttpHeaders({
-        Authorization: token ? `Bearer ${token}` : ''
+        Authorization: token ? `Bearer ${token}` : '',
+        'Content-Type': 'application/json'  // Dodaj ovo
       })
     };
   }
@@ -25,7 +26,7 @@ export class FilmService {
   /** GET: svi filmovi */
   getAll(): Observable<Film[]> {
     return this.http
-      .get<{ total: number; items: Film[] }>(`${this.baseUrl}/GetAll`, this.getAuthHeaders())
+      .get<{ total: number; items: Film[] }>(`${this.baseUrl}/GetAll`, this.getAuthHeaders())  // ✅ Ispravljeno
       .pipe(map(res => res.items));
   }
 
@@ -53,13 +54,30 @@ export class FilmService {
     );
   }
 
+  createFilm(film: CreateFilmDto): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/Create`, film, this.getAuthHeaders());  // ✅ Ispravljeno + dodaj headers
+  }
+
   /** GET: pojedinačni film po ID */
   getFilmById(id: number): Observable<Film> {
-    return this.http.get<Film>(`${this.baseUrl}/${id}`, this.getAuthHeaders());
+    return this.http.get<Film>(`${this.baseUrl}/${id}`, this.getAuthHeaders());  // ✅ Ispravljeno
   }
 
   /** DELETE: film po ID */
   deleteMovie(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, this.getAuthHeaders());
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, this.getAuthHeaders());  // ✅ Ispravljeno
   }
+  getRating(movieId: number) {
+  return this.http.get<any>(`${this.baseUrl}/${movieId}/rating`, this.getAuthHeaders());
+}
+
+rateMovie(movieId: number, value: number) {
+  return this.http.post<any>(
+    `${this.baseUrl}/${movieId}/rate`,
+    { value },
+    this.getAuthHeaders()
+  );
+}
+
+
 }

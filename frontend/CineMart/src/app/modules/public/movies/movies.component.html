@@ -1,0 +1,144 @@
+<div class="movies-container">
+
+  <!-- HEADER SECTION -->
+  <div class="header-section">
+    <h1 class="page-title">
+      <span class="icon">🎬</span>
+      All Movies
+    </h1>
+    <p class="subtitle">Discover your next favorite film</p>
+    <div class="header-decoration"></div>
+  </div>
+
+  <!-- FILTERS & SEARCH -->
+  <div class="filters-section">
+    <div class="filters-grid">
+
+      <!-- SEARCH INPUT -->
+      <div class="search-wrapper">
+        <i class="material-icons search-icon">search</i>
+        <input
+          type="text"
+          placeholder="Search movies by title..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+        />
+      </div>
+
+      <!-- SORT CONTROLS -->
+      <div class="sort-controls">
+        <div class="select-wrapper">
+          <select [(ngModel)]="selectedFilter" (change)="loadMovies()">
+            <option value="rating">⭐ Rating</option>
+            <option value="price">💰 Price</option>
+            <option value="title">🔤 Title</option>
+            <option value="year">📅 Year</option>
+          </select>
+        </div>
+
+        <button class="sort-toggle-btn" (click)="toggleSort()">
+          <i class="material-icons">
+            {{ sortAscending ? 'arrow_upward' : 'arrow_downward' }}
+          </i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MOVIES GRID -->
+  <div class="movies-grid" *ngIf="films.length > 0">
+    <div class="movie-card" *ngFor="let film of films">
+
+      <!-- WISHLIST BUTTON -->
+      <button class="wishlist-btn" [class.active]="film.isWishlisted">
+        <i class="material-icons">
+          {{ film.isWishlisted ? 'favorite' : 'favorite_border' }}
+        </i>
+      </button>
+
+      <!-- RATING BADGE -->
+      <div class="rating-badge">
+        <span class="star-icon">★</span>
+        <span class="rating-value">{{ film.averageRating ?? 0 | number:'1.1-1' }}</span>
+      </div>
+
+      <!-- IMAGE -->
+      <a [routerLink]="['/client/movie', film.id]" class="image-wrapper">
+        <img
+          [src]="film.pictureUrl || 'assets/default.jpg'"
+          [alt]="film.title"
+          loading="lazy"
+        />
+        <div class="image-gradient"></div>
+      </a>
+
+      <!-- MOVIE INFO -->
+      <div class="movie-info">
+        <a [routerLink]="['/client/movie', film.id]" class="movie-title">
+          {{ film.title }}
+        </a>
+        <p class="genre">{{ film.genreName }}</p>
+      </div>
+
+      <!-- CARD FOOTER -->
+      <div class="card-footer">
+        <div class="price-row">
+          <div class="price-item">
+            <span class="price-label">Buy</span>
+            <span class="price-value">{{ film.purchasePrice }} KM</span>
+          </div>
+          <div class="price-item">
+            <span class="price-label">Rent</span>
+            <span class="price-value rent">{{ film.rentPrice }} KM</span>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="action-btn buy-btn">
+            <i class="material-icons">shopping_cart</i>
+            <span>Buy</span>
+          </button>
+          <button class="action-btn rent-btn">
+            <i class="material-icons">access_time</i>
+            <span>Rent</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" *ngIf="films.length === 0">
+    <div class="empty-icon">🎭</div>
+    <h3>No Movies Found</h3>
+    <p>Try adjusting your search or filters</p>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination-section" *ngIf="totalPages > 1">
+    <button
+      class="pagination-btn"
+      (click)="changePage(pageNumber - 1)"
+      [disabled]="pageNumber === 1"
+    >
+      <i class="material-icons">chevron_left</i>
+      <span>Previous</span>
+    </button>
+
+    <div class="page-info">
+      Page <span class="current">{{ pageNumber }}</span> of {{ totalPages }}
+    </div>
+
+    <button
+      class="pagination-btn"
+      (click)="changePage(pageNumber + 1)"
+      [disabled]="pageNumber === totalPages"
+    >
+      <span>Next</span>
+      <i class="material-icons">chevron_right</i>
+    </button>
+  </div>
+
+</div>

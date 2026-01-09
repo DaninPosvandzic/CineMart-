@@ -12,7 +12,12 @@
       "PASSWORD_PLACEHOLDER": "Enter password",
       "REMEMBER_ME": "Remember me",
       "BUTTON": "Login",
-      "LOADING": "Logging in..."
+      "LOADING": "Logging in...",
+      "SUCCESS_TITLE": "Login successful!",
+      "SUCCESS_MESSAGE": "Welcome back! 👋",
+
+      "ERROR_TITLE": "Greška pri prijavi",
+      "ERROR_INVALID_CREDENTIALS": "Pogrešan email ili lozinka."
     },
     "LOGOUT": {
       "TITLE": "Logout",
@@ -67,6 +72,15 @@
       "CANCEL": "Cancel",
       "SAVE": "Save",
       "UPDATE": "Update"
+    },
+    "MOVIES": {
+      "DIALOGS": {
+        "SUCCESS_CREATE": "Movie '{{title}}' has been created successfully!",
+        "ERROR_CREATE": "Failed to create movie. Please try again.",
+        "ERROR_LOAD_GENRES": "Failed to load genres. Please refresh the page.",
+        "NOT_AUTHENTICATED": "You must be logged in to add a movie.",
+        "INCOMPLETE_FORM": "Please fill in all required fields before submitting."
+      }
     },
     "DIALOGS": {
       "DELETE_TITLE": "Delete Category",

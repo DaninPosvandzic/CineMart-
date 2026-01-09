@@ -59,7 +59,7 @@ export class DialogHelperService {
       messageParams: params,
       icon,
       buttons: [
-        { type: DialogButton.OK, color: 'primary' }
+        { type: DialogButton.OK, color: 'primary', }
       ]
     });
   }
@@ -93,7 +93,7 @@ export class DialogHelperService {
       messageParams: params,
       icon,
       buttons: [
-        { type: DialogButton.OK, color: 'primary' }
+        { type: DialogButton.OK, color: 'primary', label: 'ok'  }
       ]
     });
   }

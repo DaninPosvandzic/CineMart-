@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Modules\Catalog\" />
+    <Folder Include="Modules\Identity\Users\Command\" />
   </ItemGroup>
 
 </Project>

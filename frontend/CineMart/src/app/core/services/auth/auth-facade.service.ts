@@ -127,4 +127,45 @@ export class AuthFacadeService {
     this._currentUser.set(null);
     this.storage.clearAuth();
   }
+  isTokenExpired(token: string | null): boolean {
+  if (!token) return true;
+
+  try {
+    const payload = jwtDecode<JwtPayloadDto>(token);
+    
+    return (payload.exp * 1000) < Date.now();
+  } catch (error) {
+    console.error('Failed to decode JWT token for expiration check:', error);
+    return true;
+  }
+}
+
+checkTokenAndLogout(): void {
+  const token = this.getAccessToken();
+  if (!token || this.isTokenExpired(token)) {
+    console.log('Token expired or missing, logging out');
+    this.clearUserState();
+    this.router.navigate(['/login']); 
+  }
+}
+restoreSessionFromBackend(): void {
+  const refreshToken = this.storage.getRefreshToken();
+  const fingerprint = this.storage.getFingerprint();
+
+  if (!refreshToken || !fingerprint) {
+    this.clearUserState();
+    return;
+  }
+
+  this.api.refresh({ refreshToken, fingerprint }).subscribe({
+    next: response => {
+      this.storage.saveRefresh(response);
+      this.decodeAndSetUser(response.accessToken);
+    },
+    error: () => {
+      this.clearUserState();
+      this.router.navigate(['/login']);
+    }
+  });
+}
 }

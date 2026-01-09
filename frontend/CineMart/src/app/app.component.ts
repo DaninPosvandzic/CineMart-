@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
+import { AuthFacadeService } from './core/services/auth/auth-facade.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,9 +11,9 @@ export class AppComponent implements OnInit {
   protected readonly title = signal('rs1-frontend-2025-26');
   currentLang: string = 'bs';
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private auth: AuthFacadeService) {
     console.log('AppComponent constructor - initializing TranslateService');
-
+    this.auth.checkTokenAndLogout();
     // Inicijalizacija translate servisa
     this.translate.addLangs(['en', 'bs']);
     this.translate.setDefaultLang('bs');
@@ -35,6 +35,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.auth.restoreSessionFromBackend();
+
     // Test translation
     this.translate.get('PRODUCTS.TITLE').subscribe((res: string) => {
       console.log('Translation for PRODUCTS.TITLE:', res);

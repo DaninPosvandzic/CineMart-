@@ -1,130 +1,141 @@
-<!-- src/app/pages/auth/login/login.component.html -->
-<div class="auth-container">
-  <div class="auth-background">
-    <!-- Decorative elements -->
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-    <div class="bg-shape shape-3"></div>
+<!-- login.component.html -->
+<div class="auth-page">
+  <!-- Background Effects -->
+  <div class="auth-bg">
+    <div class="glow glow-primary"></div>
+    <div class="glow glow-secondary"></div>
+    <div class="grid-overlay"></div>
   </div>
 
-  <div class="auth-content">
-    <!-- Logo & Brand -->
-    <div class="auth-brand">
-      <mat-icon class="brand-icon">storefront</mat-icon>
-      <h1 class="brand-name">FIT Market</h1>
-      <p class="brand-tagline">Dobrodošli nazad</p>
+  <!-- Login Card -->
+  <div class="auth-card">
+    <!-- Header -->
+    <div class="auth-header">
+      <div class="logo-container">
+        <div class="logo">🎬</div>
+        <h1 class="brand">CineMart</h1>
+      </div>
+      <p class="welcome">Welcome back</p>
+      <p class="subtitle">Sign in to your account to continue</p>
     </div>
 
-    <!-- Login Card -->
-    <mat-card class="auth-card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>{{ 'AUTH.LOGIN.TITLE' | translate }}</mat-card-title>
-        <mat-card-subtitle>Unesite vaše podatke za pristup</mat-card-subtitle>
-      </mat-card-header>
+    <!-- Error Alert -->
+    <div *ngIf="errorMessage" class="error-alert">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <div class="error-content">
+        <span class="error-title">Authentication Failed</span>
+        <span class="error-message">{{ errorMessage }}</span>
+      </div>
+    </div>
 
-      <mat-card-content>
-        <!-- Error message -->
-        <div *ngIf="errorMessage" class="error-message" @fadeIn>
-          <mat-icon>error_outline</mat-icon>
-          <span>{{ errorMessage }}</span>
-        </div>
+    <!-- Login Form -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
 
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <!-- Email -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ 'AUTH.LOGIN.EMAIL_LABEL' | translate }}</mat-label>
-            <input
-              matInput
-              formControlName="email"
-              type="email"
-              placeholder="vasa.email@primjer.com"
-              autocomplete="email"
-            />
-            <mat-icon matPrefix>person</mat-icon>
-            <mat-error *ngIf="form.get('email')?.hasError('required')">
-              Email je obavezan
-            </mat-error>
-            <mat-error *ngIf="form.get('email')?.hasError('email')">
-              Unesite validan email
-            </mat-error>
-          </mat-form-field>
+      <!-- Email Field -->
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <mat-form-field appearance="outline" class="form-field">
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+          />
+          <mat-icon matPrefix class="field-icon">mail_outline</mat-icon>
 
-          <!-- Password -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ 'AUTH.LOGIN.PASSWORD_LABEL' | translate }}</mat-label>
-            <input
-              matInput
-              formControlName="password"
-              [type]="hidePassword ? 'password' : 'text'"
-              placeholder="••••••••"
-              autocomplete="current-password"
-            />
-            <mat-icon matPrefix>lock</mat-icon>
-            <button
-              mat-icon-button
-              matSuffix
-              type="button"
-              (click)="hidePassword = !hidePassword"
-              [attr.aria-label]="'Hide password'"
-            >
-              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('password')?.hasError('required')">
-              Lozinka je obavezna
-            </mat-error>
-          </mat-form-field>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-          <!-- Remember Me & Forgot Password -->
-          <div class="form-row">
-            <mat-checkbox formControlName="rememberMe" color="primary">
-              {{ 'AUTH.LOGIN.REMEMBER_ME' | translate }}
-            </mat-checkbox>
-            <a href="#" class="forgot-link">Zaboravili ste lozinku?</a>
-          </div>
+      <!-- Password Field -->
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <mat-form-field appearance="outline" class="form-field">
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword ? 'password' : 'text'"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+          <mat-icon matPrefix class="field-icon">lock_outline</mat-icon>
 
-          <!-- Submit Button -->
-          <div class="actions">
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              class="submit-button"
-              [disabled]="form.invalid || isLoading"
-            >
-              <ng-container *ngIf="!isLoading; else loadingTpl">
-                <mat-icon>login</mat-icon>
-                {{ 'AUTH.LOGIN.BUTTON' | translate }}
-              </ng-container>
-              <ng-template #loadingTpl>
-                <mat-progress-spinner
-                  mode="indeterminate"
-                  diameter="20"
-                  strokeWidth="3"
-                ></mat-progress-spinner>
-                <span>Prijava u toku...</span>
-              </ng-template>
-            </button>
-          </div>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            class="toggle-password"
+          >
+            <mat-icon>
+              {{ hidePassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </button>
 
-          <!-- Divider -->
-          <div class="divider">
-            <span>ili</span>
-          </div>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-          <!-- Register Link -->
-          <div class="register-prompt">
-            <span>Nemate nalog?</span>
-            <a routerLink="/auth/register" class="register-link">Registrujte se</a>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
+      <!-- Remember & Forgot -->
+      <div class="form-options">
+        <mat-checkbox formControlName="rememberMe" class="remember-checkbox">
+          Remember me
+        </mat-checkbox>
+
+        <a routerLink="/auth/forgot-password" class="forgot-link">
+          Forgot password?
+        </a>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="submit-btn"
+        type="submit"
+        [disabled]="form.invalid || isLoading"
+      >
+        <ng-container *ngIf="!isLoading; else loading">
+          <span>Sign In</span>
+        </ng-container>
+
+        <ng-template #loading>
+          <mat-progress-spinner
+            diameter="20"
+            mode="indeterminate"
+            class="spinner"
+          ></mat-progress-spinner>
+          <span>Signing in...</span>
+        </ng-template>
+      </button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <!-- Register Link -->
+      <div class="register-section">
+        <span class="register-text">Don't have an account?</span>
+        <a routerLink="/auth/register" class="register-link">
+          Create account
+        </a>
+      </div>
+    </form>
 
     <!-- Footer -->
     <div class="auth-footer">
       <a routerLink="/" class="back-link">
         <mat-icon>arrow_back</mat-icon>
-        Nazad na početnu
+        <span>Back to home</span>
       </a>
     </div>
   </div>
