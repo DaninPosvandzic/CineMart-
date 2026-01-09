@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $primary-color: #3d5afe;
 $accent-color: #ffb400;
 $bg-dark: #121212;
@@ -117,7 +119,7 @@ $text-muted: #b0b0b0;
           &-primary {
             background: $primary-color;
             color: white;
-            &:hover { background: lighten($primary-color, 10%); transform: translateY(-2px); }
+            &:hover { background: color.adjust($primary-color, $lightness: 10%); transform: translateY(-2px); }
           }
 
           &-outline {
@@ -178,3 +180,34 @@ $text-muted: #b0b0b0;
     }
   }
 }
+.star-rating-input {
+  display: flex;
+  gap: 4px;
+
+  .star {
+    font-size: 22px;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease;
+
+    &.filled {
+      color: #ffb400;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    &:hover:not(.disabled) {
+      color: #ffd54f;
+    }
+  }
+}
+
+.rated-msg {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #6aff6a;
+}
+

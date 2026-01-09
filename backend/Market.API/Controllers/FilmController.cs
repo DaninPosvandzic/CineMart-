@@ -2,6 +2,9 @@
 using CineMart.Application.Modules.FilmManagement.Movies.Command.Delete;
 using CineMart.Application.Modules.FilmManagement.Queries.GetById;
 using CineMart.Application.Modules.FilmManagement.Queries.List;
+using CineMart.Application.Modules.FilmMenagement.Movies.Command.RateMovie;
+using CineMart.Application.Modules.FilmMenagement.Movies.Queries.GetMovieRating;
+using System.Security.Claims;
 
 [ApiController]
 [Route("[controller]")]
@@ -50,4 +53,33 @@ public class FilmController(ISender sender) : ControllerBase
     {
         await sender.Send(new DeleteFilmCommand { Id = id }, ct); // koristi sender
     }
+
+    [HttpPost("{id}/rate")]
+    public async Task<IActionResult> RateMovie(int id, [FromBody] RateMovieDto dto)
+    {
+        var userId = 1; // 🔴 kasnije iz JWT-a
+
+        await sender.Send(new RateMovieCommand(id, userId, dto.Value));
+
+        var result = await sender.Send(
+            new GetMovieRatingQuery(id, userId)
+        );
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("{id}/rating")]
+    public async Task<IActionResult> GetRating(int id, CancellationToken ct)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await sender.Send(
+            new GetMovieRatingQuery(id, userId),
+            ct
+        );
+
+        return Ok(result);
+    }
+
 }

@@ -14,6 +14,7 @@ import {RouterModule} from '@angular/router';
 
 
 
+
 @NgModule({
   declarations: [
     FitPaginatorBarComponent,
@@ -21,7 +22,7 @@ import {RouterModule} from '@angular/router';
     FitLoadingBarComponent,
     FitTableSkeletonComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     CommonModule,

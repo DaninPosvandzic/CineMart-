@@ -17,5 +17,15 @@ export class MovieService {
   deleteMovie(id: number) {
   return this.http.delete(`${this.apiUrl}/${id}`);
 }
+getRating(movieId: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/${movieId}/rating`);
+}
+
+submitRating(movieId: number, rating: number): Observable<any> {
+  return this.http.post<any>(
+    `${this.apiUrl}/${movieId}/rating`,
+    { rating }
+  );
+}
 }
 
