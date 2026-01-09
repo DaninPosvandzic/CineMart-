@@ -1,15 +1,29 @@
 <section class="top-rated-section">
-  <h2>Top Rated Movies</h2>
+  <div class="header">
+    <h2>
+      <span class="icon">🏆</span>
+      Top Rated Movies
+    </h2>
+    <div class="header-decoration"></div>
+  </div>
 
   <ul class="movie-list">
-    <li *ngFor="let film of topRatedMovies; let i = index" class="movie-item">
-      <div class="left">
-        <span class="rank">{{ i + 1 }}.</span>
-        <span class="title">{{ film.title }}</span>
+    <li *ngFor="let film of topRatedMovies; let i = index"
+        class="movie-item"
+        [class.top-three]="i < 3">
+
+      <div class="rank-badge" [class.gold]="i === 0" [class.silver]="i === 1" [class.bronze]="i === 2">
+        <span class="rank-number">{{ i + 1 }}</span>
       </div>
 
-      <div class="rating">
-        ★ {{ film.averageRating | number:'1.2-2' }}
+      <div class="movie-content">
+        <span class="title">{{ film.title }}</span>
+        <span class="genre">{{ film.genreName }}</span>
+      </div>
+
+      <div class="rating-badge">
+        <span class="star">★</span>
+        <span class="rating-value">{{ film.averageRating | number:'1.1-2' }}</span>
       </div>
     </li>
   </ul>

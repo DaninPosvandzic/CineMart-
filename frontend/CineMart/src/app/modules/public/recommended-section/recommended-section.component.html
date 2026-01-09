@@ -1,15 +1,53 @@
 <div class="recommended-section">
-  <h2>Recommended Movies</h2>
+  <div class="section-header">
+    <h2>
+      <span class="icon">🎬</span>
+      Recommended Movies
+    </h2>
+    <p class="subtitle">Handpicked just for you</p>
+    <div class="header-decoration"></div>
+  </div>
+
   <div class="films">
-    <div *ngFor="let film of films" class="film-card"  (click)="openMovie(film.id)">
+    <div *ngFor="let film of films" class="film-card" (click)="openMovie(film.id)">
       <div class="image-wrapper">
-        <img [src]="film.pictureUrl || 'assets/default.jpg'" alt="{{ film.title }}">
-        <div class="overlay-hover">
-          <h3>{{ film.title }}</h3>
-          <p>Genre: {{ film.genreName }}</p>
-          <p>Rating: {{ film.averageRating | number:'1.1-2' }}</p>
-          <span class="price">Price: {{ film.purchasePrice }} EUR</span>
+        <img [src]="film.pictureUrl || 'assets/default.jpg'"
+             [alt]="film.title"
+             loading="lazy">
+
+        <div class="image-gradient"></div>
+
+        <!-- Rating Badge - Always Visible -->
+        <div class="rating-badge">
+          <span class="star">⭐</span>
+          <span class="rating-value">{{ film.averageRating | number:'1.1-2' }}</span>
         </div>
+
+        <!-- Hover Overlay -->
+        <div class="overlay-hover">
+          <div class="content-wrapper">
+            <h3>{{ film.title }}</h3>
+            <div class="divider"></div>
+
+            <div class="info-row">
+              <span class="info-icon">🎭</span>
+              <p class="info-text">{{ film.genreName }}</p>
+            </div>
+
+            <div class="price-display">
+              <span class="price-label">Price</span>
+              <span class="price-value">{{ film.purchasePrice }} EUR</span>
+            </div>
+
+            <button class="view-btn">View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Bar - Always Visible -->
+      <div class="info-bar">
+        <h4 class="title">{{ film.title }}</h4>
+        <p class="genre">{{ film.genreName }}</p>
       </div>
     </div>
   </div>

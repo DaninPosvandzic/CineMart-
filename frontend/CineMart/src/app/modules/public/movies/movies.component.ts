@@ -13,7 +13,7 @@ export class MoviesComponent implements OnInit {
   films: any[] = [];
 
   pageNumber: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 8;
   totalCount: number = 0;
   totalPages: number = 1;
 
