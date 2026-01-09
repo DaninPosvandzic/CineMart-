@@ -7,13 +7,21 @@ import {
   LoginCommandDto,
   RefreshTokenCommand,
   RefreshTokenCommandDto,
-  LogoutCommand
+  LogoutCommand,
+  RegisterCommand,
+  RegisterCommandDto,
 } from './auth-api.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthApiService {
+  register(payload: RegisterCommand): Observable<RegisterCommandDto> {
+  return this.http.post<RegisterCommandDto>(
+    `${this.baseUrl}/register`,
+    payload
+  );
+  }
   private readonly baseUrl = `${environment.apiUrl}/Auth`;
   private http = inject(HttpClient);
 
