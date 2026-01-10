@@ -1,6 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideAnimations} from '@angular/platform-browser/animations';
 import {HttpClient,HttpClientModule, provideHttpClient, withInterceptors} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
@@ -15,6 +14,7 @@ import {SharedModule} from './modules/shared/shared-module';
 import { MyMoviesComponent } from './pages/my-movies/my-movies.component';
 import { CommonModule } from '@angular/common';
 import { ClientModule } from './modules/client/client-module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -35,9 +35,9 @@ import { ClientModule } from './modules/client/client-module';
     }),
     SharedModule,
     materialModules,
+    BrowserAnimationsModule,
   ],
   providers: [
-    provideAnimations(),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection(),
     provideHttpClient(

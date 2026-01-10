@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilmService } from '../../../api-services/filmManagement/film-api.service';
+import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 
 @Component({
   selector: 'app-movie-page',
@@ -11,16 +12,25 @@ import { FilmService } from '../../../api-services/filmManagement/film-api.servi
 export class MoviePageComponent implements OnInit {
 
   film: any;
-  stars = [1, 2, 3, 4, 5];
 
+  // rating
+  stars = [1, 2, 3, 4, 5];
   userRating = 0;
   averageRating = 0;
   votes = 0;
   hasRated = false;
 
+  // modals
+  showDeleteModal = false;
+  showEditModal = false;
+
+  editFilm: any = null;
+
   constructor(
     private route: ActivatedRoute,
-    private filmService: FilmService
+    private filmService: FilmService,
+    private auth: AuthFacadeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +44,8 @@ export class MoviePageComponent implements OnInit {
     this.loadRating(id);
   }
 
-  loadRating(movieId: number) {
+  // ===== Rating =====
+  loadRating(movieId: number): void {
     this.filmService.getRating(movieId).subscribe(res => {
       this.userRating = res.userRating || 0;
       this.averageRating = res.average;
@@ -43,25 +54,66 @@ export class MoviePageComponent implements OnInit {
     });
   }
 
- rateMovie(star: number) {
-  if (!this.film?.id) return;
+  onStarClick(star: number): void {
+    if (this.hasRated || !this.film) return;
 
-  this.filmService.rateMovie(this.film.id, star).subscribe({
-    next: (res) => {
-      this.userRating = res.userRating;     
-      this.averageRating = res.average;     
-      this.votes = res.votes;               
+    this.filmService.rateMovie(this.film.id, star).subscribe(res => {
+      this.userRating = res.userRating;
+      this.averageRating = res.average;
+      this.votes = res.votes;
       this.hasRated = true;
+    });
+  }
+
+  // ===== Edit =====
+  openEditModal(): void {
+    this.editFilm = { ...this.film }; // clone
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+  }
+
+  submitEdit(): void {
+  console.log('SUBMIT CLICKED', this.editFilm);
+
+  if (!this.editFilm) return;
+
+  this.filmService.updateMovie(this.editFilm.id, this.editFilm).subscribe({
+    next: () => {
+      console.log('UPDATE SUCCESS');
+      this.film = { ...this.editFilm };
+      this.showEditModal = false;
     },
-    error: (err) => {
-      console.error('Greška pri ocjenjivanju:', err);
+    error: err => {
+      console.error('UPDATE FAILED', err);
     }
   });
 }
 
-onStarClick(star: number) {
-  if (this.hasRated) return;
-  this.rateMovie(star);
-}
-}
 
+  // ===== Delete =====
+  cancelDelete(): void {
+    this.showDeleteModal = false;
+  }
+
+  confirmDelete(): void {
+    if (!this.film) return;
+
+    this.filmService.deleteMovie(this.film.id).subscribe({
+      next: () => {
+        this.showDeleteModal = false;
+        this.router.navigate(['/movies']);
+      },
+      error: err => {
+        this.showDeleteModal = false;
+        console.error('Delete failed', err);
+      }
+    });
+  }
+
+  isAdmin(): boolean {
+    return this.auth.isAdmin();
+  }
+}

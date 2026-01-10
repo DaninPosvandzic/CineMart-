@@ -1,0 +1,22 @@
+<div class="edit-movie-wrapper" *ngIf="film">
+  <h2>Edit Movie: {{ film.title }}</h2>
+
+  <form (ngSubmit)="submitForm()" #editForm="ngForm">
+    <label>Title</label>
+    <input type="text" [(ngModel)]="film.title" name="title" required />
+
+    <label>Description</label>
+    <textarea [(ngModel)]="film.description" name="description"></textarea>
+
+    <label>Rent Price</label>
+    <input type="number" [(ngModel)]="film.rentPrice" name="rentPrice" required />
+
+    <label>Purchase Price</label>
+    <input type="number" [(ngModel)]="film.purchasePrice" name="purchasePrice" required />
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="button" class="btn btn-outline" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </form>
+</div>

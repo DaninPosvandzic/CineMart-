@@ -17,13 +17,12 @@
         <div class="stat-item rating">
           <span class="star">★</span>
           <strong>{{ averageRating | number:'1.1-1' }}</strong>
-
         </div>
-          <div class="stat-item views">
-             <span class="label">Views:</span>
-            <strong>{{ film.viewCount }}</strong>
-          </div>
+        <div class="stat-item views">
+          <span class="label">Views:</span>
+          <strong>{{ film.viewCount }}</strong>
         </div>
+      </div>
 
       <p class="description">
         {{ film.description || 'No description available for this movie.' }}
@@ -43,10 +42,27 @@
       <div class="action-buttons">
         <button class="btn btn-primary">Purchase Now</button>
         <button class="btn btn-outline">Watch Trailer</button>
+
+        <!-- ADMIN ONLY -->
+          <button
+            *ngIf="isAdmin()"
+            class="btn btn-outline"
+            (click)="openEditModal()">
+            Edit Movie
+          </button>
+
+
+        <button
+            *ngIf="isAdmin()"
+            class="btn btn-danger"
+            (click)="showDeleteModal = true">
+            Delete Movie
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- Reviews Section -->
   <div class="reviews-section">
     <h3>Community Reviews</h3>
 
@@ -62,13 +78,11 @@
             (click)="onStarClick(star)">
             ★
           </span>
-
         </div>
 
-          <p class="rated-msg" *ngIf="hasRated">
-             You already rated this movie ⭐
-          </p>
-
+        <p class="rated-msg" *ngIf="hasRated">
+          You already rated this movie ⭐
+        </p>
 
         <button class="btn btn-small">Post Review</button>
       </div>
@@ -81,4 +95,74 @@
       </div>
     </div>
   </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-backdrop" *ngIf="showDeleteModal">
+    <div class="modal-card">
+      <h2>Confirm Deletion</h2>
+      <p>Are you sure you want to delete "<strong>{{ film?.title }}</strong>"?</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="cancelDelete()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+  <!-- EDIT MOVIE MODAL -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal-card large">
+    <h2>Edit Movie</h2>
+
+    <form (ngSubmit)="submitEdit()" #editForm="ngForm">
+
+      <div class="form-group">
+        <label>Title</label>
+        <input
+          type="text"
+          name="title"
+          [(ngModel)]="editFilm.title"
+          required />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          name="description"
+          [(ngModel)]="editFilm.description">
+        </textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Rent Price</label>
+          <input
+            type="number"
+            name="rentPrice"
+            [(ngModel)]="editFilm.rentPrice"
+            required />
+        </div>
+
+        <div class="form-group">
+          <label>Purchase Price</label>
+          <input
+            type="number"
+            name="purchasePrice"
+            [(ngModel)]="editFilm.purchasePrice"
+            required />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" (click)="closeEditModal()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
 </div>

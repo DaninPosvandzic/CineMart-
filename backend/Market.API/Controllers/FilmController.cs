@@ -3,7 +3,9 @@ using CineMart.Application.Modules.FilmManagement.Movies.Command.Delete;
 using CineMart.Application.Modules.FilmManagement.Queries.GetById;
 using CineMart.Application.Modules.FilmManagement.Queries.List;
 using CineMart.Application.Modules.FilmMenagement.Movies.Command.RateMovie;
+using CineMart.Application.Modules.FilmMenagement.Movies.Command.Update;
 using CineMart.Application.Modules.FilmMenagement.Movies.Queries.GetMovieRating;
+using MediatR;
 using System.Security.Claims;
 
 [ApiController]
@@ -47,13 +49,16 @@ public class FilmController(ISender sender) : ControllerBase
         return Ok(filmId);
     }
 
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id, CancellationToken ct)
+    public async Task<IActionResult> DeleteMovie(int id)
     {
-        await sender.Send(new DeleteFilmCommand { Id = id }, ct); // koristi sender
+        await sender.Send(new DeleteFilmCommand { Id = id });
+        return NoContent();
     }
 
+
+    [Authorize]
     [HttpPost("{id}/rate")]
     public async Task<IActionResult> RateMovie(int id, [FromBody] RateMovieDto dto)
     {
@@ -81,5 +86,25 @@ public class FilmController(ISender sender) : ControllerBase
 
         return Ok(result);
     }
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateMovie(int id, [FromBody] UpdateFilmDto dto)
+    {
+        // Uzimamo role iz JWT claims
+        var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "User";
+
+        var command = new UpdateFilmCommand
+        {
+            Id = id,
+            Title = dto.Title,
+            Description = dto.Description,
+            RentPrice = dto.RentPrice,
+            PurchasePrice = dto.PurchasePrice,
+            Role = role
+        };
+
+        await sender.Send(command);
+        return NoContent();
+    }
+
 
 }

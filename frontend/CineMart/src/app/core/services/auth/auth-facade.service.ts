@@ -106,22 +106,27 @@ export class AuthFacadeService {
   }
 
   private decodeAndSetUser(token: string): void {
-    try {
-      const payload = jwtDecode<JwtPayloadDto>(token);
+  try {
+    const payload: any = jwtDecode(token);
 
-      const user: CurrentUserDto = {
-        userId: Number(payload.sub),
-        email: payload.email,
-        role: payload.role ?? 'User',
-        tokenVersion: Number(payload.ver),
-      };
+    const role =
+      payload.role ||
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-      this._currentUser.set(user);
-    } catch (error) {
-      console.error('Failed to decode JWT token:', error);
-      this._currentUser.set(null);
-    }
+    const user: CurrentUserDto = {
+      userId: Number(payload.sub),
+      email: payload.email,
+      role: role ?? 'User',
+      tokenVersion: Number(payload.ver),
+    };
+
+    this._currentUser.set(user);
+  } catch (error) {
+    console.error('Failed to decode JWT token:', error);
+    this._currentUser.set(null);
   }
+}
+
 
   private clearUserState(): void {
     this._currentUser.set(null);

@@ -11,7 +11,7 @@ import { FitTableSkeletonComponent } from './components/fit-table-skeleton/fit-t
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {RouterModule} from '@angular/router';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -30,7 +30,8 @@ import {RouterModule} from '@angular/router';
     FormsModule,
     TranslatePipe,
     RouterModule,
-    ...materialModules
+    ...materialModules,
+    MatSnackBarModule
   ],
   providers: [
     DialogHelperService
@@ -46,7 +47,8 @@ import {RouterModule} from '@angular/router';
     FitTableSkeletonComponent,
     NavbarComponent,
     FooterComponent,
-    materialModules
+    materialModules,
+    MatSnackBarModule
   ]
 })
 export class SharedModule { }
