@@ -12,13 +12,15 @@ namespace CineMart.Application.Modules.FilmManagement.Movies.Command.Delete
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteFilmCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(
+            DeleteFilmCommand request,
+            CancellationToken cancellationToken)
         {
             var film = await _context.Films
                 .FirstOrDefaultAsync(f => f.Id == request.Id, cancellationToken);
 
-            if (film is null)
-                throw new KeyNotFoundException($"Film sa ID {request.Id} nije pronađen.");
+            if (film == null)
+                throw new KeyNotFoundException("Film not found");
 
             _context.Films.Remove(film);
             await _context.SaveChangesAsync(cancellationToken);

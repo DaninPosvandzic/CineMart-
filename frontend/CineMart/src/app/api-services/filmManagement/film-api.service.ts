@@ -67,6 +67,15 @@ export class FilmService {
   deleteMovie(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`, this.getAuthHeaders());  // ✅ Ispravljeno
   }
+  updateMovie(id: number, payload: any): Observable<void> {
+  return this.http.put<void>(
+    `${this.baseUrl}/${id}`,
+    payload,
+    this.getAuthHeaders()
+  );
+}
+
+
   getRating(movieId: number) {
   return this.http.get<any>(`${this.baseUrl}/${movieId}/rating`, this.getAuthHeaders());
 }

@@ -6,6 +6,7 @@ import { MyMoviesComponent } from '../../pages/my-movies/my-movies.component';
 import {AddMovieComponent} from './add-movie/add-movie.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 
+
 const routes: Routes = [
   {
     path: 'movie/:id',
@@ -26,7 +27,8 @@ const routes: Routes = [
   {
     path: 'profile',
     component: UserProfileComponent,
-  }
+  },
+  
 ];
 
 @NgModule({
