@@ -62,39 +62,62 @@
     </div>
   </div>
 
-  <!-- Reviews Section -->
-  <div class="reviews-section">
-    <h3>Community Reviews</h3>
+ <!-- Reviews Section -->
+<div class="reviews-section">
+  <h3>Community Reviews</h3>
 
-    <div class="add-review">
-      <textarea placeholder="Write your review..."></textarea>
-      <div class="review-footer">
-        <div class="star-rating-input">
-          <span
-            *ngFor="let star of stars"
-            class="star"
-            [class.filled]="star <= userRating"
-            [class.disabled]="hasRated"
-            (click)="onStarClick(star)">
-            ★
-          </span>
-        </div>
+  <div class="add-review">
+    <textarea
+      [(ngModel)]="comment"
+      placeholder="Write your review..."
+      [disabled]="hasRated">
+    </textarea>
 
-        <p class="rated-msg" *ngIf="hasRated">
-          You already rated this movie ⭐
-        </p>
-
-        <button class="btn btn-small">Post Review</button>
+    <div class="review-footer">
+      <div class="star-rating-input">
+        <span
+          *ngFor="let star of stars"
+          class="star"
+          [class.filled]="star <= userRating"
+          [class.disabled]="hasRated"
+          (click)="onStarClick(star)">
+          ★
+        </span>
       </div>
-    </div>
 
-    <div class="review-list">
-      <div class="review-item">
-        <div class="user-info"><strong>User123</strong> • <small>2 days ago</small></div>
-        <p>Amazing cinematography! A must watch for every fan of the genre.</p>
-      </div>
+      <p class="rated-msg" *ngIf="hasRated">
+        You already rated this movie ⭐
+      </p>
+
+      <button
+        class="btn btn-small"
+        (click)="submitRating()"
+        [disabled]="hasRated || userRating === 0">
+        Post Review
+      </button>
     </div>
   </div>
+
+  <!-- kasnije ide lista komentara -->
+  <!-- Comments List -->
+<div class="comments-list" *ngIf="film.comments?.length > 0">
+  <div class="comment-item" *ngFor="let c of film.comments">
+    <p><strong>{{ c.user }}</strong> 
+      <span class="comment-rating">⭐ {{ c.rating }}</span>
+      <span class="comment-date">{{ c.date | date:'short' }}</span>
+    </p>
+  <p>{{ c.text }}</p>
+</div>
+
+</div>
+
+<p *ngIf="!film.comments || film.comments.length === 0">
+  No reviews yet. Be the first to write one!
+</p>
+
+
+</div>
+
 
   <!-- DELETE CONFIRM MODAL -->
   <div class="modal-backdrop" *ngIf="showDeleteModal">

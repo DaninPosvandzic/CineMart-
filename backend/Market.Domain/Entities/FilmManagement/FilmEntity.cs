@@ -1,5 +1,6 @@
 ﻿using CineMart.Domain.Common;
 using CineMart.Domain.Entities.Identity;
+using CineMart.Domain.Entities.UserInteraction;
 
 namespace CineMart.Domain.Entities.FilmManagement;
 public class FilmEntity : BaseEntity
@@ -31,5 +32,6 @@ public class FilmEntity : BaseEntity
         public const int NameMaxLength = 150;
         public const int DescriptionMaxLength = 1000;
     }
+    public ICollection<RatingEntity> Ratings { get; set; } = new List<RatingEntity>();
 }
 
