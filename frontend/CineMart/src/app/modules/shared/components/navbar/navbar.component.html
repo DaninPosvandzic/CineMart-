@@ -39,6 +39,13 @@
         <span class="btn-text">Login</span>
       </button>
 
+      <button
+        *ngIf="!isAuthenticated()"
+        routerLink="/auth/register"
+        class="btn btn-register">
+        <span class="btn-icon">📝</span>
+        <span class="btn-text">Register</span>
+        </button>
       <!-- Authenticated - User -->
       <button
         *ngIf="isAuthenticated() && isUser()"
@@ -106,6 +113,7 @@
           <span class="link-text">Login</span>
         </a>
       </li>
+      
 
       <li *ngIf="isAuthenticated() && isUser()">
         <a routerLink="/my-movies" (click)="toggleMobileMenu()" class="mobile-action">

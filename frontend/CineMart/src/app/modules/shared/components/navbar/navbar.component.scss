@@ -158,7 +158,16 @@
       border-color: rgba(255, 255, 255, 0.3);
     }
   }
+  .btn-register {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+  }
   .btn-primary {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: #fff;

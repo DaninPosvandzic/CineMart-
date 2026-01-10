@@ -58,3 +58,10 @@ export interface LogoutCommand {
   refreshToken: string;
   fingerprint: string;
 }
+// REQUEST
+export interface RegisterCommand {
+  fullName: string;
+  email: string;
+  password: string;
+}
+export interface RegisterCommandDto {}
