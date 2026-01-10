@@ -16,11 +16,13 @@ import {
   providedIn: 'root'
 })
 export class AuthApiService {
-  register(payload: RegisterCommand): Observable<RegisterCommandDto> {
-  return this.http.post<RegisterCommandDto>(
-    `${this.baseUrl}/register`,
-    payload
-  );
+ register(payload: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/register`, payload);
   }
   private readonly baseUrl = `${environment.apiUrl}/Auth`;
   private http = inject(HttpClient);

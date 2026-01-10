@@ -60,7 +60,8 @@ export interface LogoutCommand {
 }
 // REQUEST
 export interface RegisterCommand {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }

@@ -21,10 +21,8 @@ import { JwtPayloadDto } from './jwt-payload.dto';
 @Injectable({ providedIn: 'root' })
 export class AuthFacadeService {
  
-register(payload: RegisterCommand): Observable<void> {
-  return this.api.register(payload).pipe(
-    map(() => void 0)
-  );
+register(payload: { firstName: string; lastName: string; email: string; password: string }): Observable<any> {
+  return this.api.register(payload);
 }
   private api = inject(AuthApiService);
   private storage = inject(AuthStorageService);

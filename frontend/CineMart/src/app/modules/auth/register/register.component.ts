@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core'; 
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseComponent } from '../../../core/components/base-classes/base-component';
@@ -22,7 +22,8 @@ export class RegisterComponent extends BaseComponent {
 
   form = this.fb.group(
     {
-      fullName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
@@ -42,7 +43,8 @@ export class RegisterComponent extends BaseComponent {
     this.startLoading();
 
     const payload = {
-      fullName: this.form.value.fullName!,
+      firstName: this.form.value.firstName!,
+      lastName: this.form.value.lastName!,
       email: this.form.value.email!,
       password: this.form.value.password!,
     };

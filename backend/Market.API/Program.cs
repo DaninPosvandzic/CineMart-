@@ -54,8 +54,9 @@ public partial class Program
             });
 
             // Program.cs
-            
 
+            builder.Services.AddMediatR(cfg =>
+             cfg.RegisterServicesFromAssembly(typeof(RegisterCommandHandler).Assembly));
 
             // ---------------------------------------------------------
             // 3. Layer registrations

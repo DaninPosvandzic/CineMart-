@@ -32,18 +32,31 @@
     <!-- Register Form -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
 
-      <!-- Full Name -->
-      <div class="form-group">
-        <label class="form-label">Full Name</label>
-        <mat-form-field appearance="outline" class="form-field">
-          <input matInput formControlName="fullName" placeholder="Your full name" />
-          <mat-icon matPrefix class="field-icon">person_outline</mat-icon>
+     <!-- First Name -->
+<div class="form-group">
+  <label class="form-label">First Name</label>
+  <mat-form-field appearance="outline" class="form-field">
+    <input matInput formControlName="firstName" placeholder="Your first name" />
+    <mat-icon matPrefix class="field-icon">person_outline</mat-icon>
 
-          <mat-error *ngIf="form.get('fullName')?.hasError('required')">
-            Full name is required
-          </mat-error>
-        </mat-form-field>
-      </div>
+    <mat-error *ngIf="form.get('firstName')?.hasError('required')">
+      First name is required
+    </mat-error>
+  </mat-form-field>
+</div>
+
+<!-- Last Name -->
+<div class="form-group">
+  <label class="form-label">Last Name</label>
+  <mat-form-field appearance="outline" class="form-field">
+    <input matInput formControlName="lastName" placeholder="Your last name" />
+    <mat-icon matPrefix class="field-icon">person_outline</mat-icon>
+
+    <mat-error *ngIf="form.get('lastName')?.hasError('required')">
+      Last name is required
+    </mat-error>
+  </mat-form-field>
+</div>
 
       <!-- Email -->
       <div class="form-group">

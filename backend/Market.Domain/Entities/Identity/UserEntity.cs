@@ -9,6 +9,7 @@ namespace CineMart.Domain.Entities.Identity;
 
 public  class UserEntity : BaseEntity
 {
+  
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
@@ -22,7 +23,7 @@ public  class UserEntity : BaseEntity
     public bool IsEnabled { get; set; }
     public int TokenVersion { get; set; } = 0;
     public ICollection<RefreshTokenEntity> RefreshTokens { get; private set; } = new List<RefreshTokenEntity>();
-
+  
 }
 
 
