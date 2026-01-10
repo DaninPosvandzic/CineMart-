@@ -337,6 +337,25 @@ $text-muted: #b0b0b0;
     gap: 12px;
   }
 }
+.comments-list {
+  margin-top: 20px;
+  .comment-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+
+    .comment-rating {
+      margin-left: 10px;
+      color: gold;
+    }
+
+    .comment-date {
+      margin-left: 10px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+  }
+}
+
 
 
 

@@ -19,38 +19,53 @@ namespace CineMart.Application.Modules.FilmMenagement.Movies.Command.RateMovie
 
         public async Task<Unit> Handle(RateMovieCommand request, CancellationToken cancellationToken)
         {
-            var exists = await _context.Ratings
-                .AnyAsync(r =>
-                    r.FilmId == request.MovieId &&
-                    r.UserId == request.UserId,
-                    cancellationToken);
+            var rating = await _context.Ratings.FirstOrDefaultAsync(
+                r => r.FilmId == request.MovieId && r.UserId == request.UserId,
+                cancellationToken);
 
-            if (exists)
-                throw new ValidationException("Movie already rated by this user");
-
-            _context.Ratings.Add(new RatingEntity
+            if (rating == null)
             {
-                FilmId = request.MovieId,
-                UserId = request.UserId,
-                RatingValue = request.Value
-            });
+                rating = new RatingEntity
+                {
+                    FilmId = request.MovieId,
+                    UserId = request.UserId,
+                    RatingValue = request.Value,
+                    Comment = request.Comment,
+                    DateAdded = DateTime.UtcNow
+                };
+
+                _context.Ratings.Add(rating);
+            }
+            else
+            {
+                rating.RatingValue = request.Value;
+
+                if (!string.IsNullOrWhiteSpace(request.Comment))
+                {
+                    rating.Comment = request.Comment;
+                    rating.IsEdited = true;
+                    rating.ModifiedAtUtc = DateTime.UtcNow;
+                }
+            }
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            // Update prosjeka
+            // Update average rating
             var avg = await _context.Ratings
-                .Where(r => r.FilmId == request.MovieId)
+                .Where(r => r.FilmId == request.MovieId && !r.IsDeleted)
                 .AverageAsync(r => r.RatingValue, cancellationToken);
 
             var movie = await _context.Films
                 .FirstAsync(f => f.Id == request.MovieId, cancellationToken);
 
             movie.AverageRating = avg;
+            movie.ModifiedAtUtc = DateTime.UtcNow;
 
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }
+
 
     }
 

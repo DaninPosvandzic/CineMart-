@@ -13,14 +13,15 @@ export class MoviePageComponent implements OnInit {
 
   film: any;
 
-  // rating
+  // ===== Rating =====
   stars = [1, 2, 3, 4, 5];
   userRating = 0;
   averageRating = 0;
   votes = 0;
   hasRated = false;
+  comment = '';
 
-  // modals
+  // ===== Modals =====
   showDeleteModal = false;
   showEditModal = false;
 
@@ -39,6 +40,7 @@ export class MoviePageComponent implements OnInit {
     this.filmService.getFilmById(id).subscribe(res => {
       this.film = res;
       this.averageRating = res.averageRating;
+      console.log(this.film.comments);
     });
 
     this.loadRating(id);
@@ -55,19 +57,34 @@ export class MoviePageComponent implements OnInit {
   }
 
   onStarClick(star: number): void {
-    if (this.hasRated || !this.film) return;
-
-    this.filmService.rateMovie(this.film.id, star).subscribe(res => {
-      this.userRating = res.userRating;
-      this.averageRating = res.average;
-      this.votes = res.votes;
-      this.hasRated = true;
-    });
+    if (this.hasRated) return;
+    this.userRating = star;
   }
+
+ submitRating(): void {
+  if (!this.film || this.hasRated || this.userRating === 0 || !this.comment.trim()) return;
+
+  this.filmService
+    .rateMovie(this.film.id, this.userRating, this.comment)
+    .subscribe({
+      next: (updatedFilm) => {
+        this.film = updatedFilm;
+        this.averageRating = updatedFilm.averageRating ?? 0;
+        this.hasRated = true;
+        this.userRating = 0;
+        this.comment = '';
+      },
+      error: (err) => console.error('Rating failed', err)
+    });
+}
+
+
+
+
 
   // ===== Edit =====
   openEditModal(): void {
-    this.editFilm = { ...this.film }; // clone
+    this.editFilm = { ...this.film };
     this.showEditModal = true;
   }
 
@@ -76,22 +93,18 @@ export class MoviePageComponent implements OnInit {
   }
 
   submitEdit(): void {
-  console.log('SUBMIT CLICKED', this.editFilm);
+    if (!this.editFilm) return;
 
-  if (!this.editFilm) return;
-
-  this.filmService.updateMovie(this.editFilm.id, this.editFilm).subscribe({
-    next: () => {
-      console.log('UPDATE SUCCESS');
-      this.film = { ...this.editFilm };
-      this.showEditModal = false;
-    },
-    error: err => {
-      console.error('UPDATE FAILED', err);
-    }
-  });
-}
-
+    this.filmService.updateMovie(this.editFilm.id, this.editFilm).subscribe({
+      next: () => {
+        this.film = { ...this.editFilm };
+        this.showEditModal = false;
+      },
+      error: err => {
+        console.error('UPDATE FAILED', err);
+      }
+    });
+  }
 
   // ===== Delete =====
   cancelDelete(): void {

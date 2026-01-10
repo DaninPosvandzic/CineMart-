@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMart.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20260105165351_init")]
+    [Migration("20260110212019_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -1282,7 +1282,7 @@ namespace CineMart.Infrastructure.Migrations
             modelBuilder.Entity("CineMart.Domain.Entities.UserInteraction.RatingEntity", b =>
                 {
                     b.HasOne("CineMart.Domain.Entities.FilmManagement.FilmEntity", "Film")
-                        .WithMany()
+                        .WithMany("Ratings")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1301,6 +1301,11 @@ namespace CineMart.Infrastructure.Migrations
             modelBuilder.Entity("CineMart.Domain.Entities.Catalog.ProductCategoryEntity", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("CineMart.Domain.Entities.FilmManagement.FilmEntity", b =>
+                {
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("CineMart.Domain.Entities.Identity.RollEntity", b =>
