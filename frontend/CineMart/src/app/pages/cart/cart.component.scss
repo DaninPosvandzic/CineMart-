@@ -1,0 +1,141 @@
+.cart-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 96px 16px 40px; 
+}
+
+
+.cart-header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #888;
+  }
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 60px 20px;
+
+  .icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #777;
+    margin-bottom: 20px;
+  }
+
+  .back-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #673ab7;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e1e1e;
+  padding: 16px;
+  border-radius: 10px;
+
+  h3 {
+    margin: 0 0 4px 0;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #2196f3;
+    color: white;
+
+    &.rent {
+      background: #ff9800;
+    }
+  }
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .price {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+  }
+}
+
+.cart-summary {
+  margin-top: 30px;
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    margin-bottom: 20px;
+
+    .total-price {
+      font-weight: bold;
+    }
+  }
+
+  .summary-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .clear-btn {
+      background: #333;
+      color: white;
+    }
+
+    .checkout-btn {
+      background: #4caf50;
+      color: white;
+    }
+  }
+}

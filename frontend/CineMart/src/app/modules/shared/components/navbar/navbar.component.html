@@ -64,6 +64,19 @@
         <span class="btn-text">Add Movie</span>
       </button>
 
+      <!-- CART -->
+        <!-- CART -->
+         <div class="cart-icon" (click)="goToCart()">
+              <mat-icon>shopping_cart</mat-icon>
+
+                  <span class="cart-badge" *ngIf="(cartCount$ | async) as count">
+                      {{ count }}
+                   </span>
+          </div>
+
+
+
+
       <!-- Logout -->
       <button
         *ngIf="isAuthenticated()"

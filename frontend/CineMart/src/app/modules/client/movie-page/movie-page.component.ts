@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilmService } from '../../../api-services/filmManagement/film-api.service';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 
+
 @Component({
   selector: 'app-movie-page',
   standalone: false,
