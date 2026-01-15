@@ -24,7 +24,7 @@ public class ProductEntity : BaseEntity
     public decimal AverageRating { get; set; } = 0;
 
     public bool OnSale { get; set; } = false;
-
+    public int UserId { get; set; }
 
     public static class Constraints
     {

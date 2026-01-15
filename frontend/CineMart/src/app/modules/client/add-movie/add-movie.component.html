@@ -15,7 +15,7 @@
           [(ngModel)]="movie.title"
           required
           minlength="1"
-          placeholder="Enter movie title..."
+          placeholder="Enter movie name..."
           #titleInput="ngModel">
         <div class="error-message" *ngIf="titleInput.invalid && titleInput.touched">
           Title is required
