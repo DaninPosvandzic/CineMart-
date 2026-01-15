@@ -1,0 +1,63 @@
+<div class="cart-container">
+
+  <!-- HEADER -->
+  <div class="cart-header">
+    <h1>🛒 Your Cart</h1>
+    <p *ngIf="items.length > 0">
+      You have {{ items.length }} item(s) in your cart
+    </p>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-cart" *ngIf="items.length === 0">
+    <div class="icon">🎬</div>
+    <h2>Your cart is empty</h2>
+    <p>Add movies to buy or rent</p>
+
+    <a routerLink="/movies" class="back-btn">
+      Browse Movies
+    </a>
+  </div>
+
+  <!-- CART LIST -->
+  <div class="cart-list" *ngIf="items.length > 0">
+
+    <div class="cart-item" *ngFor="let item of items">
+      <div class="item-info">
+        <h3>{{ item.title }}</h3>
+        <span class="badge" [class.rent]="item.type === 'rent'">
+          {{ item.type | uppercase }}
+        </span>
+      </div>
+
+      <div class="item-actions">
+        <span class="price">
+          {{ item.price }} KM
+        </span>
+
+        <button class="remove-btn" (click)="remove(item)">
+          <i class="material-icons">delete</i>
+        </button>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Total</span>
+        <span class="total-price">{{ total }} KM</span>
+      </div>
+
+      <div class="summary-actions">
+        <button class="clear-btn" (click)="clearCart()">
+          Clear Cart
+        </button>
+
+        <button class="checkout-btn">
+          Checkout
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

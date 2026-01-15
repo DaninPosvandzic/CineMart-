@@ -1,7 +1,7 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFacadeService } from '../../../../core/services/auth/auth-facade.service';
-
+import { CartService } from '../../../../core/services/cart/cart.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -11,11 +11,14 @@ import { AuthFacadeService } from '../../../../core/services/auth/auth-facade.se
 export class NavbarComponent {
   private auth = inject(AuthFacadeService);
   private router = inject(Router);
+  private cartService = inject(CartService);
 
   // expose signals to template
   isAuthenticated = this.auth.isAuthenticated;
   isAdmin = this.auth.isAdmin;
   isUser = this.auth.isUser;
+
+   cartCount$ = this.cartService.cartCount$;
 
   // mobile menu
   mobileMenuActive = false;
@@ -47,6 +50,20 @@ export class NavbarComponent {
       this.router.navigate(['/']);
     });
   }
+goToCart() {
+  this.router.navigate(['/cart']).then(() => {
+    setTimeout(() => {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      window.scrollTo(0, 0);
+    }, 0);
+  });
+}
+
+
+
+
+
 
   // toast
   showToastMessage(message: string) {

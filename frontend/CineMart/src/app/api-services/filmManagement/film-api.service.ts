@@ -80,13 +80,14 @@ export class FilmService {
   return this.http.get<any>(`${this.baseUrl}/${movieId}/rating`, this.getAuthHeaders());
 }
 
-rateMovie(movieId: number, value: number) {
+rateMovie(movieId: number, value: number, comment?: string) {
   return this.http.post<any>(
     `${this.baseUrl}/${movieId}/rate`,
-    { value },
+    { value, comment },
     this.getAuthHeaders()
   );
 }
+
 
 
 }

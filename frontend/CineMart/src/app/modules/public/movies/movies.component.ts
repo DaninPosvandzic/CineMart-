@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FilmService} from '../../../api-services/filmManagement/film-api.service';
+import { CartService } from '../../../core/services/cart/cart.service';
 
 
 @Component({
@@ -21,7 +22,11 @@ export class MoviesComponent implements OnInit {
   selectedFilter = 'rating'; // sortBy
   sortAscending = true;
 
-  constructor(private filmService: FilmService) {}
+ constructor(
+  private filmService: FilmService,
+  private cartService: CartService
+) {}
+
 
   ngOnInit(): void {
     this.loadMovies();
@@ -42,6 +47,14 @@ export class MoviesComponent implements OnInit {
         this.totalPages = Math.ceil(this.totalCount / this.pageSize);
       });
   }
+addToCart(film: any, type: 'buy' | 'rent') {
+  this.cartService.addToCart({
+    movieId: film.id,
+    title: film.title,
+    price: type === 'buy' ? film.purchasePrice : film.rentPrice,
+    type
+  });
+}
 
   onSearch() {
     this.pageNumber = 1;

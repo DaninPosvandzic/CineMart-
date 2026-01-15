@@ -95,14 +95,22 @@
         </div>
 
         <div class="action-buttons">
-          <button class="action-btn buy-btn">
-            <i class="material-icons">shopping_cart</i>
-            <span>Buy</span>
+          <button
+              class="action-btn buy-btn"
+              (click)="addToCart(film, 'buy')"
+              >
+              <i class="material-icons">shopping_cart</i>
+              <span>Buy</span>
           </button>
-          <button class="action-btn rent-btn">
-            <i class="material-icons">access_time</i>
-            <span>Rent</span>
-          </button>
+
+            <button
+               class="action-btn rent-btn"
+              (click)="addToCart(film, 'rent')"
+              >
+              <i class="material-icons">access_time</i>
+              <span>Rent</span>
+            </button>
+
         </div>
       </div>
 

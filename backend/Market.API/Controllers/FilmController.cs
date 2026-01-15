@@ -57,21 +57,27 @@ public class FilmController(ISender sender) : ControllerBase
         return NoContent();
     }
 
-
     [Authorize]
     [HttpPost("{id}/rate")]
-    public async Task<IActionResult> RateMovie(int id, [FromBody] RateMovieDto dto)
+    public async Task<IActionResult> RateMovie(
+    int id,
+    [FromBody] RateMovieDto dto)
     {
-        var userId = 1; // 🔴 kasnije iz JWT-a
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        await sender.Send(new RateMovieCommand(id, userId, dto.Value));
+        await sender.Send(new RateMovieCommand(
+            id,
+            userId,
+            dto.Value,
+            dto.Comment
+        ));
 
-        var result = await sender.Send(
-            new GetMovieRatingQuery(id, userId)
-        );
+        // Dohvati film ponovo, uključujući komentare
+        var film = await sender.Send(new GetFilmByIdQuery { Id = id });
 
-        return Ok(result);
+        return Ok(film); // vrati film s komentarima
     }
+
 
     [Authorize]
     [HttpGet("{id}/rating")]

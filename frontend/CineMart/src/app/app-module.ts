@@ -15,10 +15,12 @@ import { MyMoviesComponent } from './pages/my-movies/my-movies.component';
 import { CommonModule } from '@angular/common';
 import { ClientModule } from './modules/client/client-module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CartComponent } from './pages/cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    CartComponent,
     
   ],
   imports: [
