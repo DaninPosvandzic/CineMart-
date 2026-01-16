@@ -16,12 +16,18 @@ import { CommonModule } from '@angular/common';
 import { ClientModule } from './modules/client/client-module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CartComponent } from './pages/cart/cart.component';
+import { AdminMoviesComponent } from './admin/admin-movies/admin-movies.component';
+import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminCategoriesComponent } from './admin/admin-categories/admin-categories.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CartComponent,
-    
+    AdminDashboardComponent,
+    AdminCategoriesComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,12 +6,11 @@ import { CartComponent } from './pages/cart/cart.component';
 
 const routes: Routes = [
   {
-    path: 'admin',
-    canActivate: [myAuthGuard],
-    data: myAuthData({ requireAuth: true, requireAdmin: true }),
-    loadChildren: () =>
-      import('./modules/admin/admin-module').then(m => m.AdminModule)
-  },
+  path: 'admin',
+  loadChildren: () =>
+    import('./modules/admin/admin-module').then(m => m.AdminModule)
+},
+
   {
     path: 'auth',
     loadChildren: () =>

@@ -411,6 +411,21 @@ $sidebar-width: 280px;
     }
   }
 }
+.admin-page,
+.admin-card {
+  color: #1f2937; // tamno siva
+}
+
+table {
+  color: #1f2937;
+}
+
+mat-header-cell,
+mat-cell {
+  color: #1f2937 !important;
+}
+
+
 
 // Responsive Design
 @media (max-width: 1024px) {
@@ -482,6 +497,7 @@ $sidebar-width: 280px;
 .sidenav {
   animation: slideIn 0.3s ease-out;
 }
+
 
 // Dark Mode Support (optional)
 @media (prefers-color-scheme: dark) {

@@ -1,0 +1,25 @@
+<h2>Manage Movies</h2>
+
+<div *ngIf="loading">Loading movies...</div>
+
+<table *ngIf="!loading && movies.length > 0" class="movies-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Year</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let movie of movies">
+      <td>{{ movie.id }}</td>
+      <td>{{ movie.title }}</td>
+      <td>{{ movie.releaseYear }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && movies.length === 0">
+  No movies found.
+</div>

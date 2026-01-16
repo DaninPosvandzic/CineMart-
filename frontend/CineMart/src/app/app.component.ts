@@ -1,6 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthFacadeService } from './core/services/auth/auth-facade.service';
+import { Route, Router } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +13,11 @@ export class AppComponent implements OnInit {
   protected readonly title = signal('rs1-frontend-2025-26');
   currentLang: string = 'bs';
 
-  constructor(private translate: TranslateService, private auth: AuthFacadeService) {
+  constructor(
+    private translate: TranslateService,
+    private auth: AuthFacadeService,
+    private router:Router
+    ) {
     console.log('AppComponent constructor - initializing TranslateService');
     this.auth.checkTokenAndLogout();
     // Inicijalizacija translate servisa
@@ -62,4 +68,7 @@ export class AppComponent implements OnInit {
       }
     });
   }
+  isAdminRoute(): boolean {
+  return this.router.url.startsWith('/admin');
+}
 }

@@ -55,23 +55,17 @@
     </div>
 
     <!-- NAVIGATION MENU -->
-    <mat-nav-list>
-      <!-- CATALOG SECTION -->
+        <mat-nav-list>
+
+      <!-- MOVIES SECTION -->
       <div class="nav-section-title">
-        {{ 'ADMIN_PANEL.MENU.CATALOG' | translate }}
+        Filmovi
       </div>
 
-      <a mat-list-item routerLink="/admin/product-categories" routerLinkActive="active">
-        <mat-icon matListItemIcon>category</mat-icon>
+      <a mat-list-item routerLink="/admin/movies" routerLinkActive="active">
+        <mat-icon matListItemIcon>movie</mat-icon>
         <span matListItemTitle>
-          {{ 'ADMIN_PANEL.MENU.CATEGORIES' | translate }}
-        </span>
-      </a>
-
-      <a mat-list-item routerLink="/admin/products" routerLinkActive="active">
-        <mat-icon matListItemIcon>inventory_2</mat-icon>
-        <span matListItemTitle>
-          {{ 'ADMIN_PANEL.MENU.PRODUCTS' | translate }}
+          Svi filmovi
         </span>
       </a>
 
@@ -79,13 +73,13 @@
 
       <!-- ORDERS SECTION -->
       <div class="nav-section-title">
-        {{ 'ADMIN_PANEL.MENU.ORDERS_SECTION' | translate }}
+        Narudžbe
       </div>
 
       <a mat-list-item routerLink="/admin/orders" routerLinkActive="active">
         <mat-icon matListItemIcon>shopping_cart</mat-icon>
         <span matListItemTitle>
-          {{ 'ADMIN_PANEL.MENU.ORDERS' | translate }}
+          Pregled narudžbi
         </span>
       </a>
 
@@ -93,32 +87,32 @@
 
       <!-- SYSTEM SECTION -->
       <div class="nav-section-title">
-        {{ 'ADMIN_PANEL.MENU.SYSTEM' | translate }}
+        Sistem
       </div>
 
       <a mat-list-item routerLink="/admin/settings" routerLinkActive="active">
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>
-          {{ 'ADMIN_PANEL.MENU.SETTINGS' | translate }}
+          Postavke
         </span>
       </a>
 
       <!-- LOGOUT -->
-      <a
-        mat-list-item
-        (click)="auth.logout().subscribe()"
-        class="logout-item"
-      >
+      <a mat-list-item (click)="logout()" class="logout-item">
         <mat-icon matListItemIcon>logout</mat-icon>
-        <span matListItemTitle>
-          {{ 'ADMIN_PANEL.MENU.LOGOUT' | translate }}
-        </span>
+        <span matListItemTitle>Odjava</span>
       </a>
+
     </mat-nav-list>
+
   </mat-sidenav>
 
   <!-- MAIN CONTENT -->
-  <mat-sidenav-content class="main-content">
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+ <mat-sidenav-content class="main-content">
+  <div class="admin-page">
+    <div class="admin-card">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</mat-sidenav-content>
+

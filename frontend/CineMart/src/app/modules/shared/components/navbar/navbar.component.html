@@ -55,7 +55,18 @@
         <span class="btn-text">My Movies</span>
       </button>
 
+
       <!-- Authenticated - Admin -->
+
+      <!-- ADMIN PANEL -->
+      <button
+        *ngIf="isAuthenticated() && isAdmin()"
+        routerLink="/admin"
+        class="btn btn-admin-panel">
+        <span class="btn-icon">🛠️</span>
+        <span class="btn-text">Admin Panel</span>
+      </button>
+
       <button
         *ngIf="isAuthenticated() && isAdmin()"
         routerLink="/movies/add"
@@ -134,6 +145,17 @@
           <span class="link-text">My Movies</span>
         </a>
       </li>
+
+      <li *ngIf="isAuthenticated() && isAdmin()">
+          <a
+            routerLink="/admin"
+            (click)="toggleMobileMenu()"
+            class="mobile-action admin">
+            <span class="link-icon">🛠️</span>
+            <span class="link-text">Admin Panel</span>
+          </a>
+      </li>
+
 
       <li *ngIf="isAuthenticated() && isAdmin()">
         <a routerLink="/movies/add" (click)="toggleMobileMenu()" class="mobile-action">
