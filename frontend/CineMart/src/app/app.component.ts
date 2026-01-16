@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     private router:Router
     ) {
     console.log('AppComponent constructor - initializing TranslateService');
-    this.auth.checkTokenAndLogout();
+
     // Inicijalizacija translate servisa
     this.translate.addLangs(['en', 'bs']);
     this.translate.setDefaultLang('bs');
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.translate.use(savedLang).subscribe({
       next: (translations) => {
         console.log('Translations loaded successfully for language:', savedLang);
-        console.log('Available keys:', Object.keys(translations));
+
       },
       error: (error) => {
         console.error('Error loading translations:', error);
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.auth.restoreSessionFromBackend();
+
 
     // Test translation
     this.translate.get('PRODUCTS.TITLE').subscribe((res: string) => {

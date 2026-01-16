@@ -1,0 +1,96 @@
+<div class="add-movie-container">
+  <div class="form-card">
+    <div class="header-section">
+      <h2>New Product</h2>
+      <p>Product Management System</p>
+    </div>
+
+    <form (ngSubmit)="submitProduct()" #productForm="ngForm" class="movie-form" autocomplete="off">
+
+      <!-- NAME -->
+      <div class="form-group">
+        <label>Name <span class="required">*</span></label>
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="product.name"
+          required
+          minlength="1"
+          placeholder="Enter product name..."
+          #nameInput="ngModel">
+        <div class="error-message" *ngIf="nameInput.invalid && nameInput.touched">
+          Name is required
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          name="description"
+          [(ngModel)]="product.description"
+          rows="3"
+          placeholder="Product description...">
+        </textarea>
+        <small class="hint">Optional field</small>
+      </div>
+
+      <!-- BUY PRICE -->
+      <div class="form-group">
+        <label>Buy Price ($) <span class="required">*</span></label>
+        <input
+          type="number"
+          name="price"
+          [(ngModel)]="product.price"
+          required
+          min="0"
+          step="0.01"
+          #priceInput="ngModel">
+        <div class="error-message" *ngIf="priceInput.invalid && priceInput.touched">
+          Price must be 0 or greater
+        </div>
+      </div>
+
+      <!-- PRODUCT CATEGORY -->
+      <div class="form-group">
+        <label>Product Category <span class="required">*</span></label>
+        <select
+          name="categoryId"
+          [(ngModel)]="product.categoryId"
+          required
+          #categoryInput="ngModel">
+          <option [ngValue]="undefined" disabled selected>Select Category</option>
+          <option *ngFor="let c of categories" [value]="c.id">
+            {{ c.name }}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="categoryInput.invalid && categoryInput.touched">
+          Category is required
+        </div>
+      </div>
+
+      <!-- COVER IMAGE -->
+      <div class="form-group">
+        <label>Cover Image URL</label>
+        <input
+          type="text"
+          name="imageUrl"
+          [(ngModel)]="product.imageUrl"
+          placeholder="https://image-host.com/...">
+        <small class="hint">Optional field</small>
+      </div>
+
+      <div class="required-fields-note">
+        <span class="required">*</span> Required fields
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="!productForm.form.valid || isSubmitting">
+        <span *ngIf="!isSubmitting">Create Product</span>
+        <span *ngIf="isSubmitting">Creating...</span>
+      </button>
+    </form>
+  </div>
+</div>

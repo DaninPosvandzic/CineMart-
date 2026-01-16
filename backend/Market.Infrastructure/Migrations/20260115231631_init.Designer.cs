@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMart.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20260110212019_init")]
+    [Migration("20260115231631_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -43,6 +43,9 @@ namespace CineMart.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRent")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedAtUtc")
@@ -155,6 +158,9 @@ namespace CineMart.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

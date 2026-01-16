@@ -1,0 +1,123 @@
+<div class="movies-container">
+
+  <!-- HEADER -->
+  <div class="header-section">
+    <h1 class="page-title">
+      <span class="icon">🛒</span>
+      All Products
+    </h1>
+    <p class="subtitle">Browse our product catalog</p>
+    <div class="header-decoration"></div>
+  </div>
+
+  <!-- FILTERS & SEARCH -->
+  <div class="filters-section">
+    <div class="filters-grid">
+
+      <!-- SEARCH -->
+      <div class="search-wrapper">
+        <i class="material-icons search-icon">search</i>
+        <input
+          type="text"
+          placeholder="Search products by name..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+        />
+      </div>
+
+      <!-- SORT -->
+      <div class="sort-controls">
+        <div class="select-wrapper">
+          <select [(ngModel)]="selectedFilter" (change)="loadProducts()">
+            <option value="price">💰 Price</option>
+            <option value="name">🔤 Name</option>
+            <option value="category">📦 Category</option>
+          </select>
+        </div>
+
+        <button class="sort-toggle-btn" (click)="toggleSort()">
+          <i class="material-icons">
+            {{ sortAscending ? 'arrow_upward' : 'arrow_downward' }}
+          </i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRODUCTS GRID -->
+  <div class="movies-grid" *ngIf="products.length > 0">
+    <div class="movie-card" *ngFor="let product of products">
+
+      <!-- IMAGE -->
+      <div class="image-wrapper" [routerLink]="['/client/product', product.id]">
+        <img
+          [src]="product.imageUrl || 'assets/default-product.jpg'"
+          [alt]="product.name"
+          loading="lazy"
+        />
+        <div class="image-gradient"></div>
+      </div>
+
+      <!-- INFO -->
+      <div class="movie-info">
+        <h3 class="movie-title">{{ product.name }}</h3>
+        <p class="genre">{{ product.categoryName }}</p>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="card-footer">
+        <div class="price-row">
+          <div class="price-item">
+            <span class="price-label">Price</span>
+            <span class="price-value">{{ product.price }} KM</span>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button
+            class="action-btn buy-btn"
+            (click)="addToCart(product, $event)"
+            [disabled]="isAddingToCart(product.id)"
+            [class.loading]="isAddingToCart(product.id)">
+            <i class="material-icons" *ngIf="!isAddingToCart(product.id)">shopping_cart</i>
+            <i class="material-icons spin" *ngIf="isAddingToCart(product.id)">hourglass_empty</i>
+            <span>{{ isAddingToCart(product.id) ? 'Adding...' : 'Add to cart' }}</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EMPTY -->
+  <div class="empty-state" *ngIf="products.length === 0">
+    <div class="empty-icon">📦</div>
+    <h3>No Products Found</h3>
+    <p>Try adjusting your search or filters</p>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination-section" *ngIf="totalPages > 1">
+    <button
+      class="pagination-btn"
+      (click)="changePage(pageNumber - 1)"
+      [disabled]="pageNumber === 1">
+      <i class="material-icons">chevron_left</i>
+      <span>Previous</span>
+    </button>
+
+    <div class="page-info">
+      Page <span class="current">{{ pageNumber }}</span> of {{ totalPages }}
+    </div>
+
+    <button
+      class="pagination-btn"
+      (click)="changePage(pageNumber + 1)"
+      [disabled]="pageNumber === totalPages">
+      <span>Next</span>
+      <i class="material-icons">chevron_right</i>
+    </button>
+  </div>
+
+</div>

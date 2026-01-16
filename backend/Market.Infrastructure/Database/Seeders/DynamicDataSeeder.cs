@@ -1,4 +1,8 @@
 ﻿using CineMart.Domain.Entities.FilmManagement;
+using CineMart.Domain.Entities.Catalog;
+using CineMart.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CineMart.Infrastructure.Database.Seeders;
 
@@ -15,6 +19,7 @@ public static class DynamicDataSeeder
         await context.Database.EnsureCreatedAsync();
 
         await SeedProductCategoriesAsync(context);
+        await SeedProductsAsync(context); // ← novi products seed
         await SeedRolesAsync(context);
         await SeedUsersAsync(context);
         await SeedDirectorsAsync(context);
@@ -28,13 +33,13 @@ public static class DynamicDataSeeder
             context.ProductCategories.AddRange(
                 new ProductCategoryEntity
                 {
-                    Name = "Računari (demo)",
+                    Name = "Majice",
                     IsEnabled = true,
                     CreatedAtUtc = DateTime.UtcNow
                 },
                 new ProductCategoryEntity
                 {
-                    Name = "Mobilni uređaji (demo)",
+                    Name = "Poteri",
                     IsEnabled = true,
                     CreatedAtUtc = DateTime.UtcNow
                 }
@@ -45,24 +50,77 @@ public static class DynamicDataSeeder
         }
     }
 
+    private static async Task SeedProductsAsync(DatabaseContext context)
+    {
+        if (await context.Products.AnyAsync())
+            return;
+
+        var majiceCategory = await context.ProductCategories
+            .FirstAsync(c => c.Name == "Majice");
+
+        var poteriCategory = await context.ProductCategories
+            .FirstAsync(c => c.Name == "Poteri");
+
+        var products = new List<ProductEntity>
+        {
+            new ProductEntity
+            {
+                Name = "Superman + Batmen majica",
+                Description = "Crna majica sa Supermenom i Betmenom ",
+                Price = 29.99m,
+                ImageUrl = "https://m.media-amazon.com/images/I/B1pppR4gVKL._CLa%7C2140%2C2000%7CA1pfei6%2Bc0L.png%7C0%2C0%2C2140%2C2000%2B0.0%2C0.0%2C2140.0%2C2000.0_AC_UY1000_.png",
+                CategoryId = majiceCategory.Id,
+                StockQuantity = 20,
+                OnSale = false,
+                AverageRating = 4.6m,
+                UserId = 1
+            },
+            new ProductEntity
+            {
+                Name = "Batman majica",
+                Description = "Tamno siva majica sa Batman logom",
+                Price = 32.99m,
+                ImageUrl = "https://m.media-amazon.com/images/I/B1pppR4gVKL._CLa%7C2140%2C2000%7CA1N2ZUYFtcL.png%7C0%2C0%2C2140%2C2000%2B0.0%2C0.0%2C2140.0%2C2000.0_AC_UY1000_.png",
+                CategoryId = majiceCategory.Id,
+                StockQuantity = 15,
+                OnSale = true,
+                AverageRating = 4.8m,
+                UserId = 1
+            },
+            new ProductEntity
+            {
+                Name = "Poster Avangers",
+                Description = "Poster naslovne strane Osvetinka",
+                Price = 14.99m,
+                ImageUrl = "https://m.media-amazon.com/images/I/71niXI3lxlL._AC_UX679_.jpg",
+                CategoryId = poteriCategory.Id,
+                StockQuantity = 30,
+                OnSale = false,
+                AverageRating = 4.7m,
+                UserId = 1
+            }
+        };
+
+        context.Products.AddRange(products);
+        await context.SaveChangesAsync();
+        Console.WriteLine("✅ Dynamic seed: demo products added.");
+    }
+
     private static async Task SeedRolesAsync(DatabaseContext context)
     {
         if (await context.Roles.AnyAsync())
             return;
 
         var roles = new List<RollEntity>
-            {
-                new RollEntity { Name = "Admin", Description = "Administrator role with full permissions" },
-                new RollEntity { Name = "User", Description = "User role for regular user management" },
-            };
+        {
+            new RollEntity { Name = "Admin", Description = "Administrator role with full permissions" },
+            new RollEntity { Name = "User", Description = "User role for regular user management" },
+        };
 
         context.Roles.AddRange(roles);
         await context.SaveChangesAsync();
     }
 
-    /// <summary>
-    /// Kreira demo korisnike ako ih još nema u bazi.
-    /// </summary>
     private static async Task SeedUsersAsync(DatabaseContext context)
     {
         if (await context.Users.AnyAsync())
@@ -78,7 +136,6 @@ public static class DynamicDataSeeder
             LastName = "User",
             FirstName = "Admin",
             RollId = 1,
-
         };
 
         var user = new UserEntity
@@ -100,6 +157,7 @@ public static class DynamicDataSeeder
             FirstName = "dummy",
             RollId = 2,
         };
+
         var dummyForTests = new UserEntity
         {
             Email = "test",
@@ -109,9 +167,9 @@ public static class DynamicDataSeeder
             FirstName = "dummy",
             RollId = 2,
         };
+
         context.Users.AddRange(admin, user, dummyForSwagger, dummyForTests);
         await context.SaveChangesAsync();
-
         Console.WriteLine("✅ Dynamic seed: demo users added.");
     }
 
@@ -174,7 +232,6 @@ public static class DynamicDataSeeder
 
         context.Directors.AddRange(directors);
         await context.SaveChangesAsync();
-
         Console.WriteLine("✅ Dynamic seed: demo directors added.");
     }
 
@@ -194,7 +251,6 @@ public static class DynamicDataSeeder
             new GenreEntity { Name = "Animirani" }
         };
 
-        // dodaj žanrove ako nisu u bazi
         foreach (var g in genres)
         {
             if (!await context.Genres.AnyAsync(x => x.Name == g.Name))
@@ -202,10 +258,8 @@ public static class DynamicDataSeeder
         }
         await context.SaveChangesAsync();
 
-        // dohvati sve direktore
         var directors = await context.Directors.ToListAsync();
 
-        // ubaci 6 demo filmova
         var films = new List<FilmEntity>
         {
             new FilmEntity
@@ -302,7 +356,6 @@ public static class DynamicDataSeeder
 
         context.Films.AddRange(films);
         await context.SaveChangesAsync();
-
         Console.WriteLine("✅ Dynamic seed: demo films added.");
     }
 }

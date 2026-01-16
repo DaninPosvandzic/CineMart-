@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class AdminLayoutComponent {
   private translate = inject(TranslateService);
-  private router = inject(Router);
   auth = inject(AuthFacadeService);
 
   currentLang: string;
@@ -20,10 +19,6 @@ export class AdminLayoutComponent {
     { code: 'bs', name: 'Bosanski', flag: '🇧🇦' },
     { code: 'en', name: 'English', flag: '🇬🇧' }
   ];
-
-  constructor() {
-    this.currentLang = this.translate.currentLang || 'bs';
-  }
 
   switchLanguage(langCode: string): void {
     this.currentLang = langCode;

@@ -9,17 +9,27 @@
     <!-- DESKTOP NAV -->
     <ul class="nav-links">
       <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <span class="link-icon">🏠</span>
           <span class="link-text">Home</span>
         </a>
       </li>
+
       <li>
         <a routerLink="/movies" routerLinkActive="active">
           <span class="link-icon">🎥</span>
           <span class="link-text">Movies</span>
         </a>
       </li>
+
+      <!-- ✅ PRODUCTS -->
+      <li>
+        <a routerLink="/products" routerLinkActive="active">
+          <span class="link-icon">🛒</span>
+          <span class="link-text">Products</span>
+        </a>
+      </li>
+
       <li>
         <a routerLink="/kontakt" routerLinkActive="active">
           <span class="link-icon">📧</span>
@@ -45,7 +55,8 @@
         class="btn btn-register">
         <span class="btn-icon">📝</span>
         <span class="btn-text">Register</span>
-        </button>
+      </button>
+
       <!-- Authenticated - User -->
       <button
         *ngIf="isAuthenticated() && isUser()"
@@ -69,7 +80,7 @@
 
       <button
         *ngIf="isAuthenticated() && isAdmin()"
-        routerLink="/movies/add"
+        routerLink="/client/add-movie"
         class="btn btn-admin">
         <span class="btn-icon">➕</span>
         <span class="btn-text">Add Movie</span>
@@ -77,7 +88,7 @@
 
       <!-- CART -->
         <!-- CART -->
-         <div class="cart-icon" (click)="goToCart()">
+         <div class="cart-icon" (click)="goToCart()" *ngIf="isAuthenticated()">
               <mat-icon>shopping_cart</mat-icon>
 
                   <span class="cart-badge" *ngIf="(cartCount$ | async) as count">
@@ -98,7 +109,10 @@
       </button>
 
       <!-- Mobile menu toggle -->
-      <button class="mobile-toggle" (click)="toggleMobileMenu()" [class.active]="mobileMenuActive">
+      <button
+        class="mobile-toggle"
+        (click)="toggleMobileMenu()"
+        [class.active]="mobileMenuActive">
         <span></span>
         <span></span>
         <span></span>
@@ -110,19 +124,42 @@
   <div class="mobile-menu" [class.active]="mobileMenuActive">
     <ul class="mobile-nav-links">
       <li>
-        <a routerLink="/" (click)="toggleMobileMenu()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a
+          routerLink="/"
+          (click)="toggleMobileMenu()"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
           <span class="link-icon">🏠</span>
           <span class="link-text">Home</span>
         </a>
       </li>
+
       <li>
-        <a routerLink="/movies" (click)="toggleMobileMenu()" routerLinkActive="active">
+        <a
+          routerLink="/movies"
+          (click)="toggleMobileMenu()"
+          routerLinkActive="active">
           <span class="link-icon">🎥</span>
           <span class="link-text">Movies</span>
         </a>
       </li>
+
+      <!-- ✅ PRODUCTS -->
       <li>
-        <a routerLink="/kontakt" (click)="toggleMobileMenu()" routerLinkActive="active">
+        <a
+          routerLink="/products"
+          (click)="toggleMobileMenu()"
+          routerLinkActive="active">
+          <span class="link-icon">🛒</span>
+          <span class="link-text">Products</span>
+        </a>
+      </li>
+
+      <li>
+        <a
+          routerLink="/kontakt"
+          (click)="toggleMobileMenu()"
+          routerLinkActive="active">
           <span class="link-icon">📧</span>
           <span class="link-text">Contact</span>
         </a>
@@ -132,15 +169,20 @@
 
       <!-- Mobile User Actions -->
       <li *ngIf="!isAuthenticated()">
-        <a routerLink="/auth/login" (click)="toggleMobileMenu()" class="mobile-action">
+        <a
+          routerLink="/auth/login"
+          (click)="toggleMobileMenu()"
+          class="mobile-action">
           <span class="link-icon">🔑</span>
           <span class="link-text">Login</span>
         </a>
       </li>
-      
 
       <li *ngIf="isAuthenticated() && isUser()">
-        <a routerLink="/my-movies" (click)="toggleMobileMenu()" class="mobile-action">
+        <a
+          routerLink="/my-movies"
+          (click)="toggleMobileMenu()"
+          class="mobile-action">
           <span class="link-icon">📚</span>
           <span class="link-text">My Movies</span>
         </a>
@@ -165,7 +207,9 @@
       </li>
 
       <li *ngIf="isAuthenticated()">
-        <a (click)="openLogoutModal(); toggleMobileMenu()" class="mobile-action logout">
+        <a
+          (click)="openLogoutModal(); toggleMobileMenu()"
+          class="mobile-action logout">
           <span class="link-icon">🚪</span>
           <span class="link-text">Logout</span>
         </a>
@@ -175,7 +219,10 @@
 </nav>
 
 <!-- LOGOUT MODAL -->
-<div class="modal-backdrop" *ngIf="showLogoutModal" (click)="onBackdropClick($event)">
+<div
+  class="modal-backdrop"
+  *ngIf="showLogoutModal"
+  (click)="onBackdropClick($event)">
   <div class="modal">
     <div class="modal-icon">🚪</div>
     <h3>Logout</h3>

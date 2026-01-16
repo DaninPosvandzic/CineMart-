@@ -3,6 +3,7 @@ using CineMart.API.Middleware;
 using CineMart.Application;
 using CineMart.Infrastructure;
 using Serilog;
+using Stripe;
 
 public partial class Program
 {
@@ -54,6 +55,7 @@ public partial class Program
             });
 
             // Program.cs
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             builder.Services.AddMediatR(cfg =>
              cfg.RegisterServicesFromAssembly(typeof(RegisterCommandHandler).Assembly));
@@ -76,6 +78,7 @@ public partial class Program
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
 
             // Global exception handler (IExceptionHandler)
             app.UseCors("AllowAngular");

@@ -6,6 +6,7 @@ import { RecommendedSectionComponent } from './recommended-section/recommended-s
 import { TopRatedComponent } from './top-rated/top-rated.component';
 import FeaturedSliderComponent from './featured-slider/featured-slider.component';
 import { MoviesComponent } from './movies/movies.component';
+import{ProductsComponent} from './products/products.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MoviesComponent } from './movies/movies.component';
     FeaturedSliderComponent,
     TopRatedComponent,
     MoviesComponent,
+    ProductsComponent
   ],
   imports: [
     SharedModule,
