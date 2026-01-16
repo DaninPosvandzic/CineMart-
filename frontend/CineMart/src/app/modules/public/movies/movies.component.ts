@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FilmService} from '../../../api-services/filmManagement/film-api.service';
 import { CartService } from '../../../core/services/cart/cart.service';
+import { WishlistService } from '../../../core/services/wishlist/wishlist.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class MoviesComponent implements OnInit {
 
  constructor(
   private filmService: FilmService,
-  private cartService: CartService
+  private cartService: CartService,
+  private wishlistService: WishlistService
 ) {}
 
 
@@ -43,6 +45,9 @@ export class MoviesComponent implements OnInit {
       )
       .subscribe((res: any) => {
         this.films = res.items;
+        this.films.forEach(film => {
+  film.isWishlisted = this.wishlistService.isWishlisted(film.id);
+});
         this.totalCount = res.total;
         this.totalPages = Math.ceil(this.totalCount / this.pageSize);
       });
@@ -55,7 +60,29 @@ addToCart(film: any, type: 'buy' | 'rent') {
     type
   });
 }
-
+// toggleWishlist(film: any) {
+//   if (this.wishlistService.isWishlisted(film.id)) {
+//     this.wishlistService.remove(film.id);
+//     film.isWishlisted = false;
+//   } else {
+//     this.wishlistService.add(film);
+//     film.isWishlisted = true;
+//   }
+// }
+toggleWishlist(film: any) {
+  if (this.wishlistService.isWishlisted(film.id)) {
+    this.wishlistService.remove(film.id);
+    film.isWishlisted = false;
+  } else {
+    this.wishlistService.add({
+      id: film.id,
+      title: film.title,
+      genreName: film.genreName,
+      pictureUrl: film.pictureUrl, // 🔥 KLJUČNO
+    });
+    film.isWishlisted = true;
+  }
+}
   onSearch() {
     this.pageNumber = 1;
     this.loadMovies();

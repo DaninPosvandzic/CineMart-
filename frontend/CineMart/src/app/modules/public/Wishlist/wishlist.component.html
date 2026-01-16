@@ -1,0 +1,60 @@
+<div class="cart-container">
+
+  <!-- HEADER -->
+  <div class="cart-header">
+    <h1>❤️ My Wishlist</h1>
+
+    <ng-container *ngIf="wishlist$ | async as wishlist">
+      <p *ngIf="wishlist.length > 0">
+        You have {{ wishlist.length }} movie(s) in your wishlist
+      </p>
+    </ng-container>
+  </div>
+
+  <!-- CONTENT -->
+  <ng-container *ngIf="wishlist$ | async as wishlist">
+
+    <!-- EMPTY STATE -->
+    <div class="empty-cart" *ngIf="wishlist.length === 0">
+      <div class="icon">💔</div>
+      <h2>Your wishlist is empty</h2>
+      <p>Add movies you love</p>
+
+      <a routerLink="/movies" class="back-btn">
+        Browse Movies
+      </a>
+    </div>
+
+    <!-- LIST -->
+    <div class="cart-list" *ngIf="wishlist.length > 0">
+
+      <div class="cart-item" *ngFor="let film of wishlist">
+
+        <!-- 🎬 POSTER -->
+        <img
+          class="movie-poster"
+          [src]="film.pictureUrl || 'assets/default.jpg'"
+          [alt]="film.title"
+        />
+
+        <!-- INFO -->
+        <div class="item-info">
+          <h3>{{ film.title }}</h3>
+          <p>{{ film.genreName }}</p>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="item-actions">
+          <button class="remove-btn" (click)="remove(film.id)">
+            <i class="material-icons">favorite</i>
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

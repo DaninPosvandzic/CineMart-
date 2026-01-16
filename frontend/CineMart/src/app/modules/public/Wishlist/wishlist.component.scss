@@ -1,0 +1,111 @@
+.cart-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 96px 16px 40px;
+  color: white;
+  position: relative; /* Dodato da z-index funkcioniše */
+  z-index: 100; /* Veći od hero ili welcome-back */
+}
+
+/* HEADER */
+.cart-header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: #ff3b3b;
+  }
+
+  p {
+    color: #888;
+  }
+}
+
+/* EMPTY STATE */
+.empty-cart {
+  text-align: center;
+  padding: 60px 20px;
+
+  .icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #777;
+    margin-bottom: 20px;
+  }
+
+  .back-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #673ab7;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    position: relative; /* omogućava z-index */
+    z-index: 101; /* mora biti veći od hero overlay-a */
+  }
+}
+
+/* LISTA FILMOVA */
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #1e1e1e;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+/* POSTER */
+.movie-poster {
+  width: 120px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #000;
+}
+
+/* INFO */
+.item-info {
+  flex: 1;
+
+  h3 {
+    margin: 0 0 6px 0;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.7;
+  }
+}
+
+/* ACTIONS */
+.item-actions {
+  display: flex;
+  align-items: center;
+
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+}
