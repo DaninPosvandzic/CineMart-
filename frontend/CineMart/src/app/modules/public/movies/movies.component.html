@@ -96,21 +96,24 @@
 
         <div class="action-buttons">
           <button
-              class="action-btn buy-btn"
-              (click)="addToCart(film, 'buy')"
-              >
-              <i class="material-icons">shopping_cart</i>
-              <span>Buy</span>
+            class="action-btn buy-btn"
+            (click)="addToCartBuy(film, $event)"
+            [disabled]="isButtonLoading(film.id, 'buy')"
+          >
+            <i class="material-icons" *ngIf="!isButtonLoading(film.id, 'buy')">shopping_cart</i>
+            <i class="material-icons spinner" *ngIf="isButtonLoading(film.id, 'buy')">refresh</i>
+            <span>{{ isButtonLoading(film.id, 'buy') ? 'Adding...' : 'Buy' }}</span>
           </button>
 
-            <button
-               class="action-btn rent-btn"
-              (click)="addToCart(film, 'rent')"
-              >
-              <i class="material-icons">access_time</i>
-              <span>Rent</span>
-            </button>
-
+          <button
+            class="action-btn rent-btn"
+            (click)="addToCartRent(film, $event)"
+            [disabled]="isButtonLoading(film.id, 'rent')"
+          >
+            <i class="material-icons" *ngIf="!isButtonLoading(film.id, 'rent')">access_time</i>
+            <i class="material-icons spinner" *ngIf="isButtonLoading(film.id, 'rent')">refresh</i>
+            <span>{{ isButtonLoading(film.id, 'rent') ? 'Adding...' : 'Rent' }}</span>
+          </button>
         </div>
       </div>
 

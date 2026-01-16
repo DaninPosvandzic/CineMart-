@@ -11,6 +11,7 @@ import { AddMovieComponent } from './add-movie/add-movie.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditMovieComponent } from '../../pages/movies/edit-movie/edit-movie.component';
 import { AddProductComponent  } from './add-product/add-product.component';
+import { ProductPageComponent } from './product-page/product-page.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AddProductComponent  } from './add-product/add-product.component';
     AddMovieComponent,
     UserProfileComponent,
     EditMovieComponent,
-    AddProductComponent
+    AddProductComponent,
+    ProductPageComponent
   ],
   imports: [
     CommonModule,

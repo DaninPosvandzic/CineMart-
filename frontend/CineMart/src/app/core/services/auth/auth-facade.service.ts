@@ -20,7 +20,7 @@ import { JwtPayloadDto } from './jwt-payload.dto';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacadeService {
- 
+
 register(payload: { firstName: string; lastName: string; email: string; password: string }): Observable<any> {
   return this.api.register(payload);
 }
@@ -142,7 +142,7 @@ register(payload: { firstName: string; lastName: string; email: string; password
 
   try {
     const payload = jwtDecode<JwtPayloadDto>(token);
-    
+
     return (payload.exp * 1000) < Date.now();
   } catch (error) {
     console.error('Failed to decode JWT token for expiration check:', error);
@@ -155,7 +155,7 @@ checkTokenAndLogout(): void {
   if (!token || this.isTokenExpired(token)) {
     console.log('Token expired or missing, logging out');
     this.clearUserState();
-    this.router.navigate(['/login']); 
+    this.router.navigate(['/login']);
   }
 }
 restoreSessionFromBackend(): void {

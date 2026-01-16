@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMart.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20260114202414_NoviProdukti")]
-    partial class NoviProdukti
+    [Migration("20260115231631_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace CineMart.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRent")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedAtUtc")
@@ -1285,7 +1288,7 @@ namespace CineMart.Infrastructure.Migrations
             modelBuilder.Entity("CineMart.Domain.Entities.UserInteraction.RatingEntity", b =>
                 {
                     b.HasOne("CineMart.Domain.Entities.FilmManagement.FilmEntity", "Film")
-                        .WithMany()
+                        .WithMany("Ratings")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1304,6 +1307,11 @@ namespace CineMart.Infrastructure.Migrations
             modelBuilder.Entity("CineMart.Domain.Entities.Catalog.ProductCategoryEntity", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("CineMart.Domain.Entities.FilmManagement.FilmEntity", b =>
+                {
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("CineMart.Domain.Entities.Identity.RollEntity", b =>

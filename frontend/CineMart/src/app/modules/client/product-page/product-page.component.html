@@ -1,0 +1,48 @@
+<div class="product-page" *ngIf="product; else loadingOrError">
+
+  <!-- Hero / Poster -->
+  <div class="product-hero">
+    <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
+  </div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+
+    <div class="product-card">
+      <div class="product-info">
+
+        <!-- Title & Category -->
+        <h1 class="product-title">{{ product.name }}</h1>
+        <p class="category">Kategorija: {{ product.categoryName }}</p>
+
+        <!-- Price & Stock -->
+        <div class="price-stock">
+          <span class="price">\${{ product.price?.toFixed(2) }}</span>
+          <span class="stock" [class.out-of-stock]="product.stockQuantity === 0">
+            {{ product.stockQuantity > 0 ? 'Na skladištu: ' + product.stockQuantity : 'Nema na skladištu' }}
+          </span>
+        </div>
+
+        <!-- Description -->
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Add to Cart -->
+        <button
+          class="action-btn primary add-to-cart"
+          (click)="addToCart()"
+          [disabled]="product.stockQuantity === 0">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>{{ product.stockQuantity === 0 ? 'Nema na skladištu' : 'Dodaj u košaricu' }}</span>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #loadingOrError>
+  <div *ngIf="isLoading">Učitavanje proizvoda...</div>
+  <div *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>
+</ng-template>

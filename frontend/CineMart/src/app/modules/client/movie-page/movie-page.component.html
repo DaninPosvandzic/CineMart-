@@ -1,188 +1,344 @@
-<div class="movie-page-wrapper" *ngIf="film">
-  <div class="movie-card">
-    <div class="poster-section">
-      <img [src]="film.pictureUrl" [alt]="film.title">
-      <div class="play-overlay" *ngIf="film.trailerUrl">
-        <i class="play-icon">▶</i>
-      </div>
-    </div>
+<!-- movie-detail.component.html -->
+<div class="movie-detail-page" *ngIf="film">
 
-    <div class="content-section">
-      <div class="header">
-        <h1>{{ film.title }}</h1>
-        <p class="meta">{{ film.releaseYear }} • {{ film.directorName }} • {{ film.genreName }}</p>
-      </div>
+  <!-- Hero Section with Backdrop -->
+  <div class="hero-backdrop" [style.background-image]="'url(' + film.pictureUrl + ')'">
+    <div class="hero-overlay"></div>
+  </div>
 
-      <div class="stats-row">
-        <div class="stat-item rating">
-          <span class="star">★</span>
-          <strong>{{ averageRating | number:'1.1-1' }}</strong>
-        </div>
-        <div class="stat-item views">
-          <span class="label">Views:</span>
-          <strong>{{ film.viewCount }}</strong>
-        </div>
-      </div>
+  <div class="content-wrapper">
 
-      <p class="description">
-        {{ film.description || 'No description available for this movie.' }}
-      </p>
+    <!-- Main Movie Card -->
+    <div class="movie-card">
 
-      <div class="price-cards">
-        <div class="price-option">
-          <span class="type">Rent</span>
-          <span class="amount">${{ film.rentPrice }}</span>
+      <!-- Poster -->
+      <div class="poster-container">
+        <img [src]="film.pictureUrl" [alt]="film.title" class="poster-image">
+        <div class="poster-badge" *ngIf="film.averageRating">
+          <span class="badge-icon">⭐</span>
+          <span class="badge-value">{{ film.averageRating | number: '1.1-1' }}</span>
         </div>
-        <div class="price-option highlight">
-          <span class="type">Buy</span>
-          <span class="amount">${{ film.purchasePrice }}</span>
-        </div>
+        <button class="trailer-btn" *ngIf="film.trailerUrl">
+          <span class="play-icon">▶</span>
+          <span>Watch Trailer</span>
+        </button>
       </div>
 
-      <div class="action-buttons">
-        <button class="btn btn-primary">Purchase Now</button>
-        <button class="btn btn-outline">Watch Trailer</button>
+      <!-- Movie Info -->
+      <div class="movie-info">
 
-        <!-- ADMIN ONLY -->
+        <!-- Title & Meta -->
+        <div class="movie-header">
+          <h1 class="movie-title">{{ film.title }}</h1>
+          <div class="movie-meta">
+            <span class="meta-item">
+              <mat-icon>calendar_today</mat-icon>
+              {{ film.releaseYear }}
+            </span>
+            <span class="meta-item">
+              <mat-icon>person</mat-icon>
+              {{ film.directorName }}
+            </span>
+            <span class="meta-item genre-tag">
+              {{ film.genreName }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+          <div class="stat-item">
+            <mat-icon class="stat-icon rating">star</mat-icon>
+            <div class="stat-content">
+              <span class="stat-value">{{ film.averageRating | number: '1.1-2' }}</span>
+              <span class="stat-label">Rating</span>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <mat-icon class="stat-icon">visibility</mat-icon>
+            <div class="stat-content">
+              <span class="stat-value">{{ film.viewCount | number }}</span>
+              <span class="stat-label">Views</span>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <mat-icon class="stat-icon">schedule</mat-icon>
+            <div class="stat-content">
+              <span class="stat-value">{{ film.durationMinutes ?? 'TBD' }}</span>
+              <span class="stat-label">Minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h3 class="section-title">Synopsis</h3>
+          <p class="description-text">
+            {{ film.description || 'No description available for this movie.' }}
+          </p>
+        </div>
+
+        <!-- Pricing Options -->
+        <div class="pricing-section">
+          <div class="price-card rent" (click)="addToCartRent()">
+            <div class="price-header">
+              <mat-icon>schedule</mat-icon>
+              <span class="price-type">Rent</span>
+            </div>
+            <div class="price-amount">${{ film.rentPrice }}</div>
+            <div class="price-subtitle">48 hours access</div>
+            <div class="loading-overlay" *ngIf="loadingRent">
+              <mat-icon class="spinning">refresh</mat-icon>
+            </div>
+          </div>
+
+          <div class="price-card buy featured" (click)="addToCartBuy()">
+            <div class="best-value-badge">Best Value</div>
+            <div class="price-header">
+              <mat-icon>shopping_cart</mat-icon>
+              <span class="price-type">Buy</span>
+            </div>
+            <div class="price-amount">${{ film.purchasePrice }}</div>
+            <div class="price-subtitle">Lifetime access</div>
+            <div class="loading-overlay" *ngIf="loadingBuy">
+              <mat-icon class="spinning">refresh</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
           <button
-            *ngIf="isAdmin()"
-            class="btn btn-outline"
-            (click)="openEditModal()">
-            Edit Movie
+            class="action-btn primary"
+            (click)="addToCartBuy()"
+            [disabled]="loadingBuy">
+            <mat-icon *ngIf="!loadingBuy">play_arrow</mat-icon>
+            <mat-icon *ngIf="loadingBuy" class="spinning">refresh</mat-icon>
+            <span>{{ loadingBuy ? 'Adding...' : 'Purchase & Watch Now' }}</span>
           </button>
 
 
-        <button
+          <!-- Admin Buttons -->
+          <button
             *ngIf="isAdmin()"
-            class="btn btn-danger"
+            class="action-btn admin-edit"
+            (click)="openEditModal()">
+            <mat-icon>edit</mat-icon>
+            <span>Edit Movie</span>
+          </button>
+          <button
+            *ngIf="isAdmin()"
+            class="action-btn admin-delete"
             (click)="showDeleteModal = true">
-            Delete Movie
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Additional Information Tabs -->
+    <div class="info-tabs">
+      <div class="tab-header">
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'details'"
+          (click)="switchTab('details')">
+          <mat-icon>info</mat-icon>
+          Details
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'reviews'"
+          (click)="switchTab('reviews')">
+          <mat-icon>rate_review</mat-icon>
+          Reviews
+        </button>
+        <button class="tab-btn">
+          <mat-icon>people</mat-icon>
+          Cast & Crew
+        </button>
+        <button class="tab-btn">
+          <mat-icon>movie</mat-icon>
+          Similar Movies
         </button>
       </div>
-    </div>
-  </div>
 
- <!-- Reviews Section -->
-<div class="reviews-section">
-  <h3>Community Reviews</h3>
-
-  <div class="add-review">
-    <textarea
-      [(ngModel)]="comment"
-      placeholder="Write your review..."
-      [disabled]="hasRated">
-    </textarea>
-
-    <div class="review-footer">
-      <div class="star-rating-input">
-        <span
-          *ngFor="let star of stars"
-          class="star"
-          [class.filled]="star <= userRating"
-          [class.disabled]="hasRated"
-          (click)="onStarClick(star)">
-          ★
-        </span>
+      <!-- Tab Content: Details -->
+      <div class="tab-content" [class.active]="activeTab === 'details'">
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">Director</span>
+            <span class="detail-value">{{ film.directorName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Genre</span>
+            <span class="detail-value">{{ film.genreName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Release Year</span>
+            <span class="detail-value">{{ film.releaseYear }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Duration</span>
+            <span class="detail-value">{{ film.durationMinutes ?? 'TBD' }} min</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Language</span>
+            <span class="detail-value">English</span>
+          </div>
+        </div>
       </div>
 
-      <p class="rated-msg" *ngIf="hasRated">
-        You already rated this movie ⭐
-      </p>
+      <!-- Tab Content: Reviews -->
+      <div class="tab-content reviews-tab" [class.active]="activeTab === 'reviews'">
 
-      <button
-        class="btn btn-small"
-        (click)="submitRating()"
-        [disabled]="hasRated || userRating === 0">
-        Post Review
-      </button>
+        <!-- Add Review Form -->
+        <div class="add-review-card">
+          <h3>Write a Review</h3>
+
+          <div class="star-rating-input">
+            <span
+              *ngFor="let star of stars"
+              class="star"
+              [class.filled]="star <= userRating"
+              [class.disabled]="hasRated"
+              (click)="onStarClick(star)">
+              ★
+            </span>
+          </div>
+
+          <textarea
+            [(ngModel)]="comment"
+            placeholder="Share your thoughts about this movie..."
+            [disabled]="hasRated"
+            class="review-textarea">
+          </textarea>
+
+          <div class="review-footer">
+            <p class="rated-msg" *ngIf="hasRated">
+              ✓ You already rated this movie
+            </p>
+
+            <button
+              class="btn-submit-review"
+              (click)="submitRating()"
+              [disabled]="hasRated || userRating === 0 || !comment.trim()">
+              <mat-icon>send</mat-icon>
+              Post Review
+            </button>
+          </div>
+        </div>
+
+        <!-- Comments List -->
+        <div class="reviews-list">
+          <h3 class="reviews-title">Community Reviews ({{ film.comments?.length || 0 }})</h3>
+
+          <div class="comment-card" *ngFor="let c of film.comments">
+            <div class="comment-header">
+              <div class="user-avatar">{{ c.user?.charAt(0) || 'U' }}</div>
+              <div class="user-info">
+                <strong class="user-name">{{ c.user }}</strong>
+                <div class="comment-meta">
+                  <span class="comment-rating">
+                    <mat-icon class="star-icon">star</mat-icon>
+                    {{ c.rating }}
+                  </span>
+                  <span class="comment-date">{{ c.date | date:'medium' }}</span>
+                </div>
+              </div>
+            </div>
+            <p class="comment-text">{{ c.text }}</p>
+          </div>
+
+          <div class="no-reviews" *ngIf="!film.comments || film.comments.length === 0">
+            <mat-icon>rate_review</mat-icon>
+            <p>No reviews yet. Be the first to write one!</p>
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
-
-  <!-- kasnije ide lista komentara -->
-  <!-- Comments List -->
-<div class="comments-list" *ngIf="film.comments?.length > 0">
-  <div class="comment-item" *ngFor="let c of film.comments">
-    <p><strong>{{ c.user }}</strong> 
-      <span class="comment-rating">⭐ {{ c.rating }}</span>
-      <span class="comment-date">{{ c.date | date:'short' }}</span>
-    </p>
-  <p>{{ c.text }}</p>
-</div>
-
-</div>
-
-<p *ngIf="!film.comments || film.comments.length === 0">
-  No reviews yet. Be the first to write one!
-</p>
-
-
-</div>
-
 
   <!-- DELETE CONFIRM MODAL -->
-  <div class="modal-backdrop" *ngIf="showDeleteModal">
-    <div class="modal-card">
+  <div class="modal-backdrop" *ngIf="showDeleteModal" (click)="cancelDelete()">
+    <div class="modal-card delete-modal" (click)="$event.stopPropagation()">
+      <mat-icon class="modal-icon delete">warning</mat-icon>
       <h2>Confirm Deletion</h2>
-      <p>Are you sure you want to delete "<strong>{{ film?.title }}</strong>"?</p>
+      <p>Are you sure you want to delete "<strong>{{ film?.title }}</strong>"? This action cannot be undone.</p>
       <div class="modal-actions">
-        <button class="btn btn-outline" (click)="cancelDelete()">Cancel</button>
-        <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
+        <button class="btn-modal cancel" (click)="cancelDelete()">
+          Cancel
+        </button>
+        <button class="btn-modal delete" (click)="confirmDelete()">
+          <mat-icon>delete</mat-icon>
+          Delete Movie
+        </button>
       </div>
     </div>
   </div>
+
   <!-- EDIT MOVIE MODAL -->
-<div class="modal-backdrop" *ngIf="showEditModal">
-  <div class="modal-card large">
-    <h2>Edit Movie</h2>
+  <div class="modal-backdrop" *ngIf="showEditModal" (click)="closeEditModal()">
+    <div class="modal-card edit-modal" (click)="$event.stopPropagation()">
+      <mat-icon class="modal-icon edit">edit</mat-icon>
+      <h2>Edit Movie</h2>
 
-    <form (ngSubmit)="submitEdit()" #editForm="ngForm">
+      <form (ngSubmit)="submitEdit()" #editForm="ngForm">
 
-      <div class="form-group">
-        <label>Title</label>
-        <input
-          type="text"
-          name="title"
-          [(ngModel)]="editFilm.title"
-          required />
-      </div>
-
-      <div class="form-group">
-        <label>Description</label>
-        <textarea
-          name="description"
-          [(ngModel)]="editFilm.description">
-        </textarea>
-      </div>
-
-      <div class="form-row">
         <div class="form-group">
-          <label>Rent Price</label>
+          <label>Title</label>
           <input
-            type="number"
-            name="rentPrice"
-            [(ngModel)]="editFilm.rentPrice"
+            type="text"
+            name="title"
+            [(ngModel)]="editFilm.title"
             required />
         </div>
 
         <div class="form-group">
-          <label>Purchase Price</label>
-          <input
-            type="number"
-            name="purchasePrice"
-            [(ngModel)]="editFilm.purchasePrice"
-            required />
+          <label>Description</label>
+          <textarea
+            name="description"
+            [(ngModel)]="editFilm.description">
+          </textarea>
         </div>
-      </div>
 
-      <div class="modal-actions">
-        <button type="button" class="btn btn-outline" (click)="closeEditModal()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">
-          Save Changes
-        </button>
-      </div>
-    </form>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Rent Price ($)</label>
+            <input
+              type="number"
+              name="rentPrice"
+              [(ngModel)]="editFilm.rentPrice"
+              required />
+          </div>
+
+          <div class="form-group">
+            <label>Purchase Price ($)</label>
+            <input
+              type="number"
+              name="purchasePrice"
+              [(ngModel)]="editFilm.purchasePrice"
+              required />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-modal cancel" (click)="closeEditModal()">
+            Cancel
+          </button>
+          <button type="submit" class="btn-modal save" [disabled]="editForm.invalid">
+            <mat-icon>save</mat-icon>
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
+
 </div>

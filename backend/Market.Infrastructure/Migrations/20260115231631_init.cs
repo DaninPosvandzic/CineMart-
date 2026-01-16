@@ -174,6 +174,7 @@ namespace CineMart.Infrastructure.Migrations
                     StockQuantity = table.Column<int>(type: "int", nullable: false),
                     AverageRating = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     OnSale = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -401,6 +402,7 @@ namespace CineMart.Infrastructure.Migrations
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRent = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
