@@ -1,0 +1,10 @@
+<!-- src/app/features/checkout/checkout-success/checkout-success.component.html -->
+
+<div class="checkout-success">
+  <h2 *ngIf="isLoading">Processing payment...</h2>
+  <h2 *ngIf="!isLoading">{{ statusMessage }}</h2>
+
+  <button *ngIf="!isLoading" (click)="goToHome()">
+    Go to Home
+  </button>
+</div>

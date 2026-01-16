@@ -7,6 +7,8 @@ import {AddMovieComponent} from './add-movie/add-movie.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {AddProductComponent} from './add-product/add-product.component';
 import {ProductPageComponent} from './product-page/product-page.component';
+import {CheckoutComponent} from './checkout/checkout.component';
+import {CheckoutSuccessComponent} from './checkout-success/checkout-success.component';
 
 const routes: Routes = [
   {
@@ -36,8 +38,15 @@ const routes: Routes = [
   {
     path: 'product/:id',
     component: ProductPageComponent
+  },
+  {
+    path:'checkout',
+    component: CheckoutComponent
+  },
+  {
+    path: 'checkout/success',
+    component: CheckoutSuccessComponent
   }
-
 ];
 
 @NgModule({
