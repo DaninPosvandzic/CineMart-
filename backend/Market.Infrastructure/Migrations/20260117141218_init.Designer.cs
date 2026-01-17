@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineMart.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-<<<<<<<< HEAD:backend/Market.Infrastructure/Migrations/20260115163701_Init.Designer.cs
-    [Migration("20260115163701_Init")]
-    partial class Init
-========
-    [Migration("20260115231631_init")]
+    [Migration("20260117141218_init")]
     partial class init
->>>>>>>> baf409017e368f29e3e91184a481846a2e5afa6d:backend/Market.Infrastructure/Migrations/20260115231631_init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
