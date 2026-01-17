@@ -50,7 +50,7 @@
     <div class="movie-card" *ngFor="let product of products">
 
       <!-- IMAGE -->
-      <div class="image-wrapper">
+      <div class="image-wrapper" [routerLink]="['/client/product', product.id]">
         <img
           [src]="product.imageUrl || 'assets/default-product.jpg'"
           [alt]="product.name"
@@ -75,9 +75,14 @@
         </div>
 
         <div class="action-buttons">
-          <button class="action-btn buy-btn">
-            <i class="material-icons">shopping_cart</i>
-            <span>Add to cart</span>
+          <button
+            class="action-btn buy-btn"
+            (click)="addToCart(product, $event)"
+            [disabled]="isAddingToCart(product.id)"
+            [class.loading]="isAddingToCart(product.id)">
+            <i class="material-icons" *ngIf="!isAddingToCart(product.id)">shopping_cart</i>
+            <i class="material-icons spin" *ngIf="isAddingToCart(product.id)">hourglass_empty</i>
+            <span>{{ isAddingToCart(product.id) ? 'Adding...' : 'Add to cart' }}</span>
           </button>
         </div>
       </div>

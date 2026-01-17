@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { FilmService } from '../../../api-services/filmManagement/film-api.service';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
-
+import { CartService } from '../../../api-services/sales/cart-api.service';
+import { AddToCartRequest } from '../../../api-services/sales/cart-api.model';
 
 @Component({
   selector: 'app-movie-page',
@@ -10,29 +12,36 @@ import { AuthFacadeService } from '../../../core/services/auth/auth-facade.servi
   templateUrl: './movie-page.component.html',
   styleUrls: ['./movie-page.component.scss']
 })
-export class MoviePageComponent implements OnInit {
+export class MoviePageComponent implements OnInit, OnDestroy {
 
   film: any;
 
-  // ===== Rating =====
+  // ===== Rating & Reviews =====
   stars = [1, 2, 3, 4, 5];
   userRating = 0;
-  averageRating = 0;
-  votes = 0;
   hasRated = false;
   comment = '';
 
-  // ===== Modals =====
+  // ===== Tabs =====
+  activeTab = 'details';
+
+  // ===== Admin Modals =====
   showDeleteModal = false;
   showEditModal = false;
-
   editFilm: any = null;
+
+  // ===== Loading states =====
+  loadingBuy = false;
+  loadingRent = false;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private filmService: FilmService,
     private auth: AuthFacadeService,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -40,19 +49,21 @@ export class MoviePageComponent implements OnInit {
 
     this.filmService.getFilmById(id).subscribe(res => {
       this.film = res;
-      this.averageRating = res.averageRating;
-      console.log(this.film.comments);
+      console.log('Film loaded:', this.film);
     });
 
     this.loadRating(id);
   }
 
-  // ===== Rating =====
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // ===== Rating System =====
   loadRating(movieId: number): void {
     this.filmService.getRating(movieId).subscribe(res => {
       this.userRating = res.userRating || 0;
-      this.averageRating = res.average;
-      this.votes = res.votes;
       this.hasRated = !!res.userRating;
     });
   }
@@ -62,28 +73,101 @@ export class MoviePageComponent implements OnInit {
     this.userRating = star;
   }
 
- submitRating(): void {
-  if (!this.film || this.hasRated || this.userRating === 0 || !this.comment.trim()) return;
+  submitRating(): void {
+    if (!this.film || this.hasRated || this.userRating === 0 || !this.comment.trim()) return;
 
-  this.filmService
-    .rateMovie(this.film.id, this.userRating, this.comment)
-    .subscribe({
-      next: (updatedFilm) => {
-        this.film = updatedFilm;
-        this.averageRating = updatedFilm.averageRating ?? 0;
-        this.hasRated = true;
-        this.userRating = 0;
-        this.comment = '';
-      },
-      error: (err) => console.error('Rating failed', err)
-    });
-}
+    this.filmService
+      .rateMovie(this.film.id, this.userRating, this.comment)
+      .subscribe({
+        next: (updatedFilm) => {
+          this.film = updatedFilm;
+          this.hasRated = true;
+          this.userRating = 0;
+          this.comment = '';
+        },
+        error: (err) => console.error('Rating failed', err)
+      });
+  }
 
+  // ===== Cart Actions =====
+  /**
+   * Add film to cart (Buy)
+   */
+  addToCartBuy(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
+    if (!this.film || this.loadingBuy) return;
 
+    this.loadingBuy = true;
 
+    const request: AddToCartRequest = {
+      filmId: this.film.id,
+      isRent: false,
+      quantity: 1
+    };
 
-  // ===== Edit =====
+    this.cartService.addToCart(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loadingBuy = false;
+          this.showSuccessMessage(`"${this.film.title}" added to cart (Buy)`);
+        },
+        error: (err: unknown) => {
+          this.loadingBuy = false;
+          console.error('Add to cart error:', err);
+          this.showErrorMessage('Failed to add item to cart');
+        }
+      });
+  }
+
+  /**
+   * Add film to cart (Rent)
+   */
+  addToCartRent(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (!this.film || this.loadingRent) return;
+
+    this.loadingRent = true;
+
+    const request: AddToCartRequest = {
+      filmId: this.film.id,
+      isRent: true,
+      quantity: 1
+    };
+
+    this.cartService.addToCart(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loadingRent = false;
+          this.showSuccessMessage(`"${this.film.title}" added to cart (Rent)`);
+        },
+        error: (err: unknown) => {
+          this.loadingRent = false;
+          console.error('Add to cart error:', err);
+          this.showErrorMessage('Failed to add item to cart');
+        }
+      });
+  }
+
+  // ===== Tabs =====
+  switchTab(tab: string): void {
+    this.activeTab = tab;
+  }
+
+  // ===== Admin Functions =====
+  isAdmin(): boolean {
+    return this.auth.isAdmin();
+  }
+
   openEditModal(): void {
     this.editFilm = { ...this.film };
     this.showEditModal = true;
@@ -107,7 +191,6 @@ export class MoviePageComponent implements OnInit {
     });
   }
 
-  // ===== Delete =====
   cancelDelete(): void {
     this.showDeleteModal = false;
   }
@@ -127,7 +210,22 @@ export class MoviePageComponent implements OnInit {
     });
   }
 
-  isAdmin(): boolean {
-    return this.auth.isAdmin();
+  /**
+   * Show success message (you can replace with a toast/snackbar service)
+   */
+  private showSuccessMessage(message: string) {
+    console.log('✓', message);
+    // TODO: Replace with your notification service
+    // Example: this.toastService.success(message);
+  }
+
+  /**
+   * Show error message (you can replace with a toast/snackbar service)
+   */
+  private showErrorMessage(message: string) {
+    console.error('✗', message);
+    alert(message); // Temporary solution
+    // TODO: Replace with your notification service
+    // Example: this.toastService.error(message);
   }
 }

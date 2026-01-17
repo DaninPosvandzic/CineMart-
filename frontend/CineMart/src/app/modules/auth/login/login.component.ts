@@ -7,6 +7,7 @@ import { LoginCommand } from '../../../api-services/auth/auth-api.model';
 import { CurrentUserService } from '../../../core/services/auth/current-user.service';
 import { DialogHelperService } from '../../../modules/shared/services/dialog-helper.service';
 import { DialogButton } from '../../../modules/shared/models/dialog-config.model';
+import {CartService} from '../../../api-services/sales/cart-api.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent extends BaseComponent {
   private router = inject(Router);
   private currentUser = inject(CurrentUserService);
   private dialog = inject(DialogHelperService);
+  private cartService = inject(CartService);
 
   hidePassword = true;
 
@@ -43,6 +45,8 @@ export class LoginComponent extends BaseComponent {
     this.auth.login(payload).subscribe({
       next: () => {
         this.stopLoading();
+
+        this.cartService.loadCart().subscribe();
 
         this.dialog
           .showSuccess(

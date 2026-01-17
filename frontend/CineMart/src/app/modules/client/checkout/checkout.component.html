@@ -1,0 +1,134 @@
+<!-- src/app/features/checkout/checkout.component.html -->
+
+<div class="checkout-container">
+
+  <!-- HEADER -->
+  <div class="checkout-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="material-icons">arrow_back</i>
+    </button>
+    <h1>
+      <i class="material-icons">payment</i>
+      Checkout
+    </h1>
+  </div>
+
+  <!-- ERROR BANNER -->
+  <div class="error-banner" *ngIf="error">
+    <i class="material-icons">error_outline</i>
+    <span>{{ error }}</span>
+    <button (click)="error = null" class="close-btn">
+      <i class="material-icons">close</i>
+    </button>
+  </div>
+
+  <div class="checkout-content">
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-section">
+      <div class="section-header">
+        <h2>Order Summary</h2>
+        <span class="item-count">{{ cartSummary.totalItems }} items</span>
+      </div>
+
+      <div class="order-items">
+        <div class="order-item" *ngFor="let item of cartSummary.items">
+          <div class="item-image">
+            <img [src]="getItemImage(item)" [alt]="item.name">
+            <span class="item-badge" [ngClass]="getItemTypeBadgeClass(item)">
+              {{ getItemTypeLabel(item) }}
+            </span>
+          </div>
+
+          <div class="item-details">
+            <h3>{{ item.name }}</h3>
+            <div class="item-meta">
+              <span class="quantity">Qty: {{ item.quantity }}</span>
+              <span class="price">{{ item.price | currency:'BAM':'symbol':'1.2-2' }}</span>
+            </div>
+          </div>
+
+          <div class="item-total">
+            {{ item.totalPrice | currency:'BAM':'symbol':'1.2-2' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="order-totals">
+        <div class="total-row subtotal">
+          <span>Subtotal</span>
+          <span>{{ cartSummary.totalPrice | currency:'BAM':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="total-row">
+          <span>Tax (included)</span>
+          <span>{{ 0 | currency:'BAM':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="total-row final">
+          <span>Total</span>
+          <span>{{ cartSummary.totalPrice | currency:'BAM':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT SECTION -->
+    <div class="payment-section">
+      <div class="section-header">
+        <h2>Payment Method</h2>
+      </div>
+
+      <div class="payment-info">
+        <div class="stripe-badge">
+          <svg width="60" height="26" viewBox="0 0 60 26" fill="none">
+            <path d="M59.64 16.13c0-2.13-1.04-3.19-3.12-3.19-2.08 0-3.12 1.06-3.12 3.19s1.04 3.19 3.12 3.19c2.08 0 3.12-1.06 3.12-3.19zm-7.24 0c0-2.86 1.9-4.86 4.94-4.86 2.25 0 3.8 1.29 4.26 3.29l-1.71.47c-.31-1.29-1.24-2.13-2.55-2.13-1.73 0-2.92 1.18-2.92 3.23s1.19 3.23 2.92 3.23c1.31 0 2.24-.84 2.55-2.13l1.71.47c-.46 2-2.01 3.29-4.26 3.29-3.04 0-4.94-2-4.94-4.86z" fill="#635BFF"/>
+          </svg>
+          <span>Secure payment by Stripe</span>
+        </div>
+
+        <div class="info-box">
+          <i class="material-icons">lock</i>
+          <div class="info-content">
+            <h4>Secure Payment</h4>
+            <p>Your payment information is encrypted and secure. We use Stripe for payment processing.</p>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <i class="material-icons">receipt_long</i>
+          <div class="info-content">
+            <h4>Order Confirmation</h4>
+            <p>After successful payment, you'll receive an order confirmation via email.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-actions">
+        <button
+          class="pay-btn"
+          (click)="proceedToPayment()"
+          [disabled]="isProcessing || cartSummary.items.length === 0">
+          <i class="material-icons" *ngIf="!isProcessing">credit_card</i>
+          <i class="material-icons spinning" *ngIf="isProcessing">refresh</i>
+          <span>{{ isProcessing ? 'Processing...' : 'Pay ' + (cartSummary.totalPrice | currency:'BAM':'symbol':'1.2-2') }}</span>
+        </button>
+
+        <button class="back-btn-secondary" (click)="goBack()">
+          <i class="material-icons">arrow_back</i>
+          Back to Cart
+        </button>
+      </div>
+
+      <div class="security-badges">
+        <div class="badge">
+          <i class="material-icons">verified_user</i>
+          <span>SSL Secure</span>
+        </div>
+        <div class="badge">
+          <i class="material-icons">shield</i>
+          <span>PCI Compliant</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

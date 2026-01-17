@@ -20,10 +20,11 @@ export class AddProductComponent implements OnInit {
 
   product: CreateProductDto = {
     name: '',
-    description: undefined,
+    description: '',
     price: 0,
-    imageUrl: undefined,
-    categoryId: undefined
+    stockQuantity: 0,
+    imageUrl: '',
+    categoryId: 0
   };
 
   errorKey: string | undefined;

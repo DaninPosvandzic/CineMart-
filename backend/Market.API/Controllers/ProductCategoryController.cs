@@ -5,7 +5,7 @@ using CineMart.Application.Modules.ProductManagement.ProductCategories.Queries.L
 
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductCategoryController : ControllerBase
 {
     private readonly ISender _sender;

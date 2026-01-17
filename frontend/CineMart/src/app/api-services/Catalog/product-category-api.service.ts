@@ -31,13 +31,10 @@ export class ProductCategoryApiService {
   /** GET all product categories */
   getAll(): Observable<ProductCategory[]> {
     return this.http
-      .get<{ total: number; items: any[] }>(
-        this.baseUrl,
-        this.getAuthHeaders()
-      )
+      .get<any[]>(this.baseUrl, this.getAuthHeaders())
       .pipe(
-        map(res =>
-          res.items.map(dto => ({
+        map(items =>
+          items.map(dto => ({
             id: dto.id,
             name: dto.name,
             isEnabled: dto.isEnabled,

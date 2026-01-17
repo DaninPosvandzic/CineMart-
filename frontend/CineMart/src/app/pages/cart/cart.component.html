@@ -1,63 +1,196 @@
+<!-- src/app/features/cart/cart.component.html -->
+
 <div class="cart-container">
 
-  <!-- HEADER -->
-  <div class="cart-header">
-    <h1>🛒 Your Cart</h1>
-    <p *ngIf="items.length > 0">
-      You have {{ items.length }} item(s) in your cart
-    </p>
+  <!-- LOADING STATE -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading your cart...</p>
   </div>
 
-  <!-- EMPTY STATE -->
-  <div class="empty-cart" *ngIf="items.length === 0">
-    <div class="icon">🎬</div>
-    <h2>Your cart is empty</h2>
-    <p>Add movies to buy or rent</p>
-
-    <a routerLink="/movies" class="back-btn">
-      Browse Movies
-    </a>
+  <!-- ERROR STATE -->
+  <div class="error-banner" *ngIf="error && !isLoading">
+    <i class="material-icons">error_outline</i>
+    <span>{{ error }}</span>
+    <button (click)="error = null" class="close-btn">
+      <i class="material-icons">close</i>
+    </button>
   </div>
 
-  <!-- CART LIST -->
-  <div class="cart-list" *ngIf="items.length > 0">
+  <!-- MAIN CONTENT -->
+  <ng-container *ngIf="!isLoading">
 
-    <div class="cart-item" *ngFor="let item of items">
-      <div class="item-info">
-        <h3>{{ item.title }}</h3>
-        <span class="badge" [class.rent]="item.type === 'rent'">
-          {{ item.type | uppercase }}
-        </span>
-      </div>
-
-      <div class="item-actions">
-        <span class="price">
-          {{ item.price }} KM
-        </span>
-
-        <button class="remove-btn" (click)="remove(item)">
-          <i class="material-icons">delete</i>
-        </button>
-      </div>
+    <!-- HEADER -->
+    <div class="cart-header">
+      <h1>
+        <i class="material-icons">shopping_cart</i>
+        Your Cart
+      </h1>
+      <p *ngIf="cartSummary.totalItems > 0">
+        {{ cartSummary.totalItems }} item{{ cartSummary.totalItems > 1 ? 's' : '' }} in your cart
+      </p>
     </div>
 
-    <!-- SUMMARY -->
-    <div class="cart-summary">
-      <div class="summary-row">
-        <span>Total</span>
-        <span class="total-price">{{ total }} KM</span>
+    <!-- EMPTY STATE -->
+    <div class="empty-cart" *ngIf="cartSummary.items.length === 0">
+      <div class="empty-icon">
+        <i class="material-icons">shopping_cart</i>
       </div>
-
-      <div class="summary-actions">
-        <button class="clear-btn" (click)="clearCart()">
-          Clear Cart
-        </button>
-
-        <button class="checkout-btn">
-          Checkout
-        </button>
-      </div>
+      <h2>Your cart is empty</h2>
+      <p>Start adding movies and products to your cart</p>
+      <button class="primary-btn" (click)="continueShopping()">
+        <i class="material-icons">movie</i>
+        Browse Movies
+      </button>
     </div>
 
-  </div>
+    <!-- CART ITEMS -->
+    <div class="cart-content" *ngIf="cartSummary.items.length > 0">
+
+      <div class="cart-items">
+        <div
+          class="cart-item"
+          *ngFor="let item of cartSummary.items; trackBy: trackByItemId"
+          [@fadeIn]>
+
+          <!-- ITEM IMAGE -->
+          <a
+            [routerLink]="item.isFilm ? ['/client/movie', item.filmId] : ['/client/product', item.productId]"
+            class="item-image">
+            <img
+              [src]="getItemImage(item)"
+              [alt]="item.name"
+              (error)="$any($event.target).src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22300%22%3E%3Crect width=%22200%22 height=%22300%22 fill=%22%23222%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ENo Image%3C/text%3E%3C/svg%3E'"
+              loading="lazy">
+            <span
+              class="image-badge"
+              [ngClass]="getItemTypeBadgeClass(item)">
+              {{ getItemTypeLabel(item) }}
+            </span>
+          </a>
+
+          <!-- ITEM CONTENT -->
+          <div class="item-content">
+            <div class="item-info">
+              <h3>{{ item.name }}</h3>
+
+              <div class="item-meta">
+                <span class="item-price">
+                  {{ item.price | currency:'BAM':'symbol':'1.2-2' }}
+                  <span class="price-label">{{ item.isFilm ? 'total' : 'each' }}</span>
+                </span>
+              </div>
+
+              <p class="item-note" *ngIf="item.note">
+                <i class="material-icons">note</i>
+                {{ item.note }}
+              </p>
+            </div>
+
+            <div class="item-actions">
+              <!-- QUANTITY CONTROLS (samo za produkte) -->
+              <div class="quantity-section" *ngIf="canChangeQuantity(item)">
+                <div class="quantity-controls">
+                  <button
+                    class="qty-btn"
+                    (click)="updateQuantity(item, -1)"
+                    [disabled]="item.quantity <= 1">
+                    <i class="material-icons">remove</i>
+                  </button>
+
+                  <span class="quantity">{{ item.quantity }}</span>
+
+                  <button
+                    class="qty-btn"
+                    (click)="updateQuantity(item, 1)">
+                    <i class="material-icons">add</i>
+                  </button>
+                </div>
+                <span class="qty-label">Quantity</span>
+              </div>
+
+              <!-- FIXED QUANTITY (za filmove) -->
+              <div class="quantity-section fixed" *ngIf="!canChangeQuantity(item)">
+                <div class="fixed-quantity">
+                  <i class="material-icons">lock</i>
+                  <span>{{ item.quantity }}</span>
+                </div>
+                <span class="qty-label">Fixed</span>
+              </div>
+
+              <!-- TOTAL PRICE -->
+              <div class="item-total">
+                <span class="total-label">Total</span>
+                <span class="total-price">
+                  {{ item.totalPrice | currency:'BAM':'symbol':'1.2-2' }}
+                </span>
+              </div>
+
+              <!-- REMOVE BUTTON -->
+              <button
+                class="remove-btn"
+                (click)="removeItem(item)"
+                title="Remove from cart">
+                <i class="material-icons">delete_outline</i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CART SUMMARY -->
+      <div class="cart-summary">
+        <div class="summary-header">
+          <h2>Order Summary</h2>
+        </div>
+
+        <div class="summary-details">
+          <div class="summary-row">
+            <span>Items ({{ cartSummary.totalItems }})</span>
+            <span>{{ cartSummary.totalPrice | currency:'BAM':'symbol':'1.2-2' }}</span>
+          </div>
+
+          <div class="summary-row subtotal">
+            <span>Subtotal</span>
+            <span>{{ cartSummary.totalPrice | currency:'BAM':'symbol':'1.2-2' }}</span>
+          </div>
+
+          <div class="summary-row total">
+            <span>Total</span>
+            <span class="total-amount">
+              {{ cartSummary.totalPrice | currency:'BAM':'symbol':'1.2-2' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="summary-actions">
+          <button
+            class="checkout-btn"
+            routerLink ="/checkout"
+            (click)="goToCheckout()">
+            <i class="material-icons">payment</i>
+            Proceed to Checkout
+          </button>
+
+          <button
+            class="secondary-btn"
+            (click)="continueShopping()">
+            <i class="material-icons">arrow_back</i>
+            Continue Shopping
+          </button>
+
+          <button
+            class="text-btn danger"
+            (click)="clearCart()">
+            <i class="material-icons">delete_sweep</i>
+            Clear Cart
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </ng-container>
+
 </div>
