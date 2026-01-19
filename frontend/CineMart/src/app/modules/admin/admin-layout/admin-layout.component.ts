@@ -7,18 +7,24 @@ import { Router } from '@angular/router';
   standalone:false,
   selector: 'app-admin-layout',
   templateUrl: './admin-layout.component.html',
-  styleUrl: './admin-layout.component.scss'
+  styleUrls: ['./admin-layout.component.scss']
 })
 export class AdminLayoutComponent {
-  private translate = inject(TranslateService);
-  auth = inject(AuthFacadeService);
 
-  currentLang: string;
+  currentLang: string = 'bs';
 
   languages = [
     { code: 'bs', name: 'Bosanski', flag: '🇧🇦' },
     { code: 'en', name: 'English', flag: '🇬🇧' }
   ];
+
+  constructor(
+    private translate: TranslateService,
+    public auth: AuthFacadeService,
+    private router: Router
+  ) {
+    this.currentLang = this.translate.currentLang || 'bs';
+  }
 
   switchLanguage(langCode: string): void {
     this.currentLang = langCode;

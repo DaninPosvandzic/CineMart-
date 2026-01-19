@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.auth.restoreSessionFromBackend();
 
     // Test translation
     this.translate.get('PRODUCTS.TITLE').subscribe((res: string) => {

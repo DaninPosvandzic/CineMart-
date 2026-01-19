@@ -103,6 +103,7 @@ public class FilmController(ISender sender) : ControllerBase
             Id = id,
             Title = dto.Title,
             Description = dto.Description,
+            ReleaseYear = dto.ReleaseYear,
             RentPrice = dto.RentPrice,
             PurchasePrice = dto.PurchasePrice,
             Role = role

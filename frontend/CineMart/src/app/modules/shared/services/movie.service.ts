@@ -38,6 +38,9 @@ export class MovieService {
   getRating(movieId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${movieId}/rating`);
   }
+  updateMovie(id: number, movie: any) {
+  return this.http.put(`${this.apiUrl}/${id}`, movie);
+}
 
   submitRating(movieId: number, rating: number): Observable<any> {
     return this.http.post<any>(

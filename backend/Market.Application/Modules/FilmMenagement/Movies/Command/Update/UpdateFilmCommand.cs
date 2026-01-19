@@ -12,6 +12,7 @@ namespace CineMart.Application.Modules.FilmMenagement.Movies.Command.Update
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
         public decimal RentPrice { get; set; }
+        public int ReleaseYear { get; set; }
         public decimal PurchasePrice { get; set; }
         public string Role { get; set; } = "User";
     }

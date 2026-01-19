@@ -1,0 +1,39 @@
+<h2 class="dialog-title">Edit movie</h2>
+
+<form class="edit-form" (ngSubmit)="save()">
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input
+        id="title"
+        type="text"
+        [(ngModel)]="movie.title"
+        name="title"
+        required
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="year">Year</label>
+      <input
+        id="year"
+        type="number"
+        [(ngModel)]="movie.releaseYear"
+        name="releaseYear"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button type="button" class="btn cancel" (click)="cancel()">
+      Cancel
+    </button>
+
+    <button type="submit" class="btn save">
+      Save
+    </button>
+  </div>
+
+</form>

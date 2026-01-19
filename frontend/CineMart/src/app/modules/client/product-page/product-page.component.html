@@ -236,7 +236,7 @@
     <div class="modal-card delete-modal" (click)="$event.stopPropagation()">
       <mat-icon class="modal-icon delete">warning</mat-icon>
       <h2>Potvrdi brisanje</h2>
-      <p>Jeste li sigurni da želite obrisati "<strong>{{ product?.name }}</strong>"? Ova akcija se ne može poništiti.</p>
+      <p>Jeste li sigurni da želite obrisati "<strong>{{ product.name }}</strong>"? Ova akcija se ne može poništiti.</p>
       <div class="modal-actions">
         <button class="btn-modal cancel" (click)="cancelDelete()">
           Otkaži

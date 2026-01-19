@@ -20,6 +20,7 @@ import { AdminMoviesComponent } from './admin/admin-movies/admin-movies.componen
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AdminCategoriesComponent } from './admin/admin-categories/admin-categories.component';
+import { AdminMovieEditDialogComponent } from './admin/pages/admin-movie-edit-dialog/admin-movie-edit-dialog.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AdminCategoriesComponent } from './admin/admin-categories/admin-categor
     CartComponent,
     AdminDashboardComponent,
     AdminCategoriesComponent,
+    AdminMovieEditDialogComponent,
   ],
   imports: [
     BrowserModule,

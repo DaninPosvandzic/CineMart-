@@ -24,6 +24,7 @@ public class UpdateFilmCommandHandler : IRequestHandler<UpdateFilmCommand, Unit>
         film.Title = request.Title;
         film.Description = request.Description;
         film.RentPrice = request.RentPrice;
+        film.ReleaseYear = request.ReleaseYear;
         film.PurchasePrice = request.PurchasePrice;
 
         await _context.SaveChangesAsync(cancellationToken);
