@@ -7,6 +7,7 @@ import { TopRatedComponent } from './top-rated/top-rated.component';
 import FeaturedSliderComponent from './featured-slider/featured-slider.component';
 import { MoviesComponent } from './movies/movies.component';
 import{ProductsComponent} from './products/products.component';
+import { WishlistComponent } from './Wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -16,10 +17,12 @@ import{ProductsComponent} from './products/products.component';
     TopRatedComponent,
     MoviesComponent,
     ProductsComponent
+     
   ],
   imports: [
     SharedModule,
     PublicRoutingModule,
+    WishlistComponent 
   ]
 })
 export class PublicModule {}

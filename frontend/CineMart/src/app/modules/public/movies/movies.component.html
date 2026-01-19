@@ -51,7 +51,11 @@
     <div class="movie-card" *ngFor="let film of films">
 
       <!-- WISHLIST BUTTON -->
-      <button class="wishlist-btn" [class.active]="film.isWishlisted">
+      <button
+        class="wishlist-btn"
+        [class.active]="film.isWishlisted"
+        (click)="toggleWishlist(film)"
+      >
         <i class="material-icons">
           {{ film.isWishlisted ? 'favorite' : 'favorite_border' }}
         </i>

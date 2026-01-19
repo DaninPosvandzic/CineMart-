@@ -3,6 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { FilmService } from '../../../api-services/filmManagement/film-api.service';
 import { CartService } from '../../../api-services/sales/cart-api.service';
 import { AddToCartRequest } from '../../../api-services/sales/cart-api.model';
+import {WishlistService} from '../../../core/services/wishlist/wishlist.service';
 
 @Component({
   selector: 'app-movies',
@@ -30,7 +31,8 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
   constructor(
     private filmService: FilmService,
-    private cartService: CartService
+    private cartService: CartService,
+    private wishlistService: WishlistService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +63,21 @@ export class MoviesComponent implements OnInit, OnDestroy {
   onSearch() {
     this.pageNumber = 1;
     this.loadMovies();
+  }
+
+  toggleWishlist(film: any) {
+    if (this.wishlistService.isWishlisted(film.id)) {
+      this.wishlistService.remove(film.id);
+      film.isWishlisted = false;
+    } else {
+      this.wishlistService.add({
+        id: film.id,
+        title: film.title,
+        genreName: film.genreName,
+        pictureUrl: film.pictureUrl, // 🔥 KLJUČNO
+      });
+      film.isWishlisted = true;
+    }
   }
 
   changePage(page: number) {

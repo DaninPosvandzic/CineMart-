@@ -29,7 +29,13 @@
           <span class="link-text">Products</span>
         </a>
       </li>
-
+        <!-- ❤️ WISHLIST -->
+      <li *ngIf="isAuthenticated()">
+        <a routerLink="/wishlist" routerLinkActive="active">
+          <span class="link-icon">❤️</span>
+          <span class="link-text">Wishlist</span>
+        </a>
+      </li>
       <li>
         <a routerLink="/kontakt" routerLinkActive="active">
           <span class="link-icon">📧</span>
@@ -154,7 +160,16 @@
           <span class="link-text">Products</span>
         </a>
       </li>
-
+         <!-- ❤️ WISHLIST -->
+      <li *ngIf="isAuthenticated()">
+        <a
+          routerLink="/wishlist"
+          (click)="toggleMobileMenu()"
+          routerLinkActive="active">
+          <span class="link-icon">❤️</span>
+          <span class="link-text">Wishlist</span>
+        </a>
+      </li>
       <li>
         <a
           routerLink="/kontakt"
